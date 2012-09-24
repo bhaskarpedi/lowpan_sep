@@ -98,7 +98,7 @@ memb_free(struct memb *m, void *ptr)
     }
     ptr2 += m->size;
   }
-  return -1;
+  return (char)-1;
 }
 /*---------------------------------------------------------------------------*/
 int

@@ -50,7 +50,7 @@
 #include "packetbuf.h"
 #include "queuebuf.h"
 #include "netstack.h"
-//#include "lib/random.h"
+#include "random.h"
 
 #define DEBUG 0
 
