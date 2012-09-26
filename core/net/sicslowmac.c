@@ -176,6 +176,8 @@ send_packet(mac_callback_t sent, void *ptr)
   }
 }
 /*---------------------------------------------------------------------------*/
+
+/*TODO: Remove this function to limit buffers #cutomization*/
 void
 send_list(mac_callback_t sent, void *ptr, struct rdc_buf_list *buf_list)
 {

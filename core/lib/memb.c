@@ -45,7 +45,7 @@
  */
 #include <string.h>
 
-//#include "contiki.h"
+#include "contiki.h"	// BSKR: Dummy include
 #include "memb.h"
 
 /*---------------------------------------------------------------------------*/

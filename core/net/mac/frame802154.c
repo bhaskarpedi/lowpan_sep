@@ -63,9 +63,8 @@
  */
 
 //#include "sys/cc.h"
-#include "lowpan.h"
-#include "address802154.h"
 #include "frame802154.h"
+#include "address802154.h"
 #include <string.h>
 
 

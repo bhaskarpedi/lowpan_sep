@@ -41,8 +41,8 @@
 #ifndef __MAC_H__
 #define __MAC_H__
 
-//#include "contiki-conf.h"
-//#include "dev/radio.h"
+#include "contiki-conf.h" //BSKR: Dummy include
+#include "radio.h"
 
 
 typedef void (* mac_callback_t)(void *ptr, int status, int transmissions);

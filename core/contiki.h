@@ -1,0 +1,2 @@
+#define CCIF
+#define CLIF

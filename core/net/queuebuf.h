@@ -60,7 +60,7 @@
 #ifdef QUEUEBUF_CONF_NUM
 #define QUEUEBUF_NUM QUEUEBUF_CONF_NUM
 #else
-#define QUEUEBUF_NUM 8
+#define QUEUEBUF_NUM 3	/*BSKR: Reduced from 8 to 3*/
 #endif
 
 /* QUEUEBUFRAM_NUM is the number of queuebufs stored in RAM.

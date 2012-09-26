@@ -116,7 +116,6 @@ packetbuf_compact(void)
     for(i = PACKETBUF_HDR_SIZE; i < len; i++) {
       packetbuf[i] = packetbuf[bufptr + i];
     }
-
     bufptr = 0;
   }
 }

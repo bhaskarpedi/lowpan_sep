@@ -63,7 +63,7 @@
 #define FRAME_802154_H
 
 #include "lowpan.h"
-//#include "contiki-conf.h"
+#include "contiki-conf.h" //BSKR : Dummy Include
 //#include "net/rime/rimeaddr.h"
 
 #ifdef IEEE802154_CONF_PANID

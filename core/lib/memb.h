@@ -65,7 +65,7 @@
 #define __MEMB_H__
 
 //#include "sys/cc.h"
-
+#include "contiki-conf.h"	// BSKR: Dummy include
 /**
  * Declare a memory block.
  *

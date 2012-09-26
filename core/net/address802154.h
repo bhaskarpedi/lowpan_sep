@@ -4,7 +4,7 @@
 #define IEEE802154_SHORTADDR_LEN 2
 
 /* 64 bit EUID */
-#define IEEE802154_LONGADDR_LEN 8
+//#define IEEE802154_LONGADDR_LEN 8
 
 typedef struct {
 	uint8_t u8[IEEE802154_SHORTADDR_LEN];
