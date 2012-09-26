@@ -152,7 +152,7 @@
  * buffer before it is dropped.
  *
  */
-#define UIP_REASS_MAXAGE 60 /*60s*/
+#define UIP_REASS_MAXAGE 30 /*60s*/
 
 /**
  * Turn on support for IP packet reassembly.
@@ -186,7 +186,7 @@
 
 #ifndef UIP_CONF_IPV6
 /** Do we use IPv6 or not (default: no) */
-#define UIP_CONF_IPV6                 0
+#define UIP_CONF_IPV6                 1
 #endif
 
 #ifndef UIP_CONF_IPV6_QUEUE_PKT
@@ -206,22 +206,22 @@
 
 #ifndef UIP_CONF_NETIF_MAX_ADDRESSES
 /** Default number of IPv6 addresses associated to the node's interface */
-#define UIP_CONF_NETIF_MAX_ADDRESSES  3
+#define UIP_CONF_NETIF_MAX_ADDRESSES  1
 #endif
 
 #ifndef UIP_CONF_DS6_PREFIX_NBU
 /** Default number of IPv6 prefixes associated to the node's interface */
-#define UIP_CONF_DS6_PREFIX_NBU     2
+#define UIP_CONF_DS6_PREFIX_NBU     1
 #endif
 
 #ifndef UIP_CONF_DS6_NBR_NBU
 /** Default number of neighbors that can be stored in the %neighbor cache */
-#define UIP_CONF_DS6_NBR_NBU    4
+#define UIP_CONF_DS6_NBR_NBU    2
 #endif
 
 #ifndef UIP_CONF_DS6_DEFRT_NBU
 /** Minimum number of default routers */
-#define UIP_CONF_DS6_DEFRT_NBU       2
+#define UIP_CONF_DS6_DEFRT_NBU       1
 #endif
 /** @} */
 
