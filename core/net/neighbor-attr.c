@@ -215,6 +215,9 @@ neighbor_attr_get_timeout(void)
 //static struct ctimer ct;
 
 #define TIMEOUT_SECONDS 5
+
+/* TODO: Use this function for the timeout of timer, ct*/
+#if 0
 static void
 timeout_check(void *ptr)
 {
@@ -236,6 +239,8 @@ timeout_check(void *ptr)
     //ctimer_set(&ct, TIMEOUT_SECONDS * CLOCK_SECOND, timeout_check, ptr);
   }
 }
+#endif
+
 /*---------------------------------------------------------------------------*/
 void
 neighbor_attr_set_timeout(uint16_t time)
