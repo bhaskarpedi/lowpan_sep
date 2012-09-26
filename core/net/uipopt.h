@@ -255,9 +255,9 @@
  *
  * \hideinitializer
  */
-#ifdef UIP_CONF_UDP_CHECKSUMS
+#if 0 /*def UIP_CONF_UDP_CHECKSUMS*/
 #define UIP_UDP_CHECKSUMS (UIP_CONF_UDP_CHECKSUMS)
-#else
+//#else
 #define UIP_UDP_CHECKSUMS (UIP_CONF_IPV6)
 #endif
 
@@ -287,7 +287,7 @@
  */
 
 /**
- * Toggles whether UDP support should be compiled in or not.
+ * Toggles whether TCP support should be compiled in or not.
  *
  * \hideinitializer
  */
@@ -308,7 +308,7 @@
  * \hideinitializer
  */
 #ifndef UIP_CONF_ACTIVE_OPEN
-#define UIP_ACTIVE_OPEN 1
+#define UIP_ACTIVE_OPEN 0
 #else /* UIP_CONF_ACTIVE_OPEN */
 #define UIP_ACTIVE_OPEN (UIP_CONF_ACTIVE_OPEN)
 #endif /* UIP_CONF_ACTIVE_OPEN */
@@ -323,7 +323,7 @@
  * \hideinitializer
  */
 #ifndef UIP_CONF_MAX_CONNECTIONS
-#define UIP_CONNS       10
+#define UIP_CONNS       2
 #else /* UIP_CONF_MAX_CONNECTIONS */
 #define UIP_CONNS (UIP_CONF_MAX_CONNECTIONS)
 #endif /* UIP_CONF_MAX_CONNECTIONS */
@@ -433,7 +433,7 @@
 #ifdef UIP_CONF_ARPTAB_SIZE
 #define UIP_ARPTAB_SIZE (UIP_CONF_ARPTAB_SIZE)
 #else
-#define UIP_ARPTAB_SIZE 8
+#define UIP_ARPTAB_SIZE 3
 #endif
 
 /**
@@ -478,7 +478,7 @@
  * Do we compress the IP header or not (default: no)
  */
 #ifndef SICSLOWPAN_CONF_COMPRESSION
-#define SICSLOWPAN_CONF_COMPRESSION 0
+#define SICSLOWPAN_CONF_COMPRESSION 1
 #endif
 
 /**

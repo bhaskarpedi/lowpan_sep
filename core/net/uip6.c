@@ -342,7 +342,6 @@ uip_ipchksum(void)
   uint16_t sum;
 
   sum = chksum(0, &uip_buf[UIP_LLH_LEN], UIP_IPH_LEN);
-  PRINTF("uip_ipchksum: sum 0x%04x\n", sum);
   return (sum == 0) ? 0xffff : uip_htons(sum);
 }
 #endif
@@ -364,9 +363,6 @@ upper_layer_chksum(uint8_t proto)
   
   upper_layer_len = (((uint16_t)(UIP_IP_BUF->len[0]) << 8) + UIP_IP_BUF->len[1] - uip_ext_len);
   
-  PRINTF("Upper layer checksum len: %d from: %d\n", upper_layer_len,
-	 UIP_IPH_LEN + UIP_LLH_LEN + uip_ext_len);
-
   /* First sum pseudoheader. */
   /* IP protocol and length fields. This addition cannot carry. */
   sum = upper_layer_len + proto;
@@ -506,10 +502,7 @@ remove_ext_hdr(void)
 {
   /* Remove ext header before TCP/UDP processing. */
   if(uip_ext_len > 0) {
-    PRINTF("Cutting ext-header before processing (extlen: %d, uiplen: %d)\n",
-	   uip_ext_len, uip_len);
-    if(uip_len - UIP_IPH_LEN - uip_ext_len < 0) {
-      PRINTF("ERROR: uip_len too short compared to ext len\n");
+    if((int)(uip_len - UIP_IPH_LEN - uip_ext_len) < 0) {
       uip_ext_len = 0;
       uip_len = 0;
       return;
@@ -844,11 +837,11 @@ ext_hdr_options_process(void)
        * hence we can only have
        */
       case UIP_EXT_HDR_OPT_PAD1:
-        PRINTF("Processing PAD1 option\n");
+
         uip_ext_opt_offset += 1;
         break;
       case UIP_EXT_HDR_OPT_PADN:
-        PRINTF("Processing PADN option\n");
+
         uip_ext_opt_offset += UIP_EXT_HDR_OPT_PADN_BUF->opt_len + 2;
         break;
 #if UIP_CONF_IPV6_RPL
@@ -875,7 +868,7 @@ ext_hdr_options_process(void)
          *   Problem, Code 2, message to the packet's Source Address,
          *   pointing to the unrecognized Option Type.
          */
-        PRINTF("MSB %x\n", UIP_EXT_HDR_OPT_BUF->type);
+
         switch(UIP_EXT_HDR_OPT_BUF->type & 0xC0) {
           case 0:
             break;
@@ -1101,7 +1094,6 @@ uip_process(uint8_t flag)
   
   if(uip_is_addr_mcast(&UIP_IP_BUF->srcipaddr)){
     UIP_STAT(++uip_stat.ip.drop);
-    PRINTF("Dropping packet, src is mcast\n");
     goto drop;
   }
 
@@ -1189,7 +1181,7 @@ uip_process(uint8_t flag)
   if(!uip_ds6_is_my_addr(&UIP_IP_BUF->destipaddr) &&
      !uip_ds6_is_my_maddr(&UIP_IP_BUF->destipaddr) &&
      !uip_is_addr_mcast(&UIP_IP_BUF->destipaddr)) {
-    PRINTF("Dropping packet, not for me\n");
+
     UIP_STAT(++uip_stat.ip.drop);
     goto drop;
   }
@@ -1219,7 +1211,7 @@ uip_process(uint8_t flag)
         /* ICMPv6 */
         goto icmp6_input;
       case UIP_PROTO_HBHO:
-        PRINTF("Processing hbh header\n");
+
         /* Hop by hop option header */
 #if UIP_CONF_IPV6_CHECKS
         /* Hop by hop option header. If we saw one HBH already, drop */
@@ -1247,7 +1239,7 @@ uip_process(uint8_t flag)
       case UIP_PROTO_DESTO:
 #if UIP_CONF_IPV6_CHECKS
         /* Destination option header. if we saw two already, drop */
-        PRINTF("Processing desto header\n");
+
         if(uip_ext_bitmap & UIP_EXT_HDR_BITMAP_DESTO1) {
           if(uip_ext_bitmap & UIP_EXT_HDR_BITMAP_DESTO2) {
             goto bad_hdr;
@@ -1290,7 +1282,7 @@ uip_process(uint8_t flag)
          * to the routing type
          */
 
-        PRINTF("Processing Routing header\n");
+
         if(UIP_ROUTING_BUF->seg_left > 0) {
           uip_icmp6_error_output(ICMP6_PARAM_PROB, ICMP6_PARAMPROB_HEADER, UIP_IPH_LEN + uip_ext_len + 2);
           UIP_STAT(++uip_stat.ip.drop);
@@ -1345,7 +1337,7 @@ uip_process(uint8_t flag)
   
   icmp6_input:
   /* This is IPv6 ICMPv6 processing code. */
-  PRINTF("icmp6_input: length %d type: %d \n", uip_len, UIP_ICMP_BUF->type);
+
 
 #if UIP_CONF_IPV6_CHECKS
   /* Compute and check the ICMP header checksum */
@@ -1353,7 +1345,7 @@ uip_process(uint8_t flag)
     UIP_STAT(++uip_stat.icmp.drop);
     UIP_STAT(++uip_stat.icmp.chkerr);
     UIP_LOG("icmpv6: bad checksum.");
-    PRINTF("icmpv6: bad checksum.");
+
     goto drop;
   }
 #endif /*UIP_CONF_IPV6_CHECKS*/
@@ -1405,12 +1397,12 @@ uip_process(uint8_t flag)
       break;
     case ICMP6_ECHO_REPLY:
       /** \note We don't implement any application callback for now */
-      PRINTF("Received an icmp6 echo reply\n");
+
       UIP_STAT(++uip_stat.icmp.recv);
       uip_len = 0;
       break;
     default:
-      PRINTF("Unknown icmp6 message type %d\n", UIP_ICMP_BUF->type);
+
       UIP_STAT(++uip_stat.icmp.drop);
       UIP_STAT(++uip_stat.icmp.typeerr);
       UIP_LOG("icmp6: unknown ICMP message.");
@@ -2243,13 +2235,13 @@ uip_process(uint8_t flag)
 #if UIP_UDP
  ip_send_nolen:
 #endif
+#if UIP_UDP || UIP_TCP
   UIP_IP_BUF->vtc = 0x60;
   UIP_IP_BUF->tcflow = 0x00;
   UIP_IP_BUF->flow = 0x00;
+#endif
  send:
-  PRINTF("Sending packet with length %d (%d)\n", uip_len,
-         (UIP_IP_BUF->len[0] << 8) | UIP_IP_BUF->len[1]);
-  
+
   UIP_STAT(++uip_stat.ip.sent);
   /* Return and let the caller do the actual transmission. */
   uip_flags = 0;
