@@ -38,19 +38,23 @@
  * \author  Julien Abeille <jabeille@cisco.com> (IPv6 related code)
  */
 
-#include "contiki-net.h"
-#include "net/uip-split.h"
-#include "net/uip-packetqueue.h"
+//#include "contiki-net.h"
+//#include "uip-split.h"
+//#include "net/uip-packetqueue.h"
+#include "tcpip.h"
+#include "uip.h"
+#include "netstack.h"
 
 #if UIP_CONF_IPV6
 #include "net/uip-nd6.h"
 #include "net/uip-ds6.h"
+#include "net/uip-icmp6.h"
 #endif
 
 #include <string.h>
 
 #define DEBUG DEBUG_NONE
-#include "net/uip-debug.h"
+//#include "net/uip-debug.h"
 
 #if UIP_LOGGING
 #include <stdio.h>
