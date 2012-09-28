@@ -75,14 +75,15 @@ extern struct uip_fallback_interface UIP_FALLBACK_INTERFACE;
 #if UIP_CONF_IPV6_RPL
 #include "rpl/rpl.h"
 #endif
-
+/*TODO: BSKR: Find alternative
 process_event_t tcpip_event;
+*/
 #if UIP_CONF_ICMP6
 process_event_t tcpip_icmp6_event;
 #endif /* UIP_CONF_ICMP6 */
 
 /* Periodic check of active connections. */
-static struct etimer periodic;
+//static struct etimer periodic;
 
 #if UIP_CONF_IPV6 && UIP_CONF_IPV6_REASSEMBLY
 /* Timer for reassembly. */
@@ -156,8 +157,10 @@ tcpip_set_outputfunc(uint8_t (*f)(void))
 unsigned char tcpip_is_forwarding; /* Forwarding right now? */
 #endif /* UIP_CONF_IP_FORWARD */
 
-PROCESS(tcpip_process, "TCP/IP stack");
+//PROCESS(tcpip_process, "TCP/IP stack");
+//TODO: BSKR Find alternative
 
+#if 0 // BSKR: avoiding the periodic timer altogether
 /*---------------------------------------------------------------------------*/
 static void
 start_periodic_tcp_timer(void)
@@ -181,6 +184,8 @@ check_for_tcp_syn(void)
     start_periodic_tcp_timer();
   }
 }
+#endif
+
 /*---------------------------------------------------------------------------*/
 static void
 packet_input(void)
@@ -209,7 +214,7 @@ packet_input(void)
   }
 #else /* UIP_CONF_IP_FORWARD */
   if(uip_len > 0) {
-    check_for_tcp_syn();
+//  check_for_tcp_syn();
     uip_input();
     if(uip_len > 0) {
 #if UIP_CONF_TCP_SPLIT
@@ -368,6 +373,9 @@ tcpip_icmp6_call(uint8_t type)
   return;
 }
 #endif /* UIP_CONF_ICMP6 */
+
+
+#if 0 // TODO: BSKR: This needs to be done separately
 /*---------------------------------------------------------------------------*/
 static void
 eventhandler(process_event_t ev, process_data_t data)
@@ -526,11 +534,12 @@ eventhandler(process_event_t ev, process_data_t data)
       break;
   };
 }
+#endif
 /*---------------------------------------------------------------------------*/
 void
 tcpip_input(void)
 {
-  process_post_synch(&tcpip_process, PACKET_INPUT, NULL);
+  //process_post_synch(&tcpip_process, PACKET_INPUT, NULL);
   uip_len = 0;
 #if UIP_CONF_IPV6
   uip_ext_len = 0;
@@ -582,7 +591,7 @@ tcpip_ipv6_output(void)
 	  }
 	  UIP_FALLBACK_INTERFACE.output();
 #else
-          PRINTF("tcpip_ipv6_output: Destination off-link but no route\n");
+
 #endif /* !UIP_FALLBACK_INTERFACE */
           uip_len = 0;
           return;
@@ -627,7 +636,7 @@ tcpip_ipv6_output(void)
       }
     } else {
       if(nbr->state == NBR_INCOMPLETE) {
-        PRINTF("tcpip_ipv6_output: nbr cache entry incomplete\n");
+
 #if UIP_CONF_IPV6_QUEUE_PKT
         /* Copy outgoing pkt in the queuing buffer for later transmit and set
            the destination nbr to nbr. */
@@ -645,7 +654,7 @@ tcpip_ipv6_output(void)
         nbr->state = NBR_DELAY;
         stimer_set(&nbr->reachable, UIP_ND6_DELAY_FIRST_PROBE_TIME);
         nbr->nscount = 0;
-        PRINTF("tcpip_ipv6_output: nbr cache entry stale moving to delay\n");
+
       }
 
       tcpip_output(&nbr->lladdr);
@@ -692,12 +701,14 @@ tcpip_poll_tcp(struct uip_conn *conn)
   process_post(&tcpip_process, TCP_POLL, conn);
 }
 #endif /* UIP_TCP */
+
+#if 0 /*BSKR: Figure out the purpose*/
 /*---------------------------------------------------------------------------*/
 void
 tcpip_uipcall(void)
 {
   register uip_udp_appstate_t *ts;
-  
+
 #if UIP_UDP
   if(uip_conn != NULL) {
     ts = &uip_conn->appstate;
@@ -737,6 +748,9 @@ tcpip_uipcall(void)
     process_post_synch(ts->p, tcpip_event, ts->state);
   }
 }
+#endif
+
+#if 0 /*TODO: Find an alternative for the thread */
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(tcpip_process, ev, data)
 {
@@ -776,3 +790,4 @@ PROCESS_THREAD(tcpip_process, ev, data)
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
+#endif

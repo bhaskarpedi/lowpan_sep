@@ -318,7 +318,7 @@ void tcpip_icmp6_call(uint8_t type);
  *
  * This event is posted to a process whenever a uIP event has occurred.
  */
-CCIF extern process_event_t tcpip_event;
+//CCIF extern process_event_t tcpip_event;
 
 /**
  * \name TCP/IP packet processing
@@ -370,7 +370,7 @@ extern unsigned char tcpip_is_forwarding;
 
 /** @} */
 
-PROCESS_NAME(tcpip_process);
+//PROCESS_NAME(tcpip_process);
 
 #endif /* __TCPIP_H__ */
 
