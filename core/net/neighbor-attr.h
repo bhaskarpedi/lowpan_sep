@@ -36,7 +36,7 @@
 #include "mac.h"
 #include "queuebuf.h"
 #include "packetbuf.h"
-#include "clock.h"
+//#include "clock.h"
 /**
  * define how many neighbors you can store
  */

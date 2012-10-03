@@ -258,7 +258,7 @@ struct uip_udp_conn uip_udp_conns[UIP_UDP_CONNS];
 /*---------------------------------------------------------------------------*/
 /** @{ \name ICMPv6 variables                                                */
 /*---------------------------------------------------------------------------*/
-#if UIP_CONF_ICMP6
+#if 0 /*UIP_CONF_ICMP6*/
 /** single possible icmpv6 "connection" */
 struct uip_icmp6_conn uip_icmp6_conns;
 #endif /*UIP_CONF_ICMP6*/
@@ -1360,7 +1360,7 @@ uip_process(uint8_t flag)
    * "goto drop". Else we just break; then at the after the "switch"
    * we "goto send"
    */
-#if UIP_CONF_ICMP6
+#if 0 /*UIP_CONF_ICMP6*/
   UIP_ICMP6_APPCALL(UIP_ICMP_BUF->type);
 #endif /*UIP_CONF_ICMP6*/
 

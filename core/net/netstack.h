@@ -47,7 +47,7 @@
 #ifdef NETSTACK_CONF_NETWORK
 #define NETSTACK_NETWORK NETSTACK_CONF_NETWORK
 #else /* NETSTACK_CONF_NETWORK */
-#define NETSTACK_NETWORK nullnetwork_driver
+#define NETSTACK_NETWORK sicslowpan_driver
 #endif /* NETSTACK_CONF_NETWORK */
 #endif /* NETSTACK_NETWORK */
 

@@ -204,7 +204,7 @@
 #define UIP_CONF_IPV6_REASSEMBLY      0
 #endif
 
-#ifndef UIP_CONF_NETIF_MAX_ADDRESSES
+#if 0 /*ndef UIP_CONF_NETIF_MAX_ADDRESSES*/
 /** Default number of IPv6 addresses associated to the node's interface */
 #define UIP_CONF_NETIF_MAX_ADDRESSES  1
 #endif
@@ -484,7 +484,7 @@
 /**
  * If we use IPHC compression, how many address contexts do we support
  */
-#ifndef SICSLOWPAN_CONF_MAX_ADDR_CONTEXTS 
+#ifndef SICSLOWPAN_CONF_MAX_ADDR_CONTEXTS
 #define SICSLOWPAN_CONF_MAX_ADDR_CONTEXTS 1
 #endif
 

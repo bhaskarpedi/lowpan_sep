@@ -281,7 +281,7 @@ CCIF void tcpip_poll_udp(struct uip_udp_conn *conn);
  * @{
  */
 
-#if UIP_CONF_ICMP6
+#if 0 /*UIP_CONF_ICMP6*/
 
 /**
  * The ICMP6 event.

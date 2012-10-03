@@ -78,7 +78,7 @@ extern struct uip_fallback_interface UIP_FALLBACK_INTERFACE;
 /*TODO: BSKR: Find alternative
 process_event_t tcpip_event;
 */
-#if UIP_CONF_ICMP6
+#if 0 /*UIP_CONF_ICMP6*/
 process_event_t tcpip_icmp6_event;
 #endif /* UIP_CONF_ICMP6 */
 
@@ -351,7 +351,7 @@ udp_broadcast_new(uint16_t port, void *appstate)
 }
 #endif /* UIP_UDP */
 /*---------------------------------------------------------------------------*/
-#if UIP_CONF_ICMP6
+#if 0 /*UIP_CONF_ICMP6*/
 uint8_t
 icmp6_new(void *appstate) {
   if(uip_icmp6_conns.appstate.p == PROCESS_NONE) {
