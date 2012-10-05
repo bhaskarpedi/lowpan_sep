@@ -45,7 +45,7 @@
  */
 #include "bsp.h"
 #include "mrfi_defs.h"
-
+#include "stdint.h"
 
 /* ------------------------------------------------------------------------------------------------
  *                                          Defines
@@ -111,6 +111,7 @@
 #define MRFI_RADIO_STATE_IDLE     2
 #define MRFI_RADIO_STATE_RX       3
 
+#define MAX_HOPS 4
 /* Platform constant used to calculate worst-case for an application
  * acknowledgment delay. Used in the NWK_REPLY_DELAY() macro.
  *

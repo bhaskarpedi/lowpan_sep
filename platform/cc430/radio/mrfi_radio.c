@@ -44,10 +44,10 @@
 #include "mrfi.h"
 #include "bsp.h"
 #include "bsp_macros.h"
-#include "bsp_external/mrfi_board_defs.h"
+#include "mrfi_board_defs.h"
 #include "mrfi_defs.h"
 #include "mrfi_radio_interface.h"
-#include "smartrf/CC430/smartrf_CC430.h"
+#include "smartrf_CC430.h"
 
 /* ------------------------------------------------------------------------------------------------
  *                                    Global Constants
@@ -729,6 +729,230 @@ void MRFI_Receive(mrfiPacket_t * pPacket)
   *pPacket = mrfiIncomingPacket;
 }
 
+#if 1
+/**************************************************************************************************
+ * @fn          Mrfi_SyncPinRxIsr
+ *
+ * @brief       This interrupt is called when the SYNC signal transition from high to low.
+ *              The sync signal is routed to the sync pin which is a GPIO pin.  This high-to-low
+ *              transition signifies a receive has completed.  The SYNC signal also goes from
+ *              high to low when a transmit completes.   This is protected against within the
+ *              transmit function by disabling sync pin interrupts until transmit completes.
+ *
+ * @param       none
+ *
+ * @return      none
+ **************************************************************************************************
+ */
+static void Mrfi_SyncPinRxIsr(void)
+{
+   uint8_t rxBytes;
+   uint8_t frameLen;
+   uint16_t remPacketSize = 0, packetOffset = 0;
+   uint8_t rxRepeat = 0;
+
+   /* We should receive this interrupt only in RX state
+    * Should never receive it if RX was turned On only for
+    * some internal mrfi processing like - during CCA.
+    * Otherwise something is terribly wrong.
+    */
+   MRFI_ASSERT( mrfiRadioState == MRFI_RADIO_STATE_RX );
+
+   do
+   {
+      /* ------------------------------------------------------------------
+       *    Get RXBYTES
+       *   -------------
+       */
+
+      /*
+       *  Read the RXBYTES register from the radio.
+       *  Bit description of RXBYTES register:
+       *    bit 7     - RXFIFO_OVERFLOW, set if receive overflow occurred
+       *    bits 6:0  - NUM_BYTES, number of bytes in receive FIFO
+       *
+       *  Due a chip bug, the RXBYTES register must read the same value twice
+       *  in a row to guarantee an accurate value.
+       */
+      {
+         uint8_t rxBytesVerify;
+         rxBytesVerify = MRFI_RADIO_REG_READ( RXBYTES );
+
+         do
+         {
+            rxBytes = rxBytesVerify;
+            rxBytesVerify = MRFI_RADIO_REG_READ( RXBYTES );
+         }
+         while (rxBytes != rxBytesVerify);
+      }
+
+
+      /* ------------------------------------------------------------------
+       *    FIFO empty?
+       *   -------------
+       */
+
+      /*
+       *  See if the receive FIFO is empty before attempting to read from it.
+       *  It is possible nothing the FIFO is empty even though the interrupt fired.
+       *  This can happen if address check is enabled and a non-matching packet is
+       *  received.  In that case, the radio automatically removes the packet from
+       *  the FIFO.
+       */
+      if (rxBytes == 0)
+      {
+         break;
+         /* receive FIFO is empty - do nothing, skip to end */
+      }
+      else
+      {
+         /* receive FIFO is not empty, continue processing */
+
+         /* ------------------------------------------------------------------
+          *    Process frame length
+          *   ----------------------
+          */
+         if(0 == rxRepeat)
+         {
+            /* read the first byte from FIFO - the packet length */
+            MRFI_RADIO_READ_RX_FIFO(&frameLen, MRFI_LENGTH_FIELD_SIZE);
+            remPacketSize = frameLen;
+
+            /* clean out buffer to help protect against spurious frames */
+            memset(mrfiIncomingPacket.frame, 0x00, sizeof(mrfiIncomingPacket.frame));
+
+            /* set length field */
+            mrfiIncomingPacket.frame[MRFI_LENGTH_FIELD_OFS] = frameLen;
+            packetOffset = MRFI_FRAME_BODY_OFS;
+            if(rxBytes == (remPacketSize + MRFI_LENGTH_FIELD_SIZE + MRFI_RX_METRICS_SIZE))
+            {
+               /* get packet from FIFO */
+               MRFI_RADIO_READ_RX_FIFO(&(mrfiIncomingPacket.frame[packetOffset]), remPacketSize);
+               remPacketSize = 0;
+               /* get receive metrics from FIFO */
+               MRFI_RADIO_READ_RX_FIFO(&(mrfiIncomingPacket.rxMetrics[0]), MRFI_RX_METRICS_SIZE);
+               break;
+            }
+         }
+
+         /* bytes-in-FIFO and frame length match up - continue processing */
+
+         /* ------------------------------------------------------------------
+          *    Get packet
+          *   ------------
+          */
+
+
+         /* get packet from FIFO */
+         if(rxBytes < (remPacketSize + MRFI_RX_METRICS_SIZE))
+         {
+            if(rxBytes != MRFI_RX_METRICS_SIZE)
+            {
+               MRFI_RADIO_READ_RX_FIFO(&(mrfiIncomingPacket.frame[packetOffset]), rxBytes - 2);
+               remPacketSize -= (rxBytes - 2);
+               packetOffset += (rxBytes - 2);
+            }
+            rxRepeat ++;
+         }
+         else
+         {
+            /*If only last two bytes are remaining, fn called with len=0, resulting in hang up*/
+            if(rxBytes != MRFI_RX_METRICS_SIZE)
+               MRFI_RADIO_READ_RX_FIFO(&(mrfiIncomingPacket.frame[packetOffset]), rxBytes - 2);
+            /* get receive metrics from FIFO */
+            MRFI_RADIO_READ_RX_FIFO(&(mrfiIncomingPacket.rxMetrics[0]), MRFI_RX_METRICS_SIZE);
+            remPacketSize = 0;
+         }
+         MRFI_DelayUsec(1000);
+      }
+      /* Restricting the maximum loops to 5 */
+   }while(remPacketSize && (rxRepeat < 5)); /* End of do-while */
+
+   if((0 != rxRepeat && rxBytes == 0) || (rxRepeat >=5))
+   {  
+      /* No bytes to read or Tx interrupted and Rx not received anymore */
+      bspIState_t s;
+      noFrame++;
+
+      /* mismatch between bytes-in-FIFO and frame length */
+
+      /*
+       *  Flush receive FIFO to reset receive.  Must go to IDLE state to do this.
+       *  The critical section guarantees a transmit does not occur while cleaning up.
+       */
+      BSP_ENTER_CRITICAL_SECTION(s);
+      MRFI_STROBE_IDLE_AND_WAIT();
+      MRFI_STROBE( SFRX );
+      MRFI_STROBE( SRX );
+      BSP_EXIT_CRITICAL_SECTION(s);
+
+      /* flush complete, skip to end */
+   }
+   else
+   {
+
+      /* ------------------------------------------------------------------
+       *    CRC check
+       *   ------------
+       */
+
+      /*
+       *  Note!  Automatic CRC check is not, and must not, be enabled.  This feature
+       *  flushes the *entire* receive FIFO when CRC fails.  If this feature is
+       *  enabled it is possible to be reading from the FIFO and have a second
+       *  receive occur that fails CRC and automatically flushes the receive FIFO.
+       *  This could cause reads from an empty receive FIFO which puts the radio
+       *  into an undefined state.
+       */
+
+      /* determine if CRC failed */
+      if (!(mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] & MRFI_RX_METRICS_CRC_OK_MASK))
+      {
+         /* CRC failed - do nothing, skip to end */
+         crcFail++;
+      }
+      else
+      {
+         /* CRC passed - continue processing */
+         crcPass++;
+
+         /* ------------------------------------------------------------------
+          *    Filtering
+          *   -----------
+          */
+
+         /* if address is not filtered, receive is successful */
+         if (!Mrfi_RxAddrIsFiltered(MRFI_P_DST_ADDR(&mrfiIncomingPacket)))
+         {
+            {
+               /* ------------------------------------------------------------------
+                *    Receive successful
+                *   --------------------
+                */
+
+               /* Convert the raw RSSI value and do offset compensation for this radio */
+               mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_RSSI_OFS] =
+                  Mrfi_CalculateRssi(mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_RSSI_OFS]);
+
+               /* Remove the CRC valid bit from the LQI byte */
+               mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] =
+                  (mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] & MRFI_RX_METRICS_LQI_MASK);
+
+
+               /* call external, higher level "receive complete" processing routine */
+               //MRFI_RxCompleteISR();
+               //TODO: Call higher layer function
+            }
+         } /*End of if*/
+      }/*End of if-else*/
+   }/*End of if-else*/
+   /* ------------------------------------------------------------------
+    *    End of function
+    *   -------------------
+    */
+}
+
+#else
 /**************************************************************************************************
  * @fn          Mrfi_SyncPinRxIsr
  *
@@ -925,7 +1149,8 @@ static void Mrfi_SyncPinRxIsr(void)
 
 
             /* call external, higher level "receive complete" processing routine */
-            MRFI_RxCompleteISR();
+            //MRFI_RxCompleteISR();
+            //TODO: Call higher layer function
           }
         }
       }
@@ -938,6 +1163,7 @@ static void Mrfi_SyncPinRxIsr(void)
    */
 }
 
+#endif
 /**************************************************************************************************
  * @fn          Mrfi_RxModeOn
  *
