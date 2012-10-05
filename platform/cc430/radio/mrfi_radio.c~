@@ -863,7 +863,7 @@ static void Mrfi_SyncPinRxIsr(void)
             MRFI_RADIO_READ_RX_FIFO(&(mrfiIncomingPacket.rxMetrics[0]), MRFI_RX_METRICS_SIZE);
             remPacketSize = 0;
          }
-         Mrfi_DelayUsec(1000);
+         MRFI_DelayUsec(1000);
       }
       /* Restricting the maximum loops to 5 */
    }while(remPacketSize && (rxRepeat < 5)); /* End of do-while */
