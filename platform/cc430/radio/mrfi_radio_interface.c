@@ -255,6 +255,79 @@ void mrfiRadioInterfaceWriteReg(uint8_t addr, uint8_t value)
   MRFI_RIF_EXIT_CRITICAL_SECTION(s);
 }
 
+/**************************************************************************************************
+ * @fn          mrfiRadioInterfaceNewWriteTxFifo
+ *
+ * @brief       Write data to radio transmit FIFO after checking TXFIFO size left.
+ *
+ * @param       pData - pointer for storing write data
+ * @param       len   - length of data in bytes
+ *       pos - offset into the payload
+ *
+ * @return      none
+ **************************************************************************************************
+ */
+void mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pData, uint8_t len, uint8_t pos)
+{
+  mrfiRIFIState_t s;
+  uint8_t txBytes;
+
+  MRFI_RIF_ASSERT(len != 0); /* zero length is not allowed */
+
+  /* ------------------------------------------------------------------
+   *    Get TXBYTES
+   *   -------------
+   */
+
+  /*
+   *  Read the TXBYTES register from the radio.
+   *  Bit description of TXBYTES register:
+   *    bit 7     - TXFIFO_UNDERFLOW, set if receive overflow occurred
+   *    bits 6:0  - NUM_BYTES, number of bytes in receive FIFO
+   *
+   *  Due a chip bug, the TXBYTES register must read the same value twice
+   *  in a row to guarantee an accurate value.
+   */
+  {
+     uint8_t txBytesVerify;
+     txBytesVerify = MRFI_RADIO_REG_READ( RXBYTES );
+
+     do
+     {
+        txBytes = txBytesVerify;
+        txBytesVerify = MRFI_RADIO_REG_READ( RXBYTES );
+     }
+     while (txBytes != txBytesVerify);
+  }
+
+
+
+  /* Lock out access to Radio IF */
+  MRFI_RIF_ENTER_CRITICAL_SECTION(s);
+
+  /* Wait for radio to be ready for next instruction */
+  MRFI_RADIO_INST_WRITE_WAIT();
+
+  /* Write cmd: TXFIFOWR */
+  RF1AINSTRB = 0x7F;
+
+  do
+  {
+    /* Wait for radio to be ready to accept the data */
+    MRFI_RADIO_DATA_WRITE_WAIT();
+
+    /* Write one byte to FIFO */
+    RF1ADINB   = *(pData+pos);
+
+    pData++;
+    len--;
+
+  }while(len);
+
+  /* Allow access to Radio IF */
+  MRFI_RIF_EXIT_CRITICAL_SECTION(s);
+}
+
 
 /**************************************************************************************************
  * @fn          mrfiRadioInterfaceWriteTxFifo

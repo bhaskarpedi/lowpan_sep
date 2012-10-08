@@ -48,6 +48,7 @@
 #include "mrfi_defs.h"
 #include "mrfi_radio_interface.h"
 #include "smartrf_CC430.h"
+#include "radio.h"
 
 /* ------------------------------------------------------------------------------------------------
  *                                    Global Constants
@@ -77,6 +78,8 @@ BSP_STATIC_ASSERT(MRFI_ADDR_SIZE == ((sizeof(mrfiBroadcastAddr)/sizeof(mrfiBroad
 #define MRFI_RANDOM_OFFSET                   67
 #define MRFI_RANDOM_MULTIPLIER              109
 #define MRFI_MIN_SMPL_FRAME_SIZE            (MRFI_HEADER_SIZE + NWK_HDR_SIZE)
+
+#define MRFI_RADIO_INST_WRITE_WAIT()   while( !(RF1AIFCTL1 & RFINSTRIFG));
 
 /* rx metrics definitions, known as appended "packet status bytes" in datasheet parlance */
 #define MRFI_RX_METRICS_CRC_OK_MASK         __mrfi_RX_METRICS_CRC_OK_MASK__
@@ -174,6 +177,7 @@ BSP_STATIC_ASSERT(MRFI_ADDR_SIZE == ((sizeof(mrfiBroadcastAddr)/sizeof(mrfiBroad
 #define MRFI_RADIO_REG_READ(reg)              mrfiRadioInterfaceReadReg(reg)
 #define MRFI_RADIO_REG_WRITE(reg, value)      mrfiRadioInterfaceWriteReg(reg, value)
 #define MRFI_RADIO_WRITE_TX_FIFO(pData, len)  mrfiRadioInterfaceWriteTxFifo(pData, len)
+#define MRFI_NEW_RADIO_WRITE_TX_FIFO(pData, len, pos)  mrfiRadioInterfaceNewWriteTxFifo(pData, len)
 #define MRFI_RADIO_READ_RX_FIFO(pData, len)   mrfiRadioInterfaceReadRxFifo(pData, len)
 
 
@@ -314,6 +318,7 @@ static uint32_t crcFail = 0;
 static uint32_t crcPass = 0;
 static uint32_t noFrame = 0;
 
+//BSKR: cc430Radio.init
 /**************************************************************************************************
  * @fn          MRFI_Init
  *
@@ -401,6 +406,7 @@ void MRFI_Init(void)
   }
 
   /* initialize radio registers */
+  /* TODO BSKR: Change the below structure to make radio config changes */
   {
     uint8_t i;
 
@@ -529,6 +535,240 @@ void MRFI_Init(void)
   BSP_ENABLE_INTERRUPTS();
 }
 
+/**************************************************************************************************
+ * @fn          MRFI_prepare
+ *
+ * @brief       Used to write bytes into the radio TX FIFO buffer
+ *
+ * @param       payload - pointer to packet to transmit
+ *              len - no of bytes to transmit
+ *
+ * @return      Return code indicates success or failure of transmit:
+ *                  MRFI_TX_RESULT_SUCCESS - if successfully written
+ *                  MRFI_TX_RESULT_FAILED  - if write failed
+ **************************************************************************************************
+ */
+
+int MRFI_prepare(void *payload, unsigned short len)
+{
+  uint8_t returnValue = MRFI_TX_RESULT_FAILED;
+  
+  mrfiPacket_t *pPacket = (mrfiPacket_t*)payload;
+
+  /* TODO: Need to ensure that the length does not exceed TXFIFO size*/
+  
+  /* radio must be awake to transmit */
+  MRFI_ASSERT( mrfiRadioState != MRFI_RADIO_STATE_OFF );
+
+  /* Turn off reciever. We can ignore/drop incoming packets during transmit. */
+  Mrfi_RxModeOff();
+
+  /* ------------------------------------------------------------------
+   *    Write packet to transmit FIFO
+   *   --------------------------------
+   */
+  MRFI_RADIO_WRITE_TX_FIFO(&(pPacket->frame[0]), len);
+}
+
+/**************************************************************************************************
+ * @fn          MRFI_newTransmit
+ *
+ * @brief       Transmit a packet that is in the radio TX FIFO 
+ *
+ * @param       len - transmit length
+ *
+ * @return      Return code indicates success or failure of transmit:
+ *                  MRFI_TX_RESULT_SUCCESS - transmit succeeded
+ *                  MRFI_TX_RESULT_FAILED  - transmit failed
+ **************************************************************************************************
+ */
+
+int MRFI_newTransmit(unsigned short len)
+{
+     /* Issue the TX strobe. */
+    MRFI_STROBE( STX );
+
+    /* Wait for transmit to complete */
+    while(!MRFI_SYNC_PIN_INT_FLAG_IS_SET());
+
+    /* Clear the interrupt flag */
+    MRFI_CLEAR_SYNC_PIN_INT_FLAG();
+}
+
+/**************************************************************************************************
+ * @fn          MRFI_send
+ *
+ * @brief       Prepare and Transmit a packet using CCA algorithm.
+ *
+ * @param       payload - pointer to packet to transmit
+ *              len - length of the packet to Tx
+ *
+ * @return      Return code indicates success or failure of transmit:
+ *                  MRFI_TX_RESULT_SUCCESS - transmit succeeded
+ *                  MRFI_TX_RESULT_FAILED  - transmit failed because CCA failed
+ **************************************************************************************************
+ */
+
+int MRFI_send(const void *payload, unsigned short payload_len)
+{
+   uint8_t ccaRetries; 
+   uint8_t txBufLen = payload_len;
+   uint8_t returnValue = MRFI_TX_RESULT_SUCCESS;
+   mrfiPacket_t * pPacket = (mrfiPacket_t *)payload;
+   uint8_t isTxRemFlag = 0x0;
+   uint8_t txBufPos = 0x0;
+
+   /* radio must be awake to transmit */
+   MRFI_ASSERT( mrfiRadioState != MRFI_RADIO_STATE_OFF );
+
+   /* Turn off reciever. We can ignore/drop incoming packets during transmit. */
+   Mrfi_RxModeOff();
+
+   /* compute number of bytes to write to transmit FIFO */
+   //txBufLen = pPacket->frame[MRFI_LENGTH_FIELD_OFS] + MRFI_LENGTH_FIELD_SIZE;
+
+   /* ------------------------------------------------------------------
+    *    Write packet to transmit FIFO
+    *   --------------------------------
+    */
+   isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(&(pPacket->frame[0]), txBufLen, txBufPos);
+
+   /* ------------------------------------------------------------------
+    *    CCA transmit
+    *   ---------------
+    */
+
+   MRFI_ASSERT( txType == MRFI_TX_TYPE_CCA );
+
+   /* set number of CCA retries */
+   ccaRetries = MRFI_CCA_RETRIES;
+
+
+   /* ===============================================================================
+    *    Main Loop
+    *  =============
+    */
+   for (;;)
+   {
+      /* Radio must be in RX mode for CCA to happen.
+       * Otherwise it will transmit without CCA happening.
+       */
+
+      /* Can not use the Mrfi_RxModeOn() function here since it turns on the
+       * Rx interrupt, which we don't want in this case.
+       */
+      MRFI_STROBE( SRX );
+
+      /* wait for the rssi to be valid. */
+      MRFI_RSSI_VALID_WAIT();
+
+      /*
+       *  Clear the PA_PD pin interrupt flag.  This flag, not the interrupt itself,
+       *  is used to capture the transition that indicates a transmit was started.
+       *  The pin level cannot be used to indicate transmit success as timing may
+       *  prevent the transition from being detected.  The interrupt latch captures
+       *  the event regardless of timing.
+       */
+      MRFI_CLEAR_PAPD_PIN_INT_FLAG();
+
+      /* send strobe to initiate transmit */
+      MRFI_STROBE( STX );
+
+      while(isTxRemFlag)
+      {
+         /* Check if there is room in the TXFIFO and continue 
+          * to fill the TXFIFO buffer until all data is sent out */
+         isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(
+               &(pPacket->frame[0]), txBufLen, txBufPos);
+      } 
+      /* Delay long enough for the PA_PD signal to indicate a
+       * successful transmit. This is the 250 XOSC periods
+       * (9.6 us for a 26 MHz crystal).
+       * Found out that we need a delay of atleast 25 us on CC1100 to see
+       * the PA_PD signal change. Hence keeping the same for CC430
+       */
+      Mrfi_DelayUsec(25);
+
+
+      /* PA_PD signal goes from HIGH to LOW when going from RX to TX state.
+       * This transition is trapped as a falling edge interrupt flag
+       * to indicate that CCA passed and the transmit has started.
+       */
+      if (MRFI_PAPD_INT_FLAG_IS_SET())
+      {
+         /* ------------------------------------------------------------------
+          *    Clear Channel Assessment passed.
+          *   ----------------------------------
+          */
+
+         /* Clear the PA_PD int flag */
+         MRFI_CLEAR_PAPD_PIN_INT_FLAG();
+
+         /* PA_PD signal stays LOW while in TX state and goes back to HIGH when
+          * the radio transitions to RX state.
+          */
+         /* wait for transmit to complete */
+         while (!MRFI_PAPD_PIN_IS_HIGH());
+
+         /* transmit done, break */
+         break;
+      }
+      else
+      {
+         /* ------------------------------------------------------------------
+          *    Clear Channel Assessment failed.
+          *   ----------------------------------
+          */
+
+         /* Turn off radio and save some power during backoff */
+
+         /* NOTE: Can't use Mrfi_RxModeOff() - since it tries to update the
+          * sync signal status which we are not using during the TX operation.
+          */
+         MRFI_STROBE_IDLE_AND_WAIT();
+
+         /* flush the receive FIFO of any residual data */
+         MRFI_STROBE( SFRX );
+
+         /* Retry ? */
+         if (ccaRetries != 0)
+         {
+            /* delay for a random number of backoffs */
+            Mrfi_RandomBackoffDelay();
+
+            /* decrement CCA retries before loop continues */
+            ccaRetries--;
+         }
+         else /* No CCA retries are left, abort */
+         {
+            /* set return value for failed transmit and break */
+            returnValue = MRFI_TX_RESULT_FAILED;
+            break;
+         }
+      } /* CCA Failed */
+   } /* CCA loop */
+
+
+   /* Done with TX. Clean up time... */
+
+  /* Radio is already in IDLE state */
+
+  /*
+   * Flush the transmit FIFO.  It must be flushed so that
+   * the next transmit can start with a clean slate.
+   */
+  MRFI_STROBE( SFTX );
+
+  /* If the radio was in RX state when transmit was attempted,
+   * put it back to Rx On state.
+   */
+  if(mrfiRadioState == MRFI_RADIO_STATE_RX)
+  {
+    Mrfi_RxModeOn();
+  }
+
+  return( returnValue );
+}
 
 /**************************************************************************************************
  * @fn          MRFI_Transmit
@@ -713,7 +953,7 @@ uint8_t MRFI_Transmit(mrfiPacket_t * pPacket, uint8_t txType)
 }
 
 /**************************************************************************************************
- * @fn          MRFI_Receive
+ * @fn          MRFI_read
  *
  * @brief       Copies last packet received to the location specified.
  *              This function is meant to be called after the ISR informs
@@ -724,9 +964,129 @@ uint8_t MRFI_Transmit(mrfiPacket_t * pPacket, uint8_t txType)
  * @return      none
  **************************************************************************************************
  */
+
+//BSKR: cc430Radio.read
+
+void MRFI_read(void *pPacket, unsigned short len)
+{
+   *pPacket = (void *)mrfiIncomingPacket;
+   if(len != (uint8)(*mrfiIncomingPacket))
+   {
+      //Optional Error case
+      pPacket = NULL;
+   }
+}
+
 void MRFI_Receive(mrfiPacket_t * pPacket)
 {
   *pPacket = mrfiIncomingPacket;
+}
+
+
+/**************************************************************************************************
+ * @fn          MRFI_cca 
+ *
+ * @brief      This function does CCA by setting IOCFG2.GDO2_CFG to 0x9 
+ *       and reading the PKTSTATUS register for CCA status
+ *
+ * @param      none 
+ *
+ * @return     1 if CCA is OK, 0 if not OK
+ **************************************************************************************************
+ */
+
+//BSKR: cc430Radio.cca
+int MRFI_cca(void)
+{
+   uint8_t regValue, gdoState;
+   mrfiRIFIState_t s;
+
+   /* Lock out access to Radio IF */
+   MRFI_RIF_ENTER_CRITICAL_SECTION(s);
+   
+   /* Wait for radio to be ready for next instruction */
+   MRFI_RADIO_INST_WRITE_WAIT();
+   
+   /* buffer IOCFG2 state */
+   gdoState = MRFI_RADIO_REG_READ(IOCFG2);
+
+   /* c-ready to GDO2 */
+   MRFI_RADIO_REG_WRITE(IOCFG2, 0x09);
+
+   /* Allow access to Radio IF */
+   MRFI_RIF_EXIT_CRITICAL_SECTION(s);
+
+   regValue = MRFI_RADIO_REG_READ(PKTSTATUS);
+
+   /* restore IOCFG2 setting */
+   MRFI_RADIO_REG_WRITE(IOCFG2, gdoState);
+
+   return (regValue & 0x4);
+
+}
+
+
+/**************************************************************************************************
+ * @fn         MRFI_isRecvPkt
+ *
+ * @brief      Temporarily defunct
+ *
+ * @param      none 
+ *
+ * @return     1 if true, else 0 
+ **************************************************************************************************
+ */
+
+//BSKR: cc430Radio.isRecvPkt
+int MRFI_isRecvPkt(void)
+{
+   /* Crude checking only. Not accurate. TODO: Rewrite */
+   if(mrfiRadioState == MRFI_RADIO_STATE_RX)
+   {
+      return 1;
+   }
+   else
+   {
+      return 0;
+   }
+}
+
+/**************************************************************************************************
+ * @fn         MRFI_radioOff
+ *
+ * @brief      Turns off the Radio and puts it in sleep mode      
+ *
+ * @param      none 
+ *
+ * @return     0 if successful , else unsuccessful
+ **************************************************************************************************
+ */
+
+//BSKR: cc430Radio.off
+int MRFI_radioOff(void)
+{
+   mrfiRIFIState_t s;
+   uint8_t statusByte = 0x0;
+   uint8_t newRadioState = 0xFF;
+   
+   /* Lock out access to Radio IF */
+   MRFI_RIF_ENTER_CRITICAL_SECTION(s);
+   
+   /* Wait for radio to be ready for next instruction */
+   MRFI_RADIO_INST_WRITE_WAIT();
+   
+   statusByte = MRFI_STROBE(SXOFF);
+   newRadioState = (0x70 & statusByte) >> 4;
+    
+   if(newRadioState == 0x0) 
+   {
+      mrfiRadioState = MRFI_RADIO_STATE_OFF;
+   } 
+
+   /* Allow access to Radio IF */
+   MRFI_RIF_EXIT_CRITICAL_SECTION(s);
+
+   return newRadioState;
 }
 
 #if 1
@@ -1893,6 +2253,26 @@ uint8_t Mrfi_RxAddrIsFiltered(uint8_t * pAddr)
     return( 1 );
   }
 }
+
+/**************************************************************************************************
+ *                                 Radio Driver mapping 
+ **************************************************************************************************
+ */
+
+const struct radio_driver cc430Radio =
+{
+   MRFI_Init,
+   MRFI_Prepare,
+   MRFI_Transmit,
+   MRFI_send,
+   MRFI_read,
+   MRFI_cca,
+   MRFI_isRecvPkt,
+   MRFI_isPktPend,
+   MRFI_on,
+   MRFI_off
+};
+
 
 
 /**************************************************************************************************
