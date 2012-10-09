@@ -140,7 +140,7 @@
 void mrfiRadioInterfaceInit(void);
 void mrfiRadioInterfaceWriteReg(uint8_t addr, uint8_t value);
 void mrfiRadioInterfaceWriteTxFifo(uint8_t * pWriteData, uint8_t len);
-uint8_t mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pWriteData, uint8_t len, uint8_t * pos);
+void mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pWriteData, uint8_t len, uint8_t * pos);
 void mrfiRadioInterfaceReadRxFifo(uint8_t * pReadData, uint8_t len);
 
 uint8_t mrfiRadioInterfaceCmdStrobe(uint8_t addr);

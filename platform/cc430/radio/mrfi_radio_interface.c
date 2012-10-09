@@ -262,22 +262,18 @@ void mrfiRadioInterfaceWriteReg(uint8_t addr, uint8_t value)
  *
  * @param       pData - pointer for storing write data
  * @param       len   - length of data in bytes
- *       pos - offset into the payload
+ *          pos - pointer of offset into the payload
  *
- * @return      none
+ * @return        1 - more data left, 0 - all data written 
  **************************************************************************************************
  */
-void mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pData, uint8_t len, uint8_t pos)
+uint8_t mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pData, uint8_t len, uint8_t* pos)
 {
   mrfiRIFIState_t s;
   uint8_t txBytes;
+  uint8_t retFlag = 0;
 
   MRFI_RIF_ASSERT(len != 0); /* zero length is not allowed */
-
-  /* ------------------------------------------------------------------
-   *    Get TXBYTES
-   *   -------------
-   */
 
   /*
    *  Read the TXBYTES register from the radio.
@@ -300,8 +296,6 @@ void mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pData, uint8_t len, uint8_t pos)
      while (txBytes != txBytesVerify);
   }
 
-
-
   /* Lock out access to Radio IF */
   MRFI_RIF_ENTER_CRITICAL_SECTION(s);
 
@@ -311,21 +305,30 @@ void mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pData, uint8_t len, uint8_t pos)
   /* Write cmd: TXFIFOWR */
   RF1AINSTRB = 0x7F;
 
+#define MRFI_MAX_TXFIFO_SIZE 61
+
   do
   {
     /* Wait for radio to be ready to accept the data */
     MRFI_RADIO_DATA_WRITE_WAIT();
 
     /* Write one byte to FIFO */
-    RF1ADINB   = *(pData+pos);
+    RF1ADINB   = *(pData+ (*pos));
 
     pData++;
-    len--;
+    (*pos)++;
+    txBytes ++;
 
-  }while(len);
+  }while((txBytes <= MRFI_MAX_TXFIFO_SIZE) && ((*pos)<len));
+
+  if((*pos) == len)
+  {
+     retFlag = 1;
+  }
 
   /* Allow access to Radio IF */
   MRFI_RIF_EXIT_CRITICAL_SECTION(s);
+  return (retFlag);
 }
 
 

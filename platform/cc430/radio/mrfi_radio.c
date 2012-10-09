@@ -177,7 +177,7 @@ BSP_STATIC_ASSERT(MRFI_ADDR_SIZE == ((sizeof(mrfiBroadcastAddr)/sizeof(mrfiBroad
 #define MRFI_RADIO_REG_READ(reg)              mrfiRadioInterfaceReadReg(reg)
 #define MRFI_RADIO_REG_WRITE(reg, value)      mrfiRadioInterfaceWriteReg(reg, value)
 #define MRFI_RADIO_WRITE_TX_FIFO(pData, len)  mrfiRadioInterfaceWriteTxFifo(pData, len)
-#define MRFI_NEW_RADIO_WRITE_TX_FIFO(pData, len, pos)  mrfiRadioInterfaceNewWriteTxFifo(pData, len)
+#define MRFI_NEW_RADIO_WRITE_TX_FIFO(pData, len, pos)  mrfiRadioInterfaceNewWriteTxFifo(pData, len, pos)
 #define MRFI_RADIO_READ_RX_FIFO(pData, len)   mrfiRadioInterfaceReadRxFifo(pData, len)
 
 
@@ -593,6 +593,8 @@ int MRFI_newTransmit(unsigned short len)
 
     /* Clear the interrupt flag */
     MRFI_CLEAR_SYNC_PIN_INT_FLAG();
+
+    return MRFI_TX_RESULT_SUCCESS;
 }
 
 /**************************************************************************************************
@@ -631,14 +633,12 @@ int MRFI_send(const void *payload, unsigned short payload_len)
     *    Write packet to transmit FIFO
     *   --------------------------------
     */
-   isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(&(pPacket->frame[0]), txBufLen, txBufPos);
+   isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(&(pPacket->frame[0]), txBufLen, &txBufPos);
 
    /* ------------------------------------------------------------------
     *    CCA transmit
     *   ---------------
     */
-
-   MRFI_ASSERT( txType == MRFI_TX_TYPE_CCA );
 
    /* set number of CCA retries */
    ccaRetries = MRFI_CCA_RETRIES;
@@ -679,7 +679,7 @@ int MRFI_send(const void *payload, unsigned short payload_len)
          /* Check if there is room in the TXFIFO and continue 
           * to fill the TXFIFO buffer until all data is sent out */
          isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(
-               &(pPacket->frame[0]), txBufLen, txBufPos);
+               &(pPacket->frame[0]), txBufLen, &txBufPos);
       } 
       /* Delay long enough for the PA_PD signal to indicate a
        * successful transmit. This is the 250 XOSC periods
@@ -969,12 +969,6 @@ uint8_t MRFI_Transmit(mrfiPacket_t * pPacket, uint8_t txType)
 
 void MRFI_read(void *pPacket, unsigned short len)
 {
-   *pPacket = (void *)mrfiIncomingPacket;
-   if(len != (uint8)(*mrfiIncomingPacket))
-   {
-      //Optional Error case
-      pPacket = NULL;
-   }
 }
 
 void MRFI_Receive(mrfiPacket_t * pPacket)
@@ -2258,12 +2252,11 @@ uint8_t Mrfi_RxAddrIsFiltered(uint8_t * pAddr)
  *                                 Radio Driver mapping 
  **************************************************************************************************
  */
-
 const struct radio_driver cc430Radio =
 {
    MRFI_Init,
    MRFI_Prepare,
-   MRFI_Transmit,
+   MRFI_newTransmit,
    MRFI_send,
    MRFI_read,
    MRFI_cca,
@@ -2272,7 +2265,6 @@ const struct radio_driver cc430Radio =
    MRFI_on,
    MRFI_off
 };
-
 
 
 /**************************************************************************************************
