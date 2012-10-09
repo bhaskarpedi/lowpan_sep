@@ -1701,7 +1701,7 @@ int MRFI_WakeUp(void)
   /* if radio is already awake, just ignore wakeup request */
   if(mrfiRadioState != MRFI_RADIO_STATE_OFF)
   {
-    return 0;
+    return;
   }
 
   MRFI_STROBE_IDLE_AND_WAIT();
