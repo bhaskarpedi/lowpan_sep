@@ -1809,9 +1809,9 @@ struct uip_tcp_hdr {
 struct uip_icmp_hdr {
   uint8_t type, icode;
   uint16_t icmpchksum;
-#if !UIP_CONF_IPV6
+#if UIP_CONF_IPV6
   uint16_t id, seqno;
-#endif /* !UIP_CONF_IPV6 */
+#endif /* !UIP_CONF_IPV6 ?? BSKR */
 };
 
 

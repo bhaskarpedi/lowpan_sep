@@ -2285,7 +2285,7 @@ uint8_t Mrfi_RxAddrIsFiltered(uint8_t * pAddr)
  *                                 Radio Driver mapping 
  **************************************************************************************************
  */
-const struct radio_driver cc430Radio =
+const struct radio_driver cc430Radio_driver =
 {
    MRFI_Init,
    MRFI_Prepare,

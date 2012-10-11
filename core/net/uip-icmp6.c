@@ -157,9 +157,11 @@ uip_icmp6_echo_request_input(void)
   UIP_STAT(++uip_stat.icmp.sent);
   return;
 }
+
 /*---------------------------------------------------------------------------*/
 void
-uip_icmp6_error_output(uint8_t type, uint8_t code, uint32_t param) {
+uip_icmp6_error_output(uint8_t type, uint8_t code, uint32_t param) 
+{
 
  /* check if originating packet is not an ICMP error*/
   if (uip_ext_len) {
@@ -242,6 +244,17 @@ uip_icmp6_error_output(uint8_t type, uint8_t code, uint32_t param) {
   PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
   PRINTF("\n");
   return;
+}
+
+/*---------------------------------------------------------------------------*/
+void uip_icmp6_echo_reply_input()
+{
+   uint8_t i;
+   /* Blink LEDs when a echo reply is received */
+   BSP_TOGGLE_LED1();
+      for(i=0;i<400;i++)
+         BSP_DELAY_USECS(1000);
+   BSP_TOGGLE_LED1();
 }
 
 /*---------------------------------------------------------------------------*/

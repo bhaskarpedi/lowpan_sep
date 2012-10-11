@@ -1396,8 +1396,8 @@ uip_process(uint8_t flag)
       uip_icmp6_echo_request_input();
       break;
     case ICMP6_ECHO_REPLY:
-      /** \note We don't implement any application callback for now */
-
+      /* Blink the LEDs when a ping reply is received */
+      uip_icmp6_echo_reply_input();
       UIP_STAT(++uip_stat.icmp.recv);
       uip_len = 0;
       break;
