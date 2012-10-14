@@ -21,8 +21,6 @@
 
 #define UIP_ICMP_BUF            ((struct uip_icmp_hdr *)&uip_buf[uip_l2_l3_hdr_len])
 
-#define MODE_TX 1
-
 #define PING_DATALEN 16
 #define MAX_PING_CNT 10
 
@@ -47,28 +45,49 @@ void main(void)
    int i;
    BSP_Init();
    netstack_init();
-#if (1 == MODE_TX)
-   { 
-      uip_ipaddr_t dest = {0xFE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,\
-         0x12, 0x23, 0x34, 0x00, 0x00, 0x00, 0x00, 0x01}; 
-      while(1)
+   void *pPacket = NULL;
+   uint16_t pktLen;
+   uip_ipaddr_t dest = {0xFE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,\
+      0x12, 0x23, 0x34, 0x00, 0x00, 0x00, 0x00, 0x01}; 
+#if ((1 == MODE_PING_TEST) && ((1 == MODE_TX)||(1 == MODE_TX)))
+      #error PING and UDP cannot be enabled simultaneously
+#endif
+#if (1 == MODE_PING_TEST)
+   while(1)
+   {
+      /* Ping the specified destination 10 times every time the button
+       * is pressed */
+      
+      /* Turn on LED1 to indicate that node is ready for button press */
+      BSP_TURN_ON_LED1();
+
+      if(BSP_BUTTON1())
       {
-         /* Ping the specified destination 10 times every time the button
-          * is pressed */
-         if(BSP_BUTTON1())
+         int pingCnt;
+         for(pingCnt=0; pingCnt<MAX_PING_CNT; pingCnt++)
          {
-            int pingCnt;
-            for(pingCnt=0; pingCnt<MAX_PING_CNT; pingCnt++)
-            {
-               uip_ping6(&dest);
-               DELAY_IN_MSECS(1000);
-            }
+            uip_ping6(&dest);
+            DELAY_IN_MSECS(1000);
          }
       }
-   }
-#elif (1 == MODE_RX)
 
+      /* Turn off LED1 to indicate that node is operating on Rx chain*/
+      BSP_TURN_OFF_LED1();
+      
+      if(1 == NETSTACK_RADIO.isPktPend())
+      {
+         NETSTACK_RADIO.read(pPacket, pktLen)
+         
+      }
+   }
 #endif
+
+#if (1 == MODE_TX)
+   /*TODO: UDP send comes here */
+#elif (1 == MODE_RX)
+   /* TODO: UDP Receive comes here and packet processing happens from here */
+#endif
+
    while(1)
    {
       BSP_TURN_OFF_LED1();

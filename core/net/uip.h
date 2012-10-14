@@ -60,6 +60,9 @@
 #define CCIF
 #define CLIF
 
+#include "mrfi_uip_if.h"
+
+
 /**
  * Representation of an IP address.
  *

@@ -159,6 +159,8 @@ uint8_t uip_ext_opt_offset = 0;
 #define UIP_EXT_HDR_OPT_RPL_BUF    ((struct uip_ext_hdr_opt_rpl *)&uip_buf[uip_l2_l3_hdr_len + uip_ext_opt_offset])
 #endif /* UIP_CONF_IPV6_RPL */
 #define UIP_ICMP6_ERROR_BUF            ((struct uip_icmp6_error *)&uip_buf[uip_l2_l3_icmp_hdr_len])
+
+
 /** @} */
 /** \name Buffer variables
  *  @{
@@ -1397,7 +1399,7 @@ uip_process(uint8_t flag)
       break;
     case ICMP6_ECHO_REPLY:
       /* Blink the LEDs when a ping reply is received */
-      uip_icmp6_echo_reply_input();
+      uip_ping_packet_indication();
       UIP_STAT(++uip_stat.icmp.recv);
       uip_len = 0;
       break;

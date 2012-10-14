@@ -318,6 +318,13 @@ static uint32_t crcFail = 0;
 static uint32_t crcPass = 0;
 static uint32_t noFrame = 0;
 
+/* ------------------------------------------------------------------------------------------------
+ *                                       Static Variables
+ * ------------------------------------------------------------------------------------------------
+ */
+
+static uint8_t mrfiPktReceiveFlag;
+
 //BSKR: cc430Radio.init
 /**************************************************************************************************
  * @fn          MRFI_Init
@@ -1040,8 +1047,8 @@ int MRFI_cca(void)
 //BSKR: cc430Radio.isRecvPkt
 int MRFI_isRecvPkt(void)
 {
-   /* TODO: If RXFIFO bytes is not zero, can we assume recv pkt?*/
-   /* Crude checking only. Not accurate. TODO: Rewrite */
+   /*TODO: If RXFIFO bytes is not zero, can we assume rcving pkt? */
+   /* Crude checking only. Need to rewrite */
    if(mrfiRadioState == MRFI_RADIO_STATE_RX)
    {
       return 1;
@@ -1056,7 +1063,7 @@ int MRFI_isRecvPkt(void)
 /**************************************************************************************************
  * @fn         MRFI_isPktPend
  *
- * @brief      Temporarily defunct
+ * @brief      Returns the mrfiPktReceive flag value
  *
  * @param      none 
  *
@@ -1067,7 +1074,7 @@ int MRFI_isRecvPkt(void)
 //BSKR: cc430Radio.isPktPend
 int MRFI_isPktPend(void)
 {
-   return 0;
+   return(mrfiPktReceiveFlag);
 }
 
 #if 0
@@ -1324,7 +1331,9 @@ static void Mrfi_SyncPinRxIsr(void)
 
                /* call external, higher level "receive complete" processing routine */
                //MRFI_RxCompleteISR();
-               //TODO: Call higher layer function
+               //Instead of calling higher layers, a sync flag is set to indicate
+               //reception of packet
+               mrfiPktReceiveFlag = 1;
             }
          } /*End of if*/
       }/*End of if-else*/

@@ -155,6 +155,14 @@ uip_icmp6_echo_request_input(void)
   PRINT6ADDR(&UIP_IP_BUF->srcipaddr);
   PRINTF("\n");
   UIP_STAT(++uip_stat.icmp.sent);
+   
+   
+  /* Blink LEDs to indicate the receipt of PING REQUEST */
+  uip_ping_packet_indication();
+  /* TODO: Why was this not there earlier?
+   * How was the ECHO_REPLY sending handled? */ 
+  tcpip_ipv6_output();
+  
   return;
 }
 
@@ -247,7 +255,7 @@ uip_icmp6_error_output(uint8_t type, uint8_t code, uint32_t param)
 }
 
 /*---------------------------------------------------------------------------*/
-void uip_icmp6_echo_reply_input()
+void uip_ping_packet_indication()
 {
    uint8_t i;
    /* Blink LEDs when a echo reply is received */

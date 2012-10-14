@@ -23,11 +23,19 @@
 
 #define NETSTACK_CONF_NETWORK sicslowpan_driver
 
-#if 0
 #define UIP_CONF_ROUTER                 0
-//#ifndef UIP_CONF_IPV6_RPL
-//#define UIP_CONF_IPV6_RPL               1
-//#endif /* UIP_CONF_IPV6_RPL */
+
+/* App related configurations
+#define MODE_PING_TEST                 1
+#define MODE_TX                        0
+#define MODE_RX                        0
+
+
+#if 0
+#ifndef UIP_CONF_IPV6_RPL
+#define UIP_CONF_IPV6_RPL               1
+#endif /* UIP_CONF_IPV6_RPL */
+#endif 
 
 #define SICSLOWPAN_CONF_COMPRESSION_IPV6        0
 #define SICSLOWPAN_CONF_COMPRESSION_HC1         1
@@ -39,10 +47,23 @@
 #endif /* SICSLOWPAN_CONF_FRAG */
 //#define SICSLOWPAN_CONF_CONVENTIONAL_MAC	1
 #define SICSLOWPAN_CONF_MAX_ADDR_CONTEXTS       1
+
+#define SICSLOWPAN_CONF_ADDR_CONTEXT_0 { \
+  addr_contexts[0].prefix[0] = 0x20; \
+  addr_contexts[0].prefix[1] = 0x01; \
+  addr_contexts[0].prefix[2] = 0x06; \
+  addr_contexts[0].prefix[3] = 0x30; \
+  addr_contexts[0].prefix[4] = 0x03; \
+  addr_contexts[0].prefix[5] = 0x01; \
+  addr_contexts[0].prefix[6] = 0x64; \
+  addr_contexts[0].prefix[7] = 0x53; \
+}
+
 #ifndef SICSLOWPAN_CONF_MAX_MAC_TRANSMISSIONS
 #define SICSLOWPAN_CONF_MAX_MAC_TRANSMISSIONS   3
 #endif /* SICSLOWPAN_CONF_MAX_MAC_TRANSMISSIONS */
 
+#if 0
 #define UIP_CONF_IPV6_CHECKS     1
 #define UIP_CONF_IPV6_QUEUE_PKT  0
 #define UIP_CONF_IPV6_REASSEMBLY 0
