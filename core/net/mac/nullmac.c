@@ -42,6 +42,40 @@
 #include "packetbuf.h"
 #include "netstack.h"
 
+typedef enum
+{
+	MAC_INIT = 0,
+	MAC_SCAN,
+   MAC_ASSOC,
+   MAC_CONNECTED,
+	MAC_INVALID
+}mac_state_t;
+	
+typedef enum
+{
+	MAC_BEACON =		0,
+	MAC_DATA = 			1,
+	MAC_ACK = 			2,
+	MAC_CMD = 			3,
+	MAC_RANGING =		14,
+	MAC_TYPE_NONE =	15
+}mac_frame_type_t;
+
+typedef enum
+{
+   MAC_ASSOC_REQ = 0x01,
+   MAC_ASSOC_RSP = 0x02,
+   MAC_DISASSOC_NOT = 0x03,
+   MAC_DATA_REQ = 0x04,
+   MAC_PANID_CONFLICT = 0x05,
+   MAC_ORPHAN_NOT = 0x06,
+   MAC_BEACON_REQ = 0x07,
+   MAC_COORD_REALIGN = 0x08,
+   MAC_GTS_REQ = 0x09   
+}mac_cmd_frame_t;
+
+static mac_state_t mac_state;
+
 /*---------------------------------------------------------------------------*/
 static void
 send_packet(mac_callback_t sent, void *ptr)
@@ -55,6 +89,43 @@ packet_input(void)
   NETSTACK_NETWORK.input();
 }
 /*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+//#define DISPATCH_BYTE_POS 0
+//#define 802154_CMDFRM_ID_POS 0
+   static void
+lowpan_packet_input(void)
+{
+   uint8_t * rime_ptr = NULL;
+   frame802154_t frame;
+   frame802154_parse(packetbuf_dataptr(), len, &frame); 
+   if((frame.fcf.frame_type == MAC_DATA))
+   {
+      NETSTACK_NETWORK.input();
+   }
+   else if (frame.fcf.frame_type == MAC_CMD)
+   {
+      switch((uint8_t)frame.payload[0])
+      {
+         case MAC_ASSOC_REQ:
+            break;
+
+         case MAC_ASSOC_RSP:
+            break;
+
+         case MAC_DATA_REQ:
+            break;
+
+         default:
+            // Other command frames not handled
+      }
+      /* Process Association */
+   }
+   else
+   {
+      /* Other 802.15.4 MAC frames are not handled here */
+   }
+}
+
 static int
 on(void)
 {
@@ -76,6 +147,7 @@ channel_check_interval(void)
 static void
 init(void)
 {
+   mac_mode = MAC_INIT;
 }
 /*---------------------------------------------------------------------------*/
 const struct mac_driver nullmac_driver = {
@@ -87,4 +159,15 @@ const struct mac_driver nullmac_driver = {
   off,
   channel_check_interval,
 };
+/*---------------------------------------------------------------------------*/
+const struct mac_driver nullmac_802154_driver = {
+  "nullmac",
+  init,
+  send_packet,
+  lowpan_packet_input,
+  on,
+  off,
+  channel_check_interval,
+};
+/*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/

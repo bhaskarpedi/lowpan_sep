@@ -9,3 +9,5 @@
  * the received packets */
 
 //extern uint8_t mrfi_uip_ind_flag;
+
+extern void mrfi_uip_pkt_convert(void *pPacket);

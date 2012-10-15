@@ -76,8 +76,9 @@ void main(void)
       
       if(1 == NETSTACK_RADIO.isPktPend())
       {
-         NETSTACK_RADIO.read(pPacket, pktLen)
-         
+         NETSTACK_RADIO.read(pPacket, pktLen);
+         mrfi_uip_pkt_convert(pPacket); 
+         NETSTACK_RDC.input_packet();
       }
    }
 #endif
