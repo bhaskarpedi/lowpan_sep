@@ -70,6 +70,9 @@ static uip_ipaddr_t tmp_ipaddr;
 #include "rpl/rpl.h"
 #endif /* UIP_CONF_IPV6_RPL */
 
+/* Forward declaration */
+void uip_ping_packet_indication();
+
 /*---------------------------------------------------------------------------*/
 void
 uip_icmp6_echo_request_input(void)

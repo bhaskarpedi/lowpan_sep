@@ -43,7 +43,7 @@
  *         Adam Dunkels <adam@sics.se>
  */
 
-#include "net/rime/rimeaddr.h"
+#include "net/rimeaddr.h"
 
 rimeaddr_t rimeaddr_node_addr;
 #if RIMEADDR_SIZE == 2

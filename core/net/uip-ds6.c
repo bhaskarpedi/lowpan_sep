@@ -48,6 +48,11 @@
 #include "net/uip-ds6.h"
 //#include "net/uip-packetqueue.h"
 
+unsigned long clock_time(void)
+{
+	return 0;
+}
+
 #define DEBUG DEBUG_NONE
 //#include "net/uip-debug.h"
 
@@ -84,7 +89,6 @@ uint8_t uip_ds6_addr_size;
 uint8_t uip_ds6_netif_addr_list_offset;
 
 /** @} */
-
 /* "full" (as opposed to pointer) ip address used in this file,  */
 static uip_ipaddr_t loc_fipaddr;
 

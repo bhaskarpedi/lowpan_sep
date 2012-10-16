@@ -54,6 +54,8 @@
 #define __PACKETBUF_H__
 
 #include "rimeaddr.h"
+#include "stdint.h"
+
 //#include "contiki-conf.h"
 //#include "net/rime/rimeaddr.h"
 

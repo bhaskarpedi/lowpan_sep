@@ -41,6 +41,7 @@
 #define NEIGHBOR_INFO_H
 
 #include "neighbor-attr.h"
+#include <stdint.h>
 //#include "net/rime.h"
 
 /* ETX_DIVISOR is the value that a fix-point representation of the ETX 

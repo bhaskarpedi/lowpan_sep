@@ -106,7 +106,7 @@
 #else
 // Max frame size is the max size of 802.15.4 packet
 #define MAX_802154_PKT_SIZE         127
-#define MRFI_MAX_FRAME_SIZE         (MAX_802154_PKT_SIZE + __mrfi_LENGTH_FIELD_SIZE__
+#define MRFI_MAX_FRAME_SIZE         (MAX_802154_PKT_SIZE + __mrfi_LENGTH_FIELD_SIZE__)
 #define MRFI_MAX_FCF_LENGTH         __mrfi_FCF_SIZE__
 #define MRFI_DSN_SIZE               __mrfi_DSN_SIZE__
 #endif

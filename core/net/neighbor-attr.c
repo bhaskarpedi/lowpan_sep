@@ -37,7 +37,7 @@
 #include "lib/list.h"
 #include <stddef.h>
 #include <string.h>
-
+#include "stdint.h"
 #include "neighbor-attr.h"
 
 #define DEBUG 0

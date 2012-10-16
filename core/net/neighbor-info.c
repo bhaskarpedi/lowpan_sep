@@ -41,7 +41,9 @@
 #include "net/neighbor-attr.h"
 #include "net/uip-ds6.h"
 #include "net/uip-nd6.h"
+#include "stdio.h"
 
+#if 0
 #define DEBUG DEBUG_NONE
 //#include "net/uip-debug.h"
 
@@ -189,3 +191,4 @@ neighbor_info_get_metric(const rimeaddr_t *addr)
   return metricp == NULL ? ETX_LIMIT : *metricp;
 }
 /*---------------------------------------------------------------------------*/
+#endif

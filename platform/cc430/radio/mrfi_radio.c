@@ -982,7 +982,7 @@ uint8_t MRFI_Transmit(mrfiPacket_t * pPacket, uint8_t txType)
 int MRFI_read(void *pPacket, unsigned short len)
 {
    // pPacket is a double pointer typecasted and passed as a single pointer
-   (void*)(*pPacket) = (void *)(((uint8_t*)(&mrfiIncomingPacket))+\
+   //(void*)(*pPacket) = (void *)(((uint8_t*)(&mrfiIncomingPacket))+\
                                                       MRFI_FRAME_BODY_OFS);
    return mrfiIncomingPacket.frame[MRFI_LENGTH_FIELD_OFS];
 }
@@ -2316,7 +2316,7 @@ const struct radio_driver cc430Radio_driver =
  *                                  Compile Time Integrity Checks
  **************************************************************************************************
  */
-
+#if 0 /* Not relevant as the packet size is greater than 64*/
 /* calculate maximum value for PKTLEN and verify it directly */
 #define MRFI_RADIO_TX_FIFO_SIZE     64  /* from datasheet */
 #define MRFI_RADIO_MAX_PKTLEN       (MRFI_RADIO_TX_FIFO_SIZE - MRFI_LENGTH_FIELD_SIZE - MRFI_RX_METRICS_SIZE)
@@ -2333,7 +2333,7 @@ const struct radio_driver cc430Radio_driver =
 #if ((MRFI_MAX_FRAME_SIZE + MRFI_RX_METRICS_SIZE) > MRFI_RADIO_TX_FIFO_SIZE)
 #error "ERROR:  Maximum possible packet length exceeds FIFO buffer.  Decrease value of maximum payload."
 #endif
-
+#endif
 /* verify that the SmartRF file supplied is compatible */
 #if ((!defined SMARTRF_RADIO_CC430))
   #error "ERROR:  The SmartRF export file is not compatible."

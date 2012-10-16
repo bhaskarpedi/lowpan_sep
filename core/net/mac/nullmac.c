@@ -41,6 +41,7 @@
 #include "nullmac.h"
 #include "packetbuf.h"
 #include "netstack.h"
+#include "frame802154.h"
 
 typedef enum
 {
@@ -76,6 +77,8 @@ typedef enum
 }mac_cmd_frame_t;
 
 static mac_state_t mac_state;
+extern uint8_t mac_dsn;
+extern uint16_t mac_dst_pan_id;
 
 /*---------------------------------------------------------------------------*/
 static void
@@ -99,14 +102,14 @@ lowpan_packet_input(void)
    uint8_t * rime_ptr = NULL;
    frame802154_t frame;
    // TODO: BSKR is this buflen and not len??
-   frame802154_parse(packetbuf_dataptr(), buflen, &frame); 
+   frame802154_parse(packetbuf_dataptr(), packetbuf_datalen(), &frame);
    if((frame.fcf.frame_type == MAC_DATA))
    {
       NETSTACK_NETWORK.input();
    }
    else if (frame.fcf.frame_type == MAC_CMD)
    {
-      switch((uint8_t)frame.payload[0])
+      switch(frame.payload[0])
       {
          case MAC_ASSOC_REQ:
             break;
@@ -208,25 +211,24 @@ static int mac_send_assoc_req()
 
       retVal = NETSTACK_RADIO.send(&payload[8-len], len+2);
    } else {
-      PRINTF("6MAC-UT: too large header: %u\n", len);
+      //PRINTF("6MAC-UT: too large header: %u\n", len);
    }
    return(retVal);
 }
+
 /*---------------------------------------------------------------------------*/
 static void
 init(void)
 {
    int retVal = MAC_TX_ERR;
-   mac_mode = MAC_INIT;
-   // TODO: Assign MAC address to the node from config file
+   mac_state = MAC_INIT;
 #if RIMEADDR_SIZE == 2
-   rimeaddr_node_addr = { { 1, 2 } };
-#else /*RIMEADDR_SIZE == 2*/
-#if RIMEADDR_SIZE == 8
-   rimeaddr_node_addr = 
-         { { 0x12, 0x23, 0x34, 0x00, 0x00, 0x45, 0x00, 0x01 } };
-#endif /*RIMEADDR_SIZE == 8*/
-#endif /*RIMEADDR_SIZE == 2*/
+   rimeaddr_t addr_temp = { { 1, 2 } };
+#elif (RIMEADDR_SIZE == 8)
+   rimeaddr_t addr_temp = { { 0x12, 0x23, 0x34, 0x00, 0x00, 0x45, 0x00, 0x01 } };
+#endif
+   // Assign the node address from above address
+   rimeaddr_copy(&rimeaddr_node_addr, &addr_temp);
 
 #ifdef LOWPAN_COORDINATOR
    /* Do nothing here. Initialize data structures used for ASSOC reply */
@@ -235,8 +237,8 @@ init(void)
    /* Send an ASSOC request */
    do{
       retVal = mac_send_assoc_req();
-      mac_mode = MAC_ASSOC_REQ_SENT;
-   }while(MAC_TX_OK != retVal)
+      mac_state = MAC_ASSOC_REQ_SENT;
+   }while(MAC_TX_OK != retVal);
 #endif
 }
 /*---------------------------------------------------------------------------*/

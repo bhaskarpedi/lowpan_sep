@@ -74,6 +74,7 @@
 #include "net/uip-ds6.h"
 #include "lib/random.h"
 
+#if 1
 /*------------------------------------------------------------------*/
 #define DEBUG 0
 //#include "net/uip-debug.h"
@@ -894,3 +895,4 @@ discard:
 #endif /* !UIP_CONF_ROUTER */
 
  /** @} */
+#endif

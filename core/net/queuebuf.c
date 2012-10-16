@@ -48,6 +48,7 @@
 #include "cfs/cfs.h"
 #endif
 
+#include <stdint.h>
 #include <string.h> /* for memcpy() */
 #include "queuebuf.h"
 #include "memb.h"

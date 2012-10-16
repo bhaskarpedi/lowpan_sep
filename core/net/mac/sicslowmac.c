@@ -67,13 +67,13 @@
  *   data or MAC command frame. The default is a random value within
  *   the range.
  */
-static uint8_t mac_dsn;
+uint8_t mac_dsn;
 
 /**  \brief The 16-bit identifier of the PAN on which the device is
  *   sending to.  If this value is 0xffff, the device is not
  *   associated.
  */
-static uint16_t mac_dst_pan_id = IEEE802154_PANID;
+uint16_t mac_dst_pan_id = IEEE802154_PANID;
 
 /**  \brief The 16-bit identifier of the PAN on which the device is
  *   operating.  If this value is 0xffff, the device is not

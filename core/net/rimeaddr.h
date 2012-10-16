@@ -56,6 +56,7 @@
 #define __RIMEADDR_H__
 
 #include "contiki-conf.h"
+#include "stdint.h"
 
 #ifdef RIMEADDR_CONF_SIZE
 #define RIMEADDR_SIZE RIMEADDR_CONF_SIZE

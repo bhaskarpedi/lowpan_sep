@@ -75,18 +75,21 @@ void main(void)
       /* Turn off LED1 to indicate that node is operating on Rx chain*/
       BSP_TURN_OFF_LED1();
       
-      if(1 == NETSTACK_RADIO.isPktPend())
+      if(1 == NETSTACK_RADIO.pending_packet())
       {
          pktLen = NETSTACK_RADIO.read((void*)pPacket, pktLen);
          mrfi_uip_pkt_convert(*pPacket, pktLen); 
-         NETSTACK_RDC.input_packet();
+         NETSTACK_RDC.input();
          mrfi_uip_pkt_proc_done();
       }
+
+      /*
       if(1 == mrfi_pkt_tx_pend)
       {
          // The response packet, if any, should be prepared in the RX chain
          tcpip_ipv6_output();
       }
+      */
    }
 #endif
 

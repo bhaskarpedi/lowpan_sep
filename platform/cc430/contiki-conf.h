@@ -25,7 +25,7 @@
 
 #define UIP_CONF_ROUTER                 0
 
-/* App related configurations
+/* App related configurations */
 #define MODE_PING_TEST                 1
 #define MODE_TX                        0
 #define MODE_RX                        0
