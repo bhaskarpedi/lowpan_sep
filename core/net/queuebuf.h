@@ -104,7 +104,7 @@ void queuebuf_free(struct queuebuf *b);
 void *queuebuf_dataptr(struct queuebuf *b);
 int queuebuf_datalen(struct queuebuf *b);
 
-ieeeShortAddr_t *queuebuf_addr(struct queuebuf *b, uint8_t type);
+rimeaddr_t *queuebuf_addr(struct queuebuf *b, uint8_t type);
 packetbuf_attr_t queuebuf_attr(struct queuebuf *b, uint8_t type);
 
 void queuebuf_debug_print(void);

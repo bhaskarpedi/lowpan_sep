@@ -100,7 +100,17 @@
 #ifndef MRFI_MAX_PAYLOAD_SIZE
 #define MRFI_MAX_PAYLOAD_SIZE       __mrfi_MAX_PAYLOAD_SIZE__
 #endif
+// Custom defines for 802.15.4 frames
+#if 0
 #define MRFI_MAX_FRAME_SIZE         (MRFI_MAX_PAYLOAD_SIZE + __mrfi_FRAME_OVERHEAD_SIZE__)
+#else
+// Max frame size is the max size of 802.15.4 packet
+#define MAX_802154_PKT_SIZE         127
+#define MRFI_MAX_FRAME_SIZE         (MAX_802154_PKT_SIZE + __mrfi_LENGTH_FIELD_SIZE__
+#define MRFI_MAX_FCF_LENGTH         __mrfi_FCF_SIZE__
+#define MRFI_DSN_SIZE               __mrfi_DSN_SIZE__
+#endif
+
 #define MRFI_RX_METRICS_SIZE        __mrfi_RX_METRICS_SIZE__
 #define MRFI_RX_METRICS_RSSI_OFS    __mrfi_RX_METRICS_RSSI_OFS__
 #define MRFI_RX_METRICS_CRC_LQI_OFS __mrfi_RX_METRICS_CRC_LQI_OFS__
@@ -183,8 +193,8 @@ void    MRFI_SetRFPwr(uint8_t);
  * ------------------------------------------------------------------------------------------------
  */
 extern const uint8_t mrfiBroadcastAddr[];
-
-
+extern uint8_t mrfiPktReceiveFlag;
+extern uint8_t mrfi_pkt_tx_pend;
 /**************************************************************************************************
  */
 #endif

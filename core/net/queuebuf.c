@@ -475,7 +475,7 @@ queuebuf_datalen(struct queuebuf *b)
   return buframptr->len;
 }
 /*---------------------------------------------------------------------------*/
-ieeeShortAddr_t *
+rimeaddr_t *
 queuebuf_addr(struct queuebuf *b, uint8_t type)
 {
   struct queuebuf_data *buframptr = queuebuf_load_to_ram(b);

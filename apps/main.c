@@ -10,6 +10,7 @@
 #include "bsp_buttons.h"
 #include "uip.h"
 #include "uip-icmp6.h"
+#include "mrfi_uip_if.h"
 
 #define DELAY_IN_MSECS(x) {\
    int d_cnt;\
@@ -45,7 +46,7 @@ void main(void)
    int i;
    BSP_Init();
    netstack_init();
-   void *pPacket = NULL;
+   void **pPacket = NULL;
    uint16_t pktLen;
    uip_ipaddr_t dest = {0xFE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,\
       0x12, 0x23, 0x34, 0x00, 0x00, 0x00, 0x00, 0x01}; 
@@ -76,9 +77,15 @@ void main(void)
       
       if(1 == NETSTACK_RADIO.isPktPend())
       {
-         NETSTACK_RADIO.read(pPacket, pktLen);
-         mrfi_uip_pkt_convert(pPacket); 
+         pktLen = NETSTACK_RADIO.read((void*)pPacket, pktLen);
+         mrfi_uip_pkt_convert(*pPacket, pktLen); 
          NETSTACK_RDC.input_packet();
+         mrfi_uip_pkt_proc_done();
+      }
+      if(1 == mrfi_pkt_tx_pend)
+      {
+         // The response packet, if any, should be prepared in the RX chain
+         tcpip_ipv6_output();
       }
    }
 #endif

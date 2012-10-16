@@ -51,7 +51,7 @@
  */
 struct neighbor_addr {
   struct neighbor_addr *next;
-  ieeeShortAddr_t addr;
+  rimeaddr_t addr;
   uint16_t time;
   uint16_t index;
 };
@@ -107,20 +107,20 @@ struct neighbor_addr *neighbor_attr_list_neighbors(void);
  * \brief      Check if a neighbor is already added to the neighbor table
  * \retval     non-zero if present, zero if not
  */
-int neighbor_attr_has_neighbor(const ieeeShortAddr_t *addr);
+int neighbor_attr_has_neighbor(const rimeaddr_t *addr);
 
 /**
  * \brief      Add a neighbor entry to neighbor table
  * \retval     -1 if unsuccessful, 0 if the neighbor was already
  *             in the table, and 1 if successful
  */
-int neighbor_attr_add_neighbor(const ieeeShortAddr_t *addr);
+int neighbor_attr_add_neighbor(const rimeaddr_t *addr);
 
 /**
  * \brief      Remove a neighbor entry to neighbor table
  * \retval     -1 if unsuccessful, 0 if the neighbor was removed
  */
-int neighbor_attr_remove_neighbor(const ieeeShortAddr_t *addr);
+int neighbor_attr_remove_neighbor(const rimeaddr_t *addr);
 
 /**
  * \brief      Get pointer to neighbor table data specified by id
@@ -133,7 +133,7 @@ int neighbor_attr_remove_neighbor(const ieeeShortAddr_t *addr);
  *             This pointer should not be saved, as it may point to data from another
  *             neighbor in the future if neighbors get removed/added over time.
  */
-void *neighbor_attr_get_data(struct neighbor_attr *, const ieeeShortAddr_t *addr);
+void *neighbor_attr_get_data(struct neighbor_attr *, const rimeaddr_t *addr);
 
 /**
  * \brief      Copy data to neighbor table
@@ -143,7 +143,7 @@ void *neighbor_attr_get_data(struct neighbor_attr *, const ieeeShortAddr_t *addr
  *             neighbor and attribute type, and resets timeout for that neighbor.
  *             If neighbor was not found, this will add a new neighbor to the table.
  */
-int neighbor_attr_set_data(struct neighbor_attr *, const ieeeShortAddr_t *addr,
+int neighbor_attr_set_data(struct neighbor_attr *, const rimeaddr_t *addr,
                            void *data);
 
 /**
@@ -160,6 +160,6 @@ uint16_t neighbor_attr_get_timeout(void);
 /**
  * \brief      reset timeout of a neighbor to prevent it from being removed
  */
-void neighbor_attr_tick(const ieeeShortAddr_t *);
+void neighbor_attr_tick(const rimeaddr_t *);
 
 #endif                          /* NEIGHBORATTR_H_ */

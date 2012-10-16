@@ -128,14 +128,14 @@ send_packet(mac_callback_t sent, void *ptr)
    *  If the output address is NULL in the Rime buf, then it is broadcast
    *  on the 802.15.4 network.
    */
-  if(ieeeShortAddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &ieeeShortAddr_null)) {
+  if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &rimeaddr_null)) {
     /* Broadcast requires short address mode. */
     params.fcf.dest_addr_mode = FRAME802154_SHORTADDRMODE;
     params.dest_addr[0] = 0xFF;
     params.dest_addr[1] = 0xFF;
 
   } else {
-    ieeeShortAddr_copy((ieeeShortAddr_t *)&params.dest_addr,
+    rimeaddr_copy((rimeaddr_t *)&params.dest_addr,
                   packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
     params.fcf.dest_addr_mode = FRAME802154_LONGADDRMODE;
   }
@@ -147,7 +147,7 @@ send_packet(mac_callback_t sent, void *ptr)
    * Set up the source address using only the long address mode for
    * phase 1.
    */
-  ieeeShortAddr_copy((ieeeShortAddr_t *)&params.src_addr, &ieeeShortAddr_node_addr);
+  rimeaddr_copy((rimeaddr_t *)&params.src_addr, &rimeaddr_node_addr);
 
   params.payload = packetbuf_dataptr();
   params.payload_len = packetbuf_datalen();
@@ -205,16 +205,16 @@ input_packet(void)
         return;
       }
       if(!is_broadcast_addr(frame.fcf.dest_addr_mode, frame.dest_addr)) {
-        packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, (ieeeShortAddr_t *)&frame.dest_addr);
-        if(!ieeeShortAddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-                         &ieeeShortAddr_node_addr)) {
+        packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, (rimeaddr_t *)&frame.dest_addr);
+        if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+                         &rimeaddr_node_addr)) {
           /* Not for this node */
           PRINTF("6MAC: not for us\n");
           return;
         }
       }
     }
-    packetbuf_set_addr(PACKETBUF_ADDR_SENDER, (ieeeShortAddr_t *)&frame.src_addr);
+    packetbuf_set_addr(PACKETBUF_ADDR_SENDER, (rimeaddr_t *)&frame.src_addr);
 
     PRINTF("6MAC-IN: %2X", frame.fcf.frame_type);
     PRINTADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER));

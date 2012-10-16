@@ -108,7 +108,16 @@
  */
 #if (defined MRFI_RADIO_FAMILY1) || (defined MRFI_RADIO_FAMILY2) || (defined MRFI_RADIO_FAMILY5)
 
-#define __mrfi_LENGTH_FIELD_SIZE__      1
+#define __mrfi_LENGTH_FIELD_SIZE__              1
+
+/* Defines to convert MRFI packet to 802.15.4 frame */
+#define __mrfi_FCF_SIZE__               2
+#define __mrfi_DSN_SIZE__               1
+#define __mrfi_ADDR_SIZE__              4
+// Maximum length of addressing fields - 2+8+2+8 = 20 octets
+#define __mrfi_MAC_MAX_ADDR_FIELD_LENGTH__      20 
+/* End custom defines */
+
 #define __mrfi_ADDR_SIZE__              4
 #define __mrfi_MAX_PAYLOAD_SIZE__       20
 

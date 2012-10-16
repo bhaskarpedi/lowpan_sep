@@ -262,7 +262,7 @@ packetbuf_attr_clear(void)
     packetbuf_attrs[i].val = 0;
   }
   for(i = 0; i < PACKETBUF_NUM_ADDRS; ++i) {
-    ieeeShortAddr_copy(&packetbuf_addrs[i].addr, &ieeeShortAddr_null);
+    rimeaddr_copy(&packetbuf_addrs[i].addr, &rimeaddr_null);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -298,14 +298,14 @@ packetbuf_attr(uint8_t type)
 }
 /*---------------------------------------------------------------------------*/
 int
-packetbuf_set_addr(uint8_t type, const ieeeShortAddr_t *addr)
+packetbuf_set_addr(uint8_t type, const rimeaddr_t *addr)
 {
 /*   packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].type = type; */
-  ieeeShortAddr_copy(&packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].addr, addr);
+  rimeaddr_copy(&packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].addr, addr);
   return 1;
 }
 /*---------------------------------------------------------------------------*/
-const ieeeShortAddr_t *
+const rimeaddr_t *
 packetbuf_addr(uint8_t type)
 {
   return &packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].addr;

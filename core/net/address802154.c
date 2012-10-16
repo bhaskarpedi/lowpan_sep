@@ -1,11 +1,12 @@
+#if 0
 #include "lowpan.h"
 #include "address802154.h"
 
-ieeeShortAddr_t ieeeShortAddr_node_addr;
-const ieeeShortAddr_t ieeeShortAddr_null = { { 0, 0 } };
+rimeaddr_t rimeaddr_node_addr;
+const rimeaddr_t rimeaddr_null = { { 0, 0 } };
 
 /*---------------------------------------------------------------------------*/
-void ieeeShortAddr_copy(ieeeShortAddr_t *dest, const ieeeShortAddr_t *src)
+void rimeaddr_copy(rimeaddr_t *dest, const rimeaddr_t *src)
 {
   uint8_t i;
   for(i = 0; i < IEEE802154_SHORTADDR_LEN; i++) {
@@ -13,7 +14,7 @@ void ieeeShortAddr_copy(ieeeShortAddr_t *dest, const ieeeShortAddr_t *src)
   }
 }
 /*---------------------------------------------------------------------------*/
-int ieeeShortAddr_cmp(const ieeeShortAddr_t *addr1, const ieeeShortAddr_t *addr2)
+int rimeaddr_cmp(const rimeaddr_t *addr1, const rimeaddr_t *addr2)
 {
   uint8_t i;
   for(i = 0; i < IEEE802154_SHORTADDR_LEN; i++) {
@@ -24,9 +25,10 @@ int ieeeShortAddr_cmp(const ieeeShortAddr_t *addr1, const ieeeShortAddr_t *addr2
   return 1;
 }
 /*---------------------------------------------------------------------------*/
-void ieeeShortAddr_set_node_addr(ieeeShortAddr_t *t)
+void rimeaddr_set_node_addr(rimeaddr_t *t)
 {
-  ieeeShortAddr_copy(&ieeeShortAddr_node_addr, t);
+  rimeaddr_copy(&rimeaddr_node_addr, t);
 }
 /*---------------------------------------------------------------------------*/
 /** @} */
+#endif

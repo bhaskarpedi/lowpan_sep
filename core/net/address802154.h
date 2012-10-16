@@ -1,3 +1,4 @@
+#if 0
 #include "lowpan.h"
 
 /* 16 bit address obtained after Association */
@@ -8,7 +9,7 @@
 
 typedef struct {
 	uint8_t u8[IEEE802154_SHORTADDR_LEN];
-} ieeeShortAddr_t;
+} rimeaddr_t;
 
 /*
 typedef struct ieeeLongAddr{
@@ -25,7 +26,7 @@ typedef struct ieeeLongAddr{
  *             to another.
  *
  */
-void ieeeShortAddr_copy(ieeeShortAddr_t *dest, const ieeeShortAddr_t *from);
+void rimeaddr_copy(rimeaddr_t *dest, const rimeaddr_t *from);
 
 /**
  * \brief      Compare two Rime addresses
@@ -39,7 +40,7 @@ void ieeeShortAddr_copy(ieeeShortAddr_t *dest, const ieeeShortAddr_t *from);
  *             are the same, and zero if the addresses are different.
  *
  */
-int ieeeShortAddr_cmp(const ieeeShortAddr_t *addr1, const ieeeShortAddr_t *addr2);
+int rimeaddr_cmp(const rimeaddr_t *addr1, const rimeaddr_t *addr2);
 
 
 /**
@@ -49,18 +50,18 @@ int ieeeShortAddr_cmp(const ieeeShortAddr_t *addr1, const ieeeShortAddr_t *addr2
  *             This function sets the Rime address of the node.
  *
  */
-void ieeeShortAddr_set_node_addr(ieeeShortAddr_t *addr);
+void rimeaddr_set_node_addr(rimeaddr_t *addr);
 
 /**
  * \brief      The Rime address of the node
  *
  *             This variable contains the Rime address of the
  *             node. This variable should not be changed directly;
- *             rather, the ieeeShortAddr_set_node_addr() function should be
+ *             rather, the rimeaddr_set_node_addr() function should be
  *             used.
  *
  */
-extern ieeeShortAddr_t ieeeShortAddr_node_addr;
+extern rimeaddr_t rimeaddr_node_addr;
 
 /**
  * \brief      The null Rime address
@@ -73,5 +74,6 @@ extern ieeeShortAddr_t ieeeShortAddr_node_addr;
  *             with other nodes.
  *
  */
-extern const ieeeShortAddr_t ieeeShortAddr_null;
+extern const rimeaddr_t rimeaddr_null;
 
+#endif

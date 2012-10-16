@@ -1,5 +1,10 @@
+/**
+ * \addtogroup rimeaddr
+ * @{
+ */
+
 /*
- * Copyright (c) 2009, Swedish Institute of Computer Science.
+ * Copyright (c) 2007, Swedish Institute of Computer Science.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,71 +31,56 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $Id: framer-nullmac.c,v 1.2 2010/06/14 19:19:16 adamdunkels Exp $
+ * This file is part of the Contiki operating system.
+ *
+ * $Id: rimeaddr.c,v 1.9 2008/11/30 18:26:57 adamdunkels Exp $
  */
 
 /**
  * \file
- *         MAC framer for nullmac
+ *         Functions for manipulating Rime addresses
  * \author
- *         Niclas Finne <nfi@sics.se>
- *         Joakim Eriksson <joakime@sics.se>
+ *         Adam Dunkels <adam@sics.se>
  */
 
-#include "framer-nullmac.h"
-#include "packetbuf.h"
+#include "net/rime/rimeaddr.h"
 
-#define DEBUG 0
+rimeaddr_t rimeaddr_node_addr;
+#if RIMEADDR_SIZE == 2
+const rimeaddr_t rimeaddr_null = { { 0, 0 } };
+#else /*RIMEADDR_SIZE == 2*/
+#if RIMEADDR_SIZE == 8
+const rimeaddr_t rimeaddr_null = { { 0, 0, 0, 0, 0, 0, 0, 0 } };
+#endif /*RIMEADDR_SIZE == 8*/
+#endif /*RIMEADDR_SIZE == 2*/
 
-#if DEBUG
-#include <stdio.h>
-#define PRINTF(...) printf(__VA_ARGS__)
-#define PRINTADDR(addr) PRINTF(" %02x%02x:%02x%02x:%02x%02x:%02x%02x ", ((uint8_t *)addr)[0], ((uint8_t *)addr)[1], ((uint8_t *)addr)[2], ((uint8_t *)addr)[3], ((uint8_t *)addr)[4], ((uint8_t *)addr)[5], ((uint8_t *)addr)[6], ((uint8_t *)addr)[7])
-#else
-#define PRINTF(...)
-#define PRINTADDR(addr)
-#endif
-
-struct nullmac_hdr {
-  rimeaddr_t receiver;
-  rimeaddr_t sender;
-};
 
 /*---------------------------------------------------------------------------*/
-static int
-create(void)
+void
+rimeaddr_copy(rimeaddr_t *dest, const rimeaddr_t *src)
 {
-  struct nullmac_hdr *hdr;
-
-  if(packetbuf_hdralloc(sizeof(struct nullmac_hdr))) {
-    hdr = packetbuf_hdrptr();
-    rimeaddr_copy(&(hdr->sender), &rimeaddr_node_addr);
-    rimeaddr_copy(&(hdr->receiver), packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
-    return sizeof(struct nullmac_hdr);
+  uint8_t i;
+  for(i = 0; i < RIMEADDR_SIZE; i++) {
+    dest->u8[i] = src->u8[i];
   }
-  PRINTF("PNULLMAC-UT: too large header: %u\n", len);
-  return FRAMER_FAILED;
 }
 /*---------------------------------------------------------------------------*/
-static int
-parse(void)
+int
+rimeaddr_cmp(const rimeaddr_t *addr1, const rimeaddr_t *addr2)
 {
-  struct nullmac_hdr *hdr;
-  hdr = packetbuf_dataptr();
-  if(packetbuf_hdrreduce(sizeof(struct nullmac_hdr))) {
-    packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &(hdr->sender));
-    packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, &(hdr->receiver));
-
-    PRINTF("PNULLMAC-IN: ");
-    PRINTADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER));
-    PRINTADDR(packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
-    PRINTF("%u (%u)\n", packetbuf_datalen(), len);
-
-    return sizeof(struct nullmac_hdr);
+  uint8_t i;
+  for(i = 0; i < RIMEADDR_SIZE; i++) {
+    if(addr1->u8[i] != addr2->u8[i]) {
+      return 0;
+    }
   }
-  return FRAMER_FAILED;
+  return 1;
 }
 /*---------------------------------------------------------------------------*/
-const struct framer framer_nullmac = {
-  create, parse
-};
+void
+rimeaddr_set_node_addr(rimeaddr_t *t)
+{
+  rimeaddr_copy(&rimeaddr_node_addr, t);
+}
+/*---------------------------------------------------------------------------*/
+/** @} */

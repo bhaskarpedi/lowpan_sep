@@ -46,11 +46,12 @@ typedef enum
 {
 	MAC_INIT = 0,
 	MAC_SCAN,
-   MAC_ASSOC,
+   MAC_ASSOC_REQ_SENT,
    MAC_CONNECTED,
 	MAC_INVALID
 }mac_state_t;
-	
+
+// This structure is kind of also defined in frame802154.h	
 typedef enum
 {
 	MAC_BEACON =		0,
@@ -97,7 +98,8 @@ lowpan_packet_input(void)
 {
    uint8_t * rime_ptr = NULL;
    frame802154_t frame;
-   frame802154_parse(packetbuf_dataptr(), len, &frame); 
+   // TODO: BSKR is this buflen and not len??
+   frame802154_parse(packetbuf_dataptr(), buflen, &frame); 
    if((frame.fcf.frame_type == MAC_DATA))
    {
       NETSTACK_NETWORK.input();
@@ -143,11 +145,99 @@ channel_check_interval(void)
 {
   return 0;
 }
+
+static int mac_send_assoc_req()
+{
+   int retVal = MAC_TX_ERR;
+   uint8_t payload[10] = {0,0,0,0,0,0,0,0,0,0};
+   frame802154_t params;
+   uint8_t len;
+
+   /* init to zeros */
+   memset(&params, 0, sizeof(params));
+
+   /* Build the FCF. */
+   params.fcf.frame_type = FRAME802154_CMDFRAME;
+   params.fcf.security_enabled = 0;
+   params.fcf.frame_pending = 0;
+   params.fcf.ack_required = 1;//BSKR: Not sure if ACK is implemented
+   params.fcf.panid_compression = 0;
+
+   /* Insert IEEE 802.15.4 (2003) version bit. */
+   params.fcf.frame_version = FRAME802154_IEEE802154_2003;
+
+   /* Increment and set the data sequence number. */
+   params.seq = mac_dsn++;
+
+   /* Complete the addressing fields. */
+   /**
+     \todo For phase 1 the addresses are all long. We'll need a mechanism
+     in the rime attributes to tell the mac to use long or short for phase 2.
+    */
+   params.fcf.src_addr_mode = FRAME802154_LONGADDRMODE;
+   /* Set the source PAN ID to the 0xFFFF as per spec. */
+   params.src_pid = 0xFFFF;
+
+   params.fcf.dest_addr_mode = FRAME802154_LONGADDRMODE;
+   params.dest_pid = mac_dst_pan_id;
+   //    params.dest_addr[0] = 0xFF;
+   // params.dest_addr[1] = 0xFF;
+
+   //rimeaddr_copy((rimeaddr_t *)&params.dest_addr,\
+   packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
+
+
+   /*
+    * Set up the source address using only the long address mode for
+    * phase 1.
+    */
+   rimeaddr_copy((rimeaddr_t *)&params.src_addr, &rimeaddr_node_addr);
+
+   /* Preparing the payload for ASSOC REQ */
+   // Filling the last two bytes, reserving the earlier bytes for hdr
+   payload[8] = MAC_ASSOC_REQ; 
+   // Filling capability Info byte
+   // From Bit 7 to 0:
+   // PAN Coord, FFD, Pwr Src, Rx always on, Res, Sec, 16bit address
+   payload[9] |= 0x0;  
+   params.payload = &payload[8];
+   params.payload_len = 2;
+   len = frame802154_hdrlen(&params);
+   if(len <= 8) {
+      frame802154_create(&params, &payload[8-len], len);
+
+      retVal = NETSTACK_RADIO.send(&payload[8-len], len+2);
+   } else {
+      PRINTF("6MAC-UT: too large header: %u\n", len);
+   }
+   return(retVal);
+}
 /*---------------------------------------------------------------------------*/
 static void
 init(void)
 {
+   int retVal = MAC_TX_ERR;
    mac_mode = MAC_INIT;
+   // TODO: Assign MAC address to the node from config file
+#if RIMEADDR_SIZE == 2
+   rimeaddr_node_addr = { { 1, 2 } };
+#else /*RIMEADDR_SIZE == 2*/
+#if RIMEADDR_SIZE == 8
+   rimeaddr_node_addr = 
+         { { 0x12, 0x23, 0x34, 0x00, 0x00, 0x45, 0x00, 0x01 } };
+#endif /*RIMEADDR_SIZE == 8*/
+#endif /*RIMEADDR_SIZE == 2*/
+
+#ifdef LOWPAN_COORDINATOR
+   /* Do nothing here. Initialize data structures used for ASSOC reply */
+#else
+   /* Scanning is by passed. Coordinator details are configured */
+   /* Send an ASSOC request */
+   do{
+      retVal = mac_send_assoc_req();
+      mac_mode = MAC_ASSOC_REQ_SENT;
+   }while(MAC_TX_OK != retVal)
+#endif
 }
 /*---------------------------------------------------------------------------*/
 const struct mac_driver nullmac_driver = {

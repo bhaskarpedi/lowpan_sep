@@ -56,7 +56,7 @@ LIST(neighbor_addrs);
 LIST(neighbor_attrs);
 /*---------------------------------------------------------------------------*/
 static struct neighbor_addr *
-neighbor_addr_get(const ieeeShortAddr_t *addr)
+neighbor_addr_get(const rimeaddr_t *addr)
 {
   struct neighbor_addr *item;
 
@@ -68,7 +68,7 @@ neighbor_addr_get(const ieeeShortAddr_t *addr)
 
   item = list_head(neighbor_addrs);
   while(item != NULL) {
-    if(ieeeShortAddr_cmp(addr, &item->addr)) {
+    if(rimeaddr_cmp(addr, &item->addr)) {
       return item;
     }
     item = item->next;
@@ -109,13 +109,13 @@ neighbor_attr_register(struct neighbor_attr *def)
 }
 /*---------------------------------------------------------------------------*/
 int
-neighbor_attr_has_neighbor(const ieeeShortAddr_t *addr)
+neighbor_attr_has_neighbor(const rimeaddr_t *addr)
 {
   return neighbor_addr_get(addr) != NULL;
 }
 /*---------------------------------------------------------------------------*/
 int
-neighbor_attr_add_neighbor(const ieeeShortAddr_t *addr)
+neighbor_attr_add_neighbor(const rimeaddr_t *addr)
 {
   struct neighbor_attr *def;
   struct neighbor_addr *item;
@@ -134,7 +134,7 @@ neighbor_attr_add_neighbor(const ieeeShortAddr_t *addr)
   list_push(neighbor_addrs, item);
 
   item->time = 0;
-  ieeeShortAddr_copy(&item->addr, addr);
+  rimeaddr_copy(&item->addr, addr);
 
   /* look up index and set default values */
   ptr = neighbor_addr_mem.mem;
@@ -154,7 +154,7 @@ neighbor_attr_add_neighbor(const ieeeShortAddr_t *addr)
 }
 /*---------------------------------------------------------------------------*/
 int
-neighbor_attr_remove_neighbor(const ieeeShortAddr_t *addr)
+neighbor_attr_remove_neighbor(const rimeaddr_t *addr)
 {
   struct neighbor_addr *item = neighbor_addr_get(addr);
 
@@ -167,7 +167,7 @@ neighbor_attr_remove_neighbor(const ieeeShortAddr_t *addr)
 }
 /*---------------------------------------------------------------------------*/
 void *
-neighbor_attr_get_data(struct neighbor_attr *def, const ieeeShortAddr_t *addr)
+neighbor_attr_get_data(struct neighbor_attr *def, const rimeaddr_t *addr)
 {
   struct neighbor_addr *attr = neighbor_addr_get(addr);
 
@@ -178,7 +178,7 @@ neighbor_attr_get_data(struct neighbor_attr *def, const ieeeShortAddr_t *addr)
 }
 /*---------------------------------------------------------------------------*/
 int
-neighbor_attr_set_data(struct neighbor_attr *def, const ieeeShortAddr_t *addr,
+neighbor_attr_set_data(struct neighbor_attr *def, const rimeaddr_t *addr,
                        void *data)
 {
   struct neighbor_addr *attr = neighbor_addr_get(addr);
@@ -197,7 +197,7 @@ neighbor_attr_set_data(struct neighbor_attr *def, const ieeeShortAddr_t *addr,
 }
 /*---------------------------------------------------------------------------*/
 void
-neighbor_attr_tick(const ieeeShortAddr_t * addr)
+neighbor_attr_tick(const rimeaddr_t * addr)
 {
   struct neighbor_addr *attr = neighbor_addr_get(addr);
 

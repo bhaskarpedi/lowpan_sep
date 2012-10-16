@@ -53,7 +53,7 @@
 #ifndef __PACKETBUF_H__
 #define __PACKETBUF_H__
 
-#include "address802154.h"
+#include "rimeaddr.h"
 //#include "contiki-conf.h"
 //#include "net/rime/rimeaddr.h"
 
@@ -325,7 +325,7 @@ struct packetbuf_attr {
 };
 struct packetbuf_addr {
 /*   uint8_t type; */
-  ieeeShortAddr_t addr;
+  rimeaddr_t addr;
 };
 
 #define PACKETBUF_ATTR_PACKET_TYPE_DATA      0
@@ -388,8 +388,8 @@ extern struct packetbuf_addr packetbuf_addrs[];
 
 static int               packetbuf_set_attr(uint8_t type, const packetbuf_attr_t val);
 static packetbuf_attr_t    packetbuf_attr(uint8_t type);
-static int               packetbuf_set_addr(uint8_t type, const ieeeShortAddr_t *addr);
-static const ieeeShortAddr_t *packetbuf_addr(uint8_t type);
+static int               packetbuf_set_addr(uint8_t type, const rimeaddr_t *addr);
+static const rimeaddr_t *packetbuf_addr(uint8_t type);
 
 static inline int
 packetbuf_set_attr(uint8_t type, const packetbuf_attr_t val)
@@ -405,14 +405,14 @@ packetbuf_attr(uint8_t type)
 }
 
 static inline int
-packetbuf_set_addr(uint8_t type, const ieeeShortAddr_t *addr)
+packetbuf_set_addr(uint8_t type, const rimeaddr_t *addr)
 {
 /*   packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].type = type; */
-  ieeeShortAddr_copy(&packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].addr, addr);
+  rimeaddr_copy(&packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].addr, addr);
   return 1;
 }
 
-static inline const ieeeShortAddr_t *
+static inline const rimeaddr_t *
 packetbuf_addr(uint8_t type)
 {
   return &packetbuf_addrs[type - PACKETBUF_ADDR_FIRST].addr;
@@ -420,8 +420,8 @@ packetbuf_addr(uint8_t type)
 #else /* PACKETBUF_CONF_ATTRS_INLINE */
 int               packetbuf_set_attr(uint8_t type, const packetbuf_attr_t val);
 packetbuf_attr_t packetbuf_attr(uint8_t type);
-int               packetbuf_set_addr(uint8_t type, const ieeeShortAddr_t *addr);
-const ieeeShortAddr_t *packetbuf_addr(uint8_t type);
+int               packetbuf_set_addr(uint8_t type, const rimeaddr_t *addr);
+const rimeaddr_t *packetbuf_addr(uint8_t type);
 #endif /* PACKETBUF_CONF_ATTRS_INLINE */
 
 void              packetbuf_attr_clear(void);
@@ -436,7 +436,7 @@ void              packetbuf_attr_copyfrom(struct packetbuf_attr *attrs,
 
 #define PACKETBUF_ATTR_BIT  1
 #define PACKETBUF_ATTR_BYTE 8
-#define PACKETBUF_ADDRSIZE (sizeof(ieeeShortAddr_t) * PACKETBUF_ATTR_BYTE)
+#define PACKETBUF_ADDRSIZE (sizeof(rimeaddr_t) * PACKETBUF_ATTR_BYTE)
 
 struct packetbuf_attrlist {
   uint8_t type;

@@ -56,7 +56,7 @@ NEIGHBOR_ATTRIBUTE_GLOBAL(unsigned long, attr_timestamp, NULL);
 static neighbor_info_subscriber_t subscriber_callback;
 /*---------------------------------------------------------------------------*/
 static void
-update_metric(const ieeeShortAddr_t *dest, int packet_metric)
+update_metric(const rimeaddr_t *dest, int packet_metric)
 {
   link_metric_t *metricp;
   link_metric_t recorded_metric, new_metric;
@@ -92,7 +92,7 @@ update_metric(const ieeeShortAddr_t *dest, int packet_metric)
 #if DEBUG
 /*---------------------------------------------------------------------------*/
 static void
-add_neighbor(const ieeeShortAddr_t *addr)
+add_neighbor(const rimeaddr_t *addr)
 {
   switch(neighbor_attr_add_neighbor(addr)) {
   case -1:
@@ -111,14 +111,14 @@ add_neighbor(const ieeeShortAddr_t *addr)
 void
 neighbor_info_packet_sent(int status, int numtx)
 {
-  const ieeeShortAddr_t *dest;
+  const rimeaddr_t *dest;
   link_metric_t packet_metric;
 #if UIP_DS6_LL_NUD
   uip_ds6_nbr_t *nbr;
 #endif /* UIP_DS6_LL_NUD */
 
   dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
-  if(ieeeShortAddr_cmp(dest, &ieeeShortAddr_null)) {
+  if(rimeaddr_cmp(dest, &rimeaddr_null)) {
     return;
   }
 
@@ -154,10 +154,10 @@ neighbor_info_packet_sent(int status, int numtx)
 void
 neighbor_info_packet_received(void)
 {
-  const ieeeShortAddr_t *src;
+  const rimeaddr_t *src;
 
   src = packetbuf_addr(PACKETBUF_ADDR_SENDER);
-  if(ieeeShortAddr_cmp(src, &ieeeShortAddr_null)) {
+  if(rimeaddr_cmp(src, &rimeaddr_null)) {
     return;
   }
 
@@ -181,7 +181,7 @@ neighbor_info_subscribe(neighbor_info_subscriber_t s)
 }
 /*---------------------------------------------------------------------------*/
 link_metric_t
-neighbor_info_get_metric(const ieeeShortAddr_t *addr)
+neighbor_info_get_metric(const rimeaddr_t *addr)
 {
   link_metric_t *metricp;
 

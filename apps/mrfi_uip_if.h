@@ -10,4 +10,6 @@
 
 //extern uint8_t mrfi_uip_ind_flag;
 
-extern void mrfi_uip_pkt_convert(void *pPacket);
+extern void mrfi_uip_pkt_convert(void *pPacket, uint16_t pktLen);
+
+extern void mrfi_uip_pkt_proc_done(void);

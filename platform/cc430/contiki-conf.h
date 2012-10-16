@@ -3,7 +3,7 @@
 
 
 
-//#define RIMEADDR_CONF_SIZE              8
+#define RIMEADDR_CONF_SIZE              8
 
 #ifndef NETSTACK_CONF_MAC
 #define NETSTACK_CONF_MAC     nullmac_driver

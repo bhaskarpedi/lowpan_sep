@@ -86,7 +86,7 @@
 
 #if NULLRDC_802154_AUTOACK || NULLRDC_802154_AUTOACK_HW
 struct seqno {
-  ieeeShortAddr_t sender;
+  rimeaddr_t sender;
   uint8_t seqno;
 };
 
@@ -104,7 +104,7 @@ static void
 send_packet(mac_callback_t sent, void *ptr)
 {
   int ret;
-  packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &ieeeShortAddr_node_addr);
+  packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &rimeaddr_node_addr);
 #if NULLRDC_802154_AUTOACK || NULLRDC_802154_AUTOACK_HW
   packetbuf_set_attr(PACKETBUF_ATTR_MAC_ACK, 1);
 #endif /* NULLRDC_802154_AUTOACK || NULLRDC_802154_AUTOACK_HW */
@@ -122,8 +122,8 @@ send_packet(mac_callback_t sent, void *ptr)
 
     NETSTACK_RADIO.prepare(packetbuf_hdrptr(), packetbuf_totlen());
 
-    is_broadcast = ieeeShortAddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-                                &ieeeShortAddr_null);
+    is_broadcast = rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+                                &rimeaddr_null);
 
     if(NETSTACK_RADIO.receiving_packet() ||
        (!is_broadcast && NETSTACK_RADIO.pending_packet())) {
@@ -223,10 +223,10 @@ packet_input(void)
   if(NETSTACK_FRAMER.parse() < 0) {
     PRINTF("nullrdc: failed to parse %u\n", packetbuf_datalen());
 #if NULLRDC_ADDRESS_FILTER
-  } else if(!ieeeShortAddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-                                         &ieeeShortAddr_node_addr) &&
-            !ieeeShortAddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-                          &ieeeShortAddr_null)) {
+  } else if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+                                         &rimeaddr_node_addr) &&
+            !rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+                          &rimeaddr_null)) {
     PRINTF("nullrdc: not for us\n");
 #endif /* NULLRDC_ADDRESS_FILTER */
   } else {
@@ -236,7 +236,7 @@ packet_input(void)
     int i;
     for(i = 0; i < MAX_SEQNOS; ++i) {
       if(packetbuf_attr(PACKETBUF_ATTR_PACKET_ID) == received_seqnos[i].seqno &&
-         ieeeShortAddr_cmp(packetbuf_addr(PACKETBUF_ADDR_SENDER),
+         rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_SENDER),
                       &received_seqnos[i].sender)) {
         /* Drop the packet. */
         PRINTF("nullrdc: drop duplicate link layer packet %u\n",
@@ -249,7 +249,7 @@ packet_input(void)
              sizeof(struct seqno));
     }
     received_seqnos[0].seqno = packetbuf_attr(PACKETBUF_ATTR_PACKET_ID);
-    ieeeShortAddr_copy(&received_seqnos[0].sender,
+    rimeaddr_copy(&received_seqnos[0].sender,
                   packetbuf_addr(PACKETBUF_ADDR_SENDER));
 #endif /* NULLRDC_802154_AUTOACK */
     NETSTACK_MAC.input();

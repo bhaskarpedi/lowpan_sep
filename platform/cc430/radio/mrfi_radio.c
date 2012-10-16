@@ -319,11 +319,12 @@ static uint32_t crcPass = 0;
 static uint32_t noFrame = 0;
 
 /* ------------------------------------------------------------------------------------------------
- *                                       Static Variables
+ *                                       Global Flag Variables
  * ------------------------------------------------------------------------------------------------
  */
 
-static uint8_t mrfiPktReceiveFlag;
+uint8_t mrfiPktReceiveFlag;
+uint8_t mrfi_pkt_tx_pend;
 
 //BSKR: cc430Radio.init
 /**************************************************************************************************
@@ -980,8 +981,10 @@ uint8_t MRFI_Transmit(mrfiPacket_t * pPacket, uint8_t txType)
 
 int MRFI_read(void *pPacket, unsigned short len)
 {
-   *((mrfiPacket_t*)pPacket) = mrfiIncomingPacket;
-   return len;
+   // pPacket is a double pointer typecasted and passed as a single pointer
+   (void*)(*pPacket) = (void *)(((uint8_t*)(&mrfiIncomingPacket))+\
+                                                      MRFI_FRAME_BODY_OFS);
+   return mrfiIncomingPacket.frame[MRFI_LENGTH_FIELD_OFS];
 }
 
 void MRFI_Receive(mrfiPacket_t * pPacket)
