@@ -445,3 +445,25 @@ frame802154_parse(uint8_t *data, uint8_t len, frame802154_t *pf)
   return c > len ? 0 : c;
 }
 /** \}   */
+
+uint8_t frame802154_packBeacon(uint8_t* p, frame802154_beacon_t *st)
+{
+   p[0] = st->superFrSpec & 0x00FF;
+   p[1] = (st->superFrSpec & 0xFF00)>>8;
+   p[2] = (st->gtsInfo.gtsSpec);
+   if(0 != p[2])
+   {
+      /* Here GTS direction, list are added */
+   }
+   p[3] = (st->pendAddrInfo.pendAddrSpec);
+   return(4); /* This should be dynamically calculated based on length*/
+}
+
+uint8_t frame802154_unpackBeacon(uint8_t* p, frame802154_beacon_t *st)
+{
+   st->superFrSpec = p[0];
+   st->superFrSpec |= (p[1]<<8);
+   st->gtsInfo.gtsSpec = p[2];
+   st->pendAddrInfo.pendAddrSpec = p[3];
+   return(4); /* This should be dynamically calculated based on length*/
+}

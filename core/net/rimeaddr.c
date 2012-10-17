@@ -46,6 +46,8 @@
 #include "net/rimeaddr.h"
 
 rimeaddr_t rimeaddr_node_addr;
+rimeaddr_t rimeaddr_panCoord_addr;
+
 #if RIMEADDR_SIZE == 2
 const rimeaddr_t rimeaddr_null = { { 0, 0 } };
 #else /*RIMEADDR_SIZE == 2*/

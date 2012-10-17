@@ -8,6 +8,7 @@
  * The application polls for this flag periodically and processes
  * the received packets */
 #include "stdint.h"
+#include "mrfi.h"
 
 //extern uint8_t mrfi_uip_ind_flag;
 

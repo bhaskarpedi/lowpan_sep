@@ -41,7 +41,7 @@
 #ifndef NETSTACK_H
 #define NETSTACK_H
 
-//#include "contiki-conf.h"
+#include "contiki-conf.h"
 
 #ifndef NETSTACK_NETWORK
 #ifdef NETSTACK_CONF_NETWORK

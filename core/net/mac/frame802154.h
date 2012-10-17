@@ -160,11 +160,27 @@ typedef struct {
   uint8_t payload_len;  /**< Length of payload field */
 } frame802154_t;
 
+typedef struct frame802154_beacon{
+   uint16_t superFrSpec;
+   struct{
+      uint8_t gtsSpec;
+      uint8_t gtsDir;
+      void * gtsList;   // Dummy
+   }gtsInfo;
+   struct{
+      uint8_t pendAddrSpec;
+      void * pendAddrList;  // Dummy
+   }pendAddrInfo;
+   //Beacon payload not considered
+}frame802154_beacon_t;
+
 /* Prototypes */
 
 uint8_t frame802154_hdrlen(frame802154_t *p);
 uint8_t frame802154_create(frame802154_t *p, uint8_t *buf, uint8_t buf_len);
 uint8_t frame802154_parse(uint8_t *data, uint8_t length, frame802154_t *pf);
+uint8_t frame802154_packBeacon(uint8_t* p, frame802154_beacon_t * st);
+uint8_t frame802154_unpackBeacon(uint8_t* p, frame802154_beacon_t *st);
 
 /** @} */
 #endif /* FRAME_802154_H */

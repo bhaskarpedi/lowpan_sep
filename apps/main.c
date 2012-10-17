@@ -11,6 +11,7 @@
 #include "uip.h"
 #include "uip-icmp6.h"
 #include "mrfi_uip_if.h"
+#include "nullmac.h"
 
 #define DELAY_IN_MSECS(x) {\
    int d_cnt;\
@@ -24,6 +25,8 @@
 
 #define PING_DATALEN 16
 #define MAX_PING_CNT 10
+
+extern mac_state_t mac_state;
 
 void uip_ping6(uip_ipaddr_t *dest)
 {
@@ -83,13 +86,20 @@ void main(void)
          mrfi_uip_pkt_proc_done();
       }
 
-      /*
+#ifdef LOWPAN_COORDINATOR
+      /* Do nothing here. Initialize data structures */
+#else
+      if(MAC_CONNECTED != mac_state)
+      {
+         mac_proc_state();
+      }
+#endif
+
       if(1 == mrfi_pkt_tx_pend)
       {
          // The response packet, if any, should be prepared in the RX chain
          tcpip_ipv6_output();
       }
-      */
    }
 #endif
 

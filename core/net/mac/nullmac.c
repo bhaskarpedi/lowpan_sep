@@ -42,112 +42,11 @@
 #include "packetbuf.h"
 #include "netstack.h"
 #include "frame802154.h"
+#include "bsp.h"
 
-typedef enum
-{
-	MAC_INIT = 0,
-	MAC_SCAN,
-   MAC_ASSOC_REQ_SENT,
-   MAC_CONNECTED,
-	MAC_INVALID
-}mac_state_t;
-
-// This structure is kind of also defined in frame802154.h	
-typedef enum
-{
-	MAC_BEACON =		0,
-	MAC_DATA = 			1,
-	MAC_ACK = 			2,
-	MAC_CMD = 			3,
-	MAC_RANGING =		14,
-	MAC_TYPE_NONE =	15
-}mac_frame_type_t;
-
-typedef enum
-{
-   MAC_ASSOC_REQ = 0x01,
-   MAC_ASSOC_RSP = 0x02,
-   MAC_DISASSOC_NOT = 0x03,
-   MAC_DATA_REQ = 0x04,
-   MAC_PANID_CONFLICT = 0x05,
-   MAC_ORPHAN_NOT = 0x06,
-   MAC_BEACON_REQ = 0x07,
-   MAC_COORD_REALIGN = 0x08,
-   MAC_GTS_REQ = 0x09   
-}mac_cmd_frame_t;
-
-static mac_state_t mac_state;
+mac_state_t mac_state;
 extern uint8_t mac_dsn;
 extern uint16_t mac_dst_pan_id;
-
-/*---------------------------------------------------------------------------*/
-static void
-send_packet(mac_callback_t sent, void *ptr)
-{
-  NETSTACK_RDC.send(sent, ptr);
-}
-/*---------------------------------------------------------------------------*/
-static void
-packet_input(void)
-{
-  NETSTACK_NETWORK.input();
-}
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-//#define DISPATCH_BYTE_POS 0
-//#define 802154_CMDFRM_ID_POS 0
-   static void
-lowpan_packet_input(void)
-{
-   uint8_t * rime_ptr = NULL;
-   frame802154_t frame;
-   // TODO: BSKR is this buflen and not len??
-   frame802154_parse(packetbuf_dataptr(), packetbuf_datalen(), &frame);
-   if((frame.fcf.frame_type == MAC_DATA))
-   {
-      NETSTACK_NETWORK.input();
-   }
-   else if (frame.fcf.frame_type == MAC_CMD)
-   {
-      switch(frame.payload[0])
-      {
-         case MAC_ASSOC_REQ:
-            break;
-
-         case MAC_ASSOC_RSP:
-            break;
-
-         case MAC_DATA_REQ:
-            break;
-
-         default:
-            // Other command frames not handled
-      }
-      /* Process Association */
-   }
-   else
-   {
-      /* Other 802.15.4 MAC frames are not handled here */
-   }
-}
-
-static int
-on(void)
-{
-  return NETSTACK_RDC.on();
-}
-/*---------------------------------------------------------------------------*/
-static int
-off(int keep_radio_on)
-{
-  return NETSTACK_RDC.off(keep_radio_on);
-}
-/*---------------------------------------------------------------------------*/
-static unsigned short
-channel_check_interval(void)
-{
-  return 0;
-}
 
 static int mac_send_assoc_req()
 {
@@ -195,6 +94,7 @@ static int mac_send_assoc_req()
     * phase 1.
     */
    rimeaddr_copy((rimeaddr_t *)&params.src_addr, &rimeaddr_node_addr);
+   //rimeaddr_copy((rimeaddr_t *)&params.dest_addr, &rimeaddr_panCoord_addr);
 
    /* Preparing the payload for ASSOC REQ */
    // Filling the last two bytes, reserving the earlier bytes for hdr
@@ -216,6 +116,186 @@ static int mac_send_assoc_req()
    return(retVal);
 }
 
+#ifdef LOWPAN_COORDINATOR
+/* Function to send beacon */
+static void mac_send_beacon()
+{
+   static uint16_t macBSN = 0x00;
+   int retVal = MAC_TX_ERR;
+   uint8_t payload[10] = {0,0,0,0,0,0,0,0,0,0};
+   frame802154_t params;
+   static frame802154_beacon_t beaconData;
+   uint8_t len;
+
+   /* init to zeros */
+   memset(&params, 0, sizeof(params));
+   memset(&beaconData, 0, sizeof(frame802154_beacon_t));
+
+   /* Build the FCF. */
+   params.fcf.frame_type = FRAME802154_BEACONFRAME;
+   params.fcf.security_enabled = 0;
+   params.fcf.frame_pending = 0;
+   params.fcf.ack_required = 0;
+   params.fcf.panid_compression = 0;
+
+   /* Insert IEEE 802.15.4 (2003) version bit. */
+   params.fcf.frame_version = FRAME802154_IEEE802154_2003;
+
+   /* Increment and set the beacon sequence number. */
+   params.seq = macBSN++;
+
+   /* Complete the addressing fields. */
+   /**
+     \todo For phase 1 the addresses are all long. We'll need a mechanism
+     in the rime attributes to tell the mac to use long or short for phase 2.
+    */
+   params.fcf.src_addr_mode = FRAME802154_LONGADDRMODE;
+   /* Set the source PAN ID to the PAN ID as per spec. */
+   params.src_pid = mac_dst_pan_id;
+
+   params.fcf.dest_addr_mode = FRAME802154_NOADDR;
+   params.dest_pid = 0;
+   //    params.dest_addr[0] = 0xFF;
+   // params.dest_addr[1] = 0xFF;
+
+   //rimeaddr_copy((rimeaddr_t *)&params.dest_addr,\
+   packetbuf_addr(PACKETBUF_ADDR_RECEIVER));
+
+
+   /*
+    * Set up the source address using only the long address mode for
+    * phase 1.
+    */
+   rimeaddr_copy((rimeaddr_t *)&params.src_addr, &rimeaddr_node_addr);
+   rimeaddr_copy((rimeaddr_t *)&params.dest_addr, &rimeaddr_null);
+
+   /* Preparing the payload for beacon*/
+   beaconData.superFrSpec |= 0x000F;  /* BO set to 15 */
+   beaconData.superFrSpec |= 0x00F0;  /* SO set to 15 */
+   beaconData.superFrSpec |= 0x0F00;  /* CAP lt:No relevance in beacon less */ 
+   beaconData.superFrSpec |= BV(14);  /* PAN coordinator */
+   beaconData.superFrSpec |= BV(15);  /* Association permitted */
+
+   beaconData.gtsInfo.gtsSpec = 0;    /* If 0, direction and list are absent*/
+
+   beaconData.pendAddrInfo.pendAddrSpec = 0; /* If 0, no list present*/
+
+   len = frame802154_packBeacon((uint8_t*)packetbuf_dataptr(),&beaconData);
+   packetbuf_set_datalen(len);
+   params.payload = packetbuf_dataptr();
+   len = frame802154_hdrlen(&params);
+   frame802154_create(&params, packetbuf_hdrptr(), len);
+   retVal = NETSTACK_RADIO.send(packetbuf_hdrptr(), packetbuf_totlen());
+   return(retVal);
+}
+#else
+/* Function to process received beacon */
+#endif
+
+/*---------------------------------------------------------------------------*/
+void mac_proc_state(void)
+{
+   switch(mac_state)
+   {
+      case MAC_INIT:
+      /* MAC just initialized, delay for a while and 
+       * send a BEACON REQ */
+         mac_state = MAC_SCAN;
+
+      case MAC_SCAN:
+      /* Prepare a beacon request packet and send it */
+         BSP_DELAY_USECS(25);
+         mac_send_beacon_req();
+         break;
+
+      case MAC_ASSOC_REQ_SENT:
+      /* Assoc req was sent, */
+         break;
+
+      case MAC_ASSOC_REP_RCVD:
+      /* Assoc resp recvd, set the state to connected */
+         break;
+
+      case MAC_CONNECTED:
+      /* */
+         break;
+
+      default:
+      /* */
+         ;
+   }
+}
+
+/*---------------------------------------------------------------------------*/
+static void
+send_packet(mac_callback_t sent, void *ptr)
+{
+  NETSTACK_RDC.send(sent, ptr);
+}
+/*---------------------------------------------------------------------------*/
+static void
+packet_input(void)
+{
+  NETSTACK_NETWORK.input();
+}
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+//#define DISPATCH_BYTE_POS 0
+//#define 802154_CMDFRM_ID_POS 0
+   static void
+lowpan_packet_input(void)
+{
+   //uint8_t * rime_ptr = NULL;
+   frame802154_t frame;
+   // TODO: BSKR is this buflen and not len??
+   frame802154_parse(packetbuf_dataptr(), packetbuf_datalen(), &frame);
+   if((frame.fcf.frame_type == MAC_DATA))
+   {
+      NETSTACK_NETWORK.input();
+   }
+   else if (frame.fcf.frame_type == MAC_CMD)
+   {
+      switch(frame.payload[0])
+      {
+         case MAC_ASSOC_REQ:
+            break;
+
+         case MAC_ASSOC_RSP:
+            break;
+
+         case MAC_DATA_REQ:
+            break;
+
+         default:
+        	 ;
+            // Other command frames not handled
+      }
+      /* Process Association */
+   }
+   else
+   {
+      /* Other 802.15.4 MAC frames are not handled here */
+   }
+}
+
+static int
+on(void)
+{
+  return NETSTACK_RDC.on();
+}
+/*---------------------------------------------------------------------------*/
+static int
+off(int keep_radio_on)
+{
+  return NETSTACK_RDC.off(keep_radio_on);
+}
+/*---------------------------------------------------------------------------*/
+static unsigned short
+channel_check_interval(void)
+{
+  return 0;
+}
+
 /*---------------------------------------------------------------------------*/
 static void
 init(void)
@@ -230,16 +310,6 @@ init(void)
    // Assign the node address from above address
    rimeaddr_copy(&rimeaddr_node_addr, &addr_temp);
 
-#ifdef LOWPAN_COORDINATOR
-   /* Do nothing here. Initialize data structures used for ASSOC reply */
-#else
-   /* Scanning is by passed. Coordinator details are configured */
-   /* Send an ASSOC request */
-   do{
-      retVal = mac_send_assoc_req();
-      mac_state = MAC_ASSOC_REQ_SENT;
-   }while(MAC_TX_OK != retVal);
-#endif
 }
 /*---------------------------------------------------------------------------*/
 const struct mac_driver nullmac_driver = {

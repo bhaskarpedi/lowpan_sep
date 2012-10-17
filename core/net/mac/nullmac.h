@@ -43,8 +43,45 @@
 
 #include "mac.h"
 #include "radio.h"
+#include "packetbuf.h"
+
+#define BV(n)      (1 << (n))
+
+typedef enum
+{
+	MAC_INIT = 0,
+	MAC_AWAIT_BEACON,
+   MAC_ASSOC_REQ_SENT,
+   MAC_ASSOC_REP_RCVD,
+   MAC_CONNECTED,
+	MAC_INVALID
+}mac_state_t;
+
+// This structure is kind of also defined in frame802154.h	
+typedef enum
+{
+	MAC_BEACON =		0,
+	MAC_DATA = 			1,
+	MAC_ACK = 			2,
+	MAC_CMD = 			3,
+	MAC_RANGING =		14,
+	MAC_TYPE_NONE =	15
+}mac_frame_type_t;
+
+typedef enum
+{
+   MAC_ASSOC_REQ = 0x01,
+   MAC_ASSOC_RSP = 0x02,
+   MAC_DISASSOC_NOT = 0x03,
+   MAC_DATA_REQ = 0x04,
+   MAC_PANID_CONFLICT = 0x05,
+   MAC_ORPHAN_NOT = 0x06,
+   MAC_BEACON_REQ = 0x07,
+   MAC_COORD_REALIGN = 0x08,
+   MAC_GTS_REQ = 0x09   
+}mac_cmd_frame_t;
 
 extern const struct mac_driver nullmac_driver;
-
+extern void mac_proc_state(void);
 
 #endif /* __NULLMAC_H__ */
