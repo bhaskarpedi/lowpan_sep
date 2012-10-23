@@ -12,10 +12,11 @@
 #include "uip-icmp6.h"
 #include "mrfi_uip_if.h"
 #include "nullmac.h"
+#include "string.h"
 
 #define DELAY_IN_MSECS(x) {\
    int d_cnt;\
-   for(d_cnt=0;d_cnt=1000;d_cnt++)\
+   for(d_cnt=0;d_cnt<1000;d_cnt++)\
    {\
       BSP_DELAY_USECS(x);\
    }\
@@ -46,7 +47,6 @@ void uip_ping6(uip_ipaddr_t *dest)
 
 void main(void) 
 {
-   int i;
    BSP_Init();
    netstack_init();
    void **pPacket = NULL;
@@ -89,16 +89,12 @@ void main(void)
 #ifdef LOWPAN_COORDINATOR
       /* Do nothing here. Initialize data structures */
 #else
-      if(MAC_CONNECTED != mac_state)
-      {
-         mac_proc_state();
-      }
 #endif
 
       if(1 == mrfi_pkt_tx_pend)
       {
          // The response packet, if any, should be prepared in the RX chain
-         tcpip_ipv6_output();
+         //tcpip_ipv6_output();
       }
    }
 #endif
@@ -109,14 +105,4 @@ void main(void)
    /* TODO: UDP Receive comes here and packet processing happens from here */
 #endif
 
-   while(1)
-   {
-      BSP_TURN_OFF_LED1();
-      if(BSP_BUTTON1()||BSP_BUTTON2())
-      {
-         BSP_TURN_ON_LED1();
-         for(i=0;i<1000;i++)
-            BSP_DELAY_USECS(1000);
-      }
-   }
 }

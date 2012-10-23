@@ -50,11 +50,9 @@
 typedef enum
 {
 	MAC_INIT = 0,
-	MAC_AWAIT_BEACON,
+	MAC_BEACON_RCVD,
    MAC_ASSOC_REQ_SENT,
-   MAC_ASSOC_REP_RCVD,
    MAC_CONNECTED,
-	MAC_INVALID
 }mac_state_t;
 
 // This structure is kind of also defined in frame802154.h	
@@ -82,6 +80,5 @@ typedef enum
 }mac_cmd_frame_t;
 
 extern const struct mac_driver nullmac_driver;
-extern void mac_proc_state(void);
 
 #endif /* __NULLMAC_H__ */

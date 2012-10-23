@@ -116,6 +116,15 @@ void rimeaddr_set_node_addr(rimeaddr_t *addr);
 extern rimeaddr_t rimeaddr_node_addr;
 
 /**
+ * \brief      The Rime address of the PAN coordinator 
+ *
+ *             This variable contains the Rime address of the
+ *             coordinator. 
+ *
+ */
+extern rimeaddr_t rimeaddr_panCoord_addr;
+
+/**
  * \brief      The null Rime address
  *
  *             This variable contains the null Rime address. The null
