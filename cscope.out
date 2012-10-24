@@ -1,4 +1,4 @@
-cscope 15 /media/sf_lowpan_sep               0000453883
+cscope 15 /media/sf_lowpan_sep               0000572232
 	@apps/lowpan.h
 
 1 
@@ -55,7 +55,11 @@ cscope 15 /media/sf_lowpan_sep               0000453883
 	~"nuŒmac.h
 "
 
-16 
+15 
+	~"°rög.h
+"
+
+17 
 	#DELAY_IN_MSECS
 (
 x
@@ -63,21 +67,21 @@ x
 
 	)
 
-17 
+18 
 	gd_˙t
 ;\
 
-18 
+19 
 	gd_˙t
-=0;d_cnt=1000;d_cnt++)\
+=0;d_cnt<1000;d_cnt++)\
 
-20 
+21 
 BSP_DELAY_USECS
 (
 x
 );\
 
-24 
+25 
 	#UIP_ICMP_BUF
  ((
 uù_icmp_hdr
@@ -89,25 +93,25 @@ uù_l2_l3_hdr_Àn
 
 	)
 
-26 
+27 
 	#PING_DATALEN
  16
 
 	)
 
-27 
+28 
 	#MAX_PING_CNT
  10
 
 	)
 
-29 
+30 
 mac_°©e_t
  
 mac_°©e
 ;
 
-31 
+32 
 	$uù_pög6
 (
 uù_ùaddr_t
@@ -115,13 +119,13 @@ uù_ùaddr_t
 de°
 )
 
-33 
+34 
 uöt16_t
  
 pögByã
  = 0;
 
-36 
+37 
 	`mem£t
 ((
 uöt8_t
@@ -131,7 +135,7 @@ UIP_ICMP_BUF
 UIP_ICMPH_LEN
 , 0, 4);
 
-38 
+39 
 	`mem£t
 ((
 uöt8_t
@@ -143,13 +147,13 @@ UIP_ICMPH_LEN
 UIP_ICMP6_ECHO_REQUEST_LEN
 ,
 
-39 
+40 
 pögByã
 ++, 
 PING_DATALEN
 );
 
-40 
+41 
 	`uù_icmp6_£nd
 (&
 de°
@@ -157,29 +161,25 @@ de°
 ICMP6_ECHO_REQUEST
 , 0,\
 
-41 
+42 
 UIP_ICMP6_ECHO_REQUEST_LEN
  + 
 PING_DATALEN
 );
 
-44 if(
+45 if(
 pögByã
  >
 MAX_PING_CNT
 )ÖingByte = 0;
 
-45 
+46 
 	}
 }
 
-47 
+48 
 	$maö
 ()
-
-49 
-i
-;
 
 50 
 	`BSP_Inô
@@ -205,73 +205,71 @@ pktLí
 uù_ùaddr_t
  
 de°
- = {0xFE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,\
+ = {0XFE, 0X80, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,\
 
 56 #i‡((1 =
 MODE_PING_TEST
-Ë&& ((1 =
+Ë|| (1 =
 MODE_TX
-)||(1 == MODE_TX)))
-
-57 #îr‹ 
-PING
- 
-™d
- 
-UDP
- 
-ˇ¬Ÿ
- 
-be
- 
-íabÀd
- 
-simu…™eou¶y
-
+Ë|| (1 =
+MODE_RX
+))
 
 59 #i‡(1 =
 MODE_PING_TEST
 )
 
-66 
+64 
 	`BSP_TURN_ON_LED1
 ();
 
-68 if(
+66 if(
 	`BSP_BUTTON1
 ())
 
-70 
+68 
 pögC¡
 ;
 
-71 
+69 
 pögC¡
 =0;ÖögC¡<
 MAX_PING_CNT
 ;ÖingCnt++)
 
-73 
+71 
 	`uù_pög6
 (&
 de°
 );
 
-74 
+72 
 	`DELAY_IN_MSECS
 (1000);
 
-79 
+77 
 	`BSP_TURN_OFF_LED1
 ();
 
-81 if(1 =
+80 #ifde‡
+LOWPAN_COORDINATOR
+
+
+86 #i‡(1 =
+MODE_TX
+)
+
+88 #ñi‡(1 =
+MODE_RX
+)
+
+93 if(1 =
 NETSTACK_RADIO
 .
 	`≥ndög_∑ckë
 ())
 
-83 
+95 
 pktLí
  = 
 NETSTACK_RADIO
@@ -281,7 +279,7 @@ NETSTACK_RADIO
 pPackë
 ,ÖktLen);
 
-84 
+96 
 	`mrfi_uù_pkt_c⁄vît
 (*
 pPackë
@@ -289,59 +287,65 @@ pPackë
 pktLí
 );
 
-85 
+97 
 NETSTACK_RDC
 .
 	`öput
 ();
 
-86 
+98 
 	`mrfi_uù_pkt_¥oc_d⁄e
 ();
 
-89 #ifde‡
-LOWPAN_COORDINATOR
-
-
-94 if(1 =
+102 if(1 =
 mrfi_pkt_tx_≥nd
 )
 
-97 
-	`t˝ù_ùv6_ouçut
-();
+104 
+b•ISèã_t
+ 
+x
+;
 
-102 #i‡(1 =
-MODE_TX
+105 
+	`BSP_ENTER_CRITICAL_SECTION
+(
+x
+);
+
+108 
+	`BSP_EXIT_CRITICAL_SECTION
+(
+x
+);
+
+111 if(1 =
+mac_bóc⁄_Êag
 )
-
-104 #ñi‡(1 =
-MODE_RX
-)
-
-110 
-	`BSP_TURN_OFF_LED1
-();
-
-111 if(
-	`BSP_BUTTON1
-()||
-	`BSP_BUTTON2
-())
 
 113 
-	`BSP_TURN_ON_LED1
-();
+b•ISèã_t
+ 
+x
+;
 
-114 
-i
-=0;i<1000;i++)
+114 
+	`BSP_ENTER_CRITICAL_SECTION
+(
+x
+);
 
-115 
-	`BSP_DELAY_USECS
-(1000);
+116 
+mac_bóc⁄_Êag
+ = 0;
 
-118 
+117 
+	`BSP_EXIT_CRITICAL_SECTION
+(
+x
+);
+
+123 
 	}
 }
 
@@ -5329,7 +5333,13 @@ uöt16_t
 mac_d°_∑n_id
 ;
 
-52 
+51 
+uöt8_t
+ 
+	gmac_bóc⁄_Êag
+;
+
+54 
 £nd_∑ckë
 (
 mac_ˇŒback_t
@@ -5339,51 +5349,63 @@ mac_ˇŒback_t
 ±r
 );
 
-54 #ifde‡
+55 
+mac_°¨t_timî
+(
+uöt16_t
+ 
+bóc⁄_öãrvÆ_m£c
+);
+
+56 
+mac_°›_timî
+();
+
+57 #ifde‡
 LOWPAN_COORDINATOR
 
 
-56 
+59 
 	$mac_£nd_bóc⁄
 ()
 
-58 
+61 
 uöt16_t
  
 macBSN
  = 0x00;
 
-59 
+62 
 uöt8_t
  
 ∑ylﬂd
 [10] = {0,0,0,0,0,0,0,0,0,0};
 
-60 
+63 
 ‰ame802154_t
  
 ∑øms
 ;
 
-61 
+64 
 ‰ame802154_bóc⁄_t
  
 bóc⁄D©a
 ;
 
-62 
+65 
 uöt8_t
  
 Àn
 ;
 
-65 
+68 
 	`mem£t
 (&
 ∑øms
 , 0, (params));
 
-66 
+69 
 	`mem£t
 (&
 bóc⁄D©a
@@ -5391,7 +5413,7 @@ bóc⁄D©a
 ‰ame802154_bóc⁄_t
 ));
 
-69 
+72 
 ∑øms
 .
 fcf
@@ -5401,7 +5423,7 @@ fcf
 FRAME802154_BEACONFRAME
 ;
 
-70 
+73 
 ∑øms
 .
 fcf
@@ -5409,7 +5431,7 @@ fcf
 £curôy_íabÀd
  = 0;
 
-71 
+74 
 ∑øms
 .
 fcf
@@ -5417,7 +5439,7 @@ fcf
 ‰ame_≥ndög
  = 0;
 
-72 
+75 
 ∑øms
 .
 fcf
@@ -5425,7 +5447,7 @@ fcf
 ack_ªquúed
  = 0;
 
-73 
+76 
 ∑øms
 .
 fcf
@@ -5433,7 +5455,7 @@ fcf
 ∑nid_com¥essi⁄
  = 0;
 
-76 
+79 
 ∑øms
 .
 fcf
@@ -5443,7 +5465,7 @@ fcf
 FRAME802154_IEEE802154_2003
 ;
 
-79 
+82 
 ∑øms
 .
 £q
@@ -5451,7 +5473,7 @@ FRAME802154_IEEE802154_2003
 macBSN
 ++;
 
-86 
+89 
 ∑øms
 .
 fcf
@@ -5461,7 +5483,7 @@ fcf
 FRAME802154_LONGADDRMODE
 ;
 
-88 
+91 
 ∑øms
 .
 §c_pid
@@ -5469,7 +5491,7 @@ FRAME802154_LONGADDRMODE
 mac_d°_∑n_id
 ;
 
-90 
+93 
 ∑øms
 .
 fcf
@@ -5479,19 +5501,19 @@ de°_addr_mode
 FRAME802154_NOADDR
 ;
 
-91 
+94 
 ∑øms
 .
 de°_pid
  = 0;
 
-96 
+99 
 	`∑ckëbuf_addr
 (
 PACKETBUF_ADDR_RECEIVER
 ));
 
-103 
+106 
 	`rimóddr_c›y
 ((
 rimóddr_t
@@ -5503,7 +5525,7 @@ rimóddr_t
 rimóddr_node_addr
 );
 
-104 
+107 
 	`rimóddr_c›y
 ((
 rimóddr_t
@@ -5515,25 +5537,25 @@ de°_addr
 rimóddr_nuŒ
 );
 
-107 
+110 
 bóc⁄D©a
 .
 su≥rFrS≥c
  |= 0x000F;
 
-108 
+111 
 bóc⁄D©a
 .
 su≥rFrS≥c
  |= 0x00F0;
 
-109 
+112 
 bóc⁄D©a
 .
 su≥rFrS≥c
  |= 0x0F00;
 
-110 
+113 
 bóc⁄D©a
 .
 su≥rFrS≥c
@@ -5541,7 +5563,7 @@ su≥rFrS≥c
 	`BV
 (14);
 
-111 
+114 
 bóc⁄D©a
 .
 su≥rFrS≥c
@@ -5549,7 +5571,7 @@ su≥rFrS≥c
 	`BV
 (15);
 
-113 
+116 
 bóc⁄D©a
 .
 gtsInfo
@@ -5557,7 +5579,7 @@ gtsInfo
 gtsS≥c
  = 0;
 
-115 
+118 
 bóc⁄D©a
 .
 ≥ndAddrInfo
@@ -5565,7 +5587,11 @@ bóc⁄D©a
 ≥ndAddrS≥c
  = 0;
 
-117 
+120 
+	`∑ckëbuf_˛ór
+();
+
+121 
 Àn
  = 
 	`‰ame802154_∑ckBóc⁄
@@ -5577,13 +5603,13 @@ uöt8_t
 bóc⁄D©a
 );
 
-118 
+122 
 	`∑ckëbuf_£t_d©Æí
 (
 Àn
 );
 
-119 
+123 
 ∑øms
 .
 ∑ylﬂd
@@ -5591,7 +5617,7 @@ bóc⁄D©a
 	`∑ckëbuf_d©≠å
 ();
 
-120 
+124 
 Àn
  = 
 	`‰ame802154_hdæí
@@ -5599,7 +5625,7 @@ bóc⁄D©a
 ∑øms
 );
 
-121 
+125 
 	`‰ame802154_¸óã
 (&
 ∑øms
@@ -5609,7 +5635,7 @@ bóc⁄D©a
 Àn
 );
 
-122 
+126 
 NETSTACK_RADIO
 .
 	`£nd
@@ -5619,19 +5645,97 @@ NETSTACK_RADIO
 	`∑ckëbuf_tŸÀn
 ());
 
-124 
-	}
-}
-
-126 
-	$mac_£nd_assoc_r•
-()
-
 128 
 	}
 }
 
-133 
+131 
+	$mac_¥oc_assoc_ªq
+(
+‰ame802154_t
+ *
+‰ame
+)
+
+134 if(
+‰ame
+->
+∑ylﬂd
+[1] == 0x00)
+
+143 
+	}
+}
+
+146 
+	$mac_£nd_assoc_r•
+(
+rimóddr_t
+ * 
+nodeAddr
+)
+
+148 
+uöt8_t
+ * 
+rime_±r
+;
+
+149 
+uöt8_t
+ 
+assoc_r•_pkt
+[4];
+
+154 
+assoc_r•_pkt
+[0] = 
+MAC_ASSOC_RSP
+;
+
+158 
+assoc_r•_pkt
+[1] = 0xFF;
+
+159 
+assoc_r•_pkt
+[2] = 0xFE;
+
+162 
+assoc_r•_pkt
+[3] = 0x00;
+
+165 
+	`∑ckëbuf_c›y‰om
+((c⁄° *)&
+assoc_r•_pkt
+[0], 4);
+
+168 
+	`∑ckëbuf_£t_©å
+(
+PACKETBUF_ATTR_RELIABLE
+,1);
+
+169 
+	`∑ckëbuf_£t_addr
+(
+PACKETBUF_ADDR_RECEIVER
+, 
+nodeAddr
+);
+
+173 
+	`£nd_∑ckë
+((
+mac_ˇŒback_t
+)0,(*)0);
+
+174 
+	}
+}
+
+179 
 	$mac_¥oc_bóc⁄
 (
 ‰ame802154_t
@@ -5639,7 +5743,7 @@ NETSTACK_RADIO
 ‰ame
 )
 
-136 
+182 
 	`rimóddr_c›y
 (&
 rimóddr_∑nCo‹d_addr
@@ -5649,49 +5753,49 @@ rimóddr_∑nCo‹d_addr
 §c_addr
 );
 
-137 
+183 
 	}
 }
 
-140 
+186 
 	$mac_£nd_assoc_ªq
 ()
 
-142 
+188 
 uöt8_t
  * 
 rime_±r
 ;
 
-143 
+189 
 uöt8_t
  
 assoc_ªq_pkt
 [2];
 
-148 
+194 
 assoc_ªq_pkt
 [0] = 
 MAC_ASSOC_REQ
 ;
 
-149 
+195 
 assoc_ªq_pkt
 [1] = 0x00;
 
-152 
+198 
 	`∑ckëbuf_c›y‰om
 ((c⁄° *)&
 assoc_ªq_pkt
 [0], 2);
 
-155 
+201 
 	`∑ckëbuf_£t_©å
 (
 PACKETBUF_ATTR_RELIABLE
 ,1);
 
-156 
+202 
 	`∑ckëbuf_£t_addr
 (
 PACKETBUF_ADDR_RECEIVER
@@ -5699,17 +5803,17 @@ PACKETBUF_ADDR_RECEIVER
 rimóddr_∑nCo‹d_addr
 );
 
-160 
+206 
 	`£nd_∑ckë
 ((
 mac_ˇŒback_t
 )0,(*)0);
 
-161 
+207 
 	}
 }
 
-171 
+217 
 	$mac_¥oc_assoc_r•
 (
 ‰ame802154_t
@@ -5717,97 +5821,29 @@ mac_ˇŒback_t
 ‰ame
 )
 
-174 if(
+220 if(
 ‰ame
 ->
 ∑ylﬂd
 [3] == 0x00)
 
-183 
+229 
 	}
 }
 
-187 #ifde‡
+233 #ifde‡
 LOWPAN_COORDINATOR
 
 
-193 
-	#MAX_HEAL_CNT
- 5
-
-	)
-
-197 
-	$mac_¥oc_°©e
+236 
+	$mac_¥oc_pkt
 (
 ‰ame802154_t
  *
 ‰ame
 )
 
-199 
-uöt8_t
- 
-hólC¡
- = 0;
-
-200 
-hólC¡
- ++;
-
-201 
-mac_°©e
-)
-
-203 
-MAC_INIT
-:
-
-205 
-hólC¡
- = 0;
-
-206 if(
-‰ame
-->
-fcf
-.
-‰ame_ty≥
- =
-MAC_BEACON
-)
-
-208 
-	`mac_¥oc_bóc⁄
-(
-‰ame
-);
-
-209 
-mac_°©e
- = 
-MAC_BEACON_RCVD
-;
-
-217 
-MAC_BEACON_RCVD
-:
-
-219 
-	`mac_£nd_assoc_ªq
-();
-
-220 
-mac_°©e
- = 
-MAC_ASSOC_REQ_SENT
-;
-
-223 
-MAC_ASSOC_REQ_SENT
-:
-
-225 if((
+238 if((
 ‰ame
 ->
 fcf
@@ -5817,59 +5853,41 @@ fcf
 MAC_CMD
 ) &&
 
-226 (
+239 (
 ‰ame
 ->
 ∑ylﬂd
 [0] =
-MAC_ASSOC_RSP
+MAC_ASSOC_REQ
 ))
 
-228 
-ªt
+241 
+b•ISèã_t
+ 
+x
 ;
 
-229 
-ªt
- = 
-	`mac_¥oc_assoc_r•
+242 
+	`BSP_ENTER_CRITICAL_SECTION
 (
-‰ame
+x
 );
 
-230 if(0 =
-ªt
-)
-
-232 
-mac_°©e
- = 
-MAC_CONNECTED
-;
-
-238 
-mac_°©e
- = 
-MAC_INIT
-;
-
-241 if(
-hólC¡
- > 
-MAX_HEAL_CNT
-)
-
 243 
-mac_°©e
- = 
-MAC_INIT
-;
+	`mac_£nd_assoc_r•
+(&
+‰ame
+->
+de°_addr
+);
 
-247 
-MAC_CONNECTED
-:
+244 
+	`BSP_EXIT_CRITICAL_SECTION
+(
+x
+);
 
-250 if(
+246 if(
 ‰ame
 ->
 fcf
@@ -5879,17 +5897,169 @@ fcf
 MAC_DATA
 )
 
-252 
+250 
+	}
+}
+
+254 
+	#MAX_HEAL_CNT
+ 5
+
+	)
+
+258 
+	$mac_¥oc_°©e
+(
+‰ame802154_t
+ *
+‰ame
+)
+
+260 
+uöt8_t
+ 
+hólC¡
+ = 0;
+
+261 
+hólC¡
+ ++;
+
+262 
+mac_°©e
+)
+
+264 
+MAC_INIT
+:
+
+266 
+hólC¡
+ = 0;
+
+267 if(
+‰ame
+->
+fcf
+.
+‰ame_ty≥
+ =
+MAC_BEACON
+)
+
+269 
+	`mac_¥oc_bóc⁄
+(
+‰ame
+);
+
+270 
+mac_°©e
+ = 
+MAC_BEACON_RCVD
+;
+
+278 
+MAC_BEACON_RCVD
+:
+
+280 
+	`mac_£nd_assoc_ªq
+();
+
+281 
+mac_°©e
+ = 
+MAC_ASSOC_REQ_SENT
+;
+
+284 
+MAC_ASSOC_REQ_SENT
+:
+
+286 if((
+‰ame
+->
+fcf
+.
+‰ame_ty≥
+ =
+MAC_CMD
+) &&
+
+287 (
+‰ame
+->
+∑ylﬂd
+[0] =
+MAC_ASSOC_RSP
+))
+
+289 
+ªt
+;
+
+290 
+ªt
+ = 
+	`mac_¥oc_assoc_r•
+(
+‰ame
+);
+
+291 if(0 =
+ªt
+)
+
+293 
+mac_°©e
+ = 
+MAC_CONNECTED
+;
+
+299 
+mac_°©e
+ = 
+MAC_INIT
+;
+
+302 if(
+hólC¡
+ > 
+MAX_HEAL_CNT
+)
+
+304 
+mac_°©e
+ = 
+MAC_INIT
+;
+
+308 
+MAC_CONNECTED
+:
+
+311 if(
+‰ame
+->
+fcf
+.
+‰ame_ty≥
+ =
+MAC_DATA
+)
+
+313 
 NETSTACK_NETWORK
 .
 	`öput
 ();
 
-260 
+321 
 	}
 }
 
-266 
+327 
 	$£nd_∑ckë
 (
 mac_ˇŒback_t
@@ -5899,7 +6069,7 @@ mac_ˇŒback_t
 ±r
 )
 
-268 
+329 
 NETSTACK_RDC
 .
 	`£nd
@@ -5909,35 +6079,35 @@ NETSTACK_RDC
 ±r
 );
 
-269 
+330 
 	}
 }
 
-272 
+333 
 	$∑ckë_öput
 ()
 
-274 
+335 
 NETSTACK_NETWORK
 .
 	`öput
 ();
 
-275 
+336 
 	}
 }
 
-281 
+342 
 	$low∑n_∑ckë_öput
 ()
 
-284 
+345 
 ‰ame802154_t
  
 ‰ame
 ;
 
-286 
+347 
 	`‰ame802154_∑r£
 (
 	`∑ckëbuf_d©≠å
@@ -5947,37 +6117,47 @@ NETSTACK_NETWORK
 ‰ame
 );
 
-287 
+348 #ifde‡
+LOWPAN_COORDINATOR
+
+
+349 
+	`mac_¥oc_pkt
+(&
+‰ame
+);
+
+351 
 	`mac_¥oc_°©e
 (&
 ‰ame
 );
 
-288 
+353 
 	}
 }
 
-291 
+356 
 	$⁄
 ()
 
-293  
+358  
 NETSTACK_RDC
 .
 	`⁄
 ();
 
-294 
+359 
 	}
 }
 
-297 
+362 
 	$off
 (
 kìp_ødio_⁄
 )
 
-299  
+364  
 NETSTACK_RDC
 .
 	`off
@@ -5985,55 +6165,63 @@ NETSTACK_RDC
 kìp_ødio_⁄
 );
 
-300 
+365 
 	}
 }
 
-303 
+368 
 	$ch™√l_check_öãrvÆ
 ()
 
-306 
+371 
 	}
 }
 
-310 
+375 
 	$öô
 ()
 
-312 
+377 
 ªtVÆ
  = 
 MAC_TX_ERR
 ;
 
-313 
+378 
 mac_°©e
  = 
 MAC_INIT
 ;
 
-314 #i‡
+379 #ifde‡
+LOWPAN_COORDINATOR
+
+
+382 
+	`mac_°¨t_timî
+(10);
+
+385 #i‡
 RIMEADDR_SIZE
  == 2
 
-315 
+386 
 rimóddr_t
  
 addr_ãmp
  = { { 1, 2 } };
 
-316 #ñi‡(
+387 #ñi‡(
 RIMEADDR_SIZE
  == 8)
 
-317 
+388 
 rimóddr_t
  
 addr_ãmp
  = { { 0x12, 0x23, 0x34, 0x00, 0x00, 0x45, 0x00, 0x01 } };
 
-320 
+391 
 	`rimóddr_c›y
 (&
 rimóddr_node_addr
@@ -6041,89 +6229,197 @@ rimóddr_node_addr
 addr_ãmp
 );
 
-322 
+393 
 	}
 }
 
-324 c⁄° 
+395 c⁄° 
 mac_drivî
  
-	gnuŒmac_drivî
+nuŒmac_drivî
  = {
 
-326 
+397 
 öô
 ,
 
-327 
+398 
 £nd_∑ckë
 ,
 
-328 
+399 
 ∑ckë_öput
 ,
 
-329 
+400 
 ⁄
 ,
 
-330 
+401 
 off
 ,
 
-331 
+402 
 ch™√l_check_öãrvÆ
 ,
 
-334 c⁄° 
+405 c⁄° 
 mac_drivî
  
 	gnuŒmac_802154_drivî
  = {
 
-336 
+407 
 öô
 ,
 
-337 
+408 
 £nd_∑ckë
 ,
 
-338 
+409 
 low∑n_∑ckë_öput
 ,
 
-339 
+410 
 ⁄
 ,
 
-340 
+411 
 off
 ,
 
-341 
+412 
 ch™√l_check_öãrvÆ
 ,
 
-345 
+415 #ifde‡
+LOWPAN_COORDINATOR
+
+
+418 
+	$mac_°›_timî
+()
+
+421 
+TA1CTL
+ |
+MC_0
+;
+
+422 
+	}
+}
+
+425 
+	$mac_°¨t_timî
+(
+uöt16_t
+ 
+bóc⁄_öãrvÆ_m£c
+)
+
+428 
+TA1CTL
+ |
+ID_3
+;
+
+430 
+TA1EX0
+ |= 0x7;
+
+433 
+TA1CTL
+ |
+TACLR
+;
+
+435 
+TA1R
+ = 0;
+
+438 
+TA1CCTL0
+ |
+CM1
+;
+
+439 
+TA1CCTL0
+ |
+CAP
+;
+
+440 
+TA1CCTL0
+ |
+CCIE
+;
+
+447 
+TA1CTL
+ |
+MC_2
+;
+
+449 
+TA1CTL
+ |
+TAIE
+;
+
+450 
+	}
+}
+
+462 
+	$BSP_ISR_FUNCTION
+(
+mac_timî_ISR
+, 
+TIMER0_A1_VECTOR
+)
+
+465 if(
+TA1IV
+ =
+TA1IV_TA1IFG
+)
+
+467 
+	`mac_£nd_bóc⁄
+();
+
+470 
+TA1IV
+ &~
+TA1IV_TA1IFG
+;
+
+471 
+	}
+}
+
+477 
 ‰ame802154_t
  
 	g∑øms
 ;
 
-346 
+478 
 uöt8_t
  
 	gÀn
 ;
 
-349 
+481 
 mem£t
 (&
 ∑øms
 , 0, (params));
 
-352 
+484 
 	g∑øms
 .
 	gfcf
@@ -6133,7 +6429,7 @@ mem£t
 FRAME802154_CMDFRAME
 ;
 
-353 
+485 
 	g∑øms
 .
 	gfcf
@@ -6141,7 +6437,7 @@ FRAME802154_CMDFRAME
 	g£curôy_íabÀd
  = 0;
 
-354 
+486 
 	g∑øms
 .
 	gfcf
@@ -6149,7 +6445,7 @@ FRAME802154_CMDFRAME
 	g‰ame_≥ndög
  = 0;
 
-355 
+487 
 	g∑øms
 .
 	gfcf
@@ -6157,7 +6453,7 @@ FRAME802154_CMDFRAME
 	gack_ªquúed
  = 1;
 
-356 
+488 
 	g∑øms
 .
 	gfcf
@@ -6165,7 +6461,7 @@ FRAME802154_CMDFRAME
 	g∑nid_com¥essi⁄
  = 0;
 
-359 
+491 
 	g∑øms
 .
 	gfcf
@@ -6175,7 +6471,7 @@ FRAME802154_CMDFRAME
 FRAME802154_IEEE802154_2003
 ;
 
-362 
+494 
 	g∑øms
 .
 	g£q
@@ -6183,7 +6479,7 @@ FRAME802154_IEEE802154_2003
 mac_d¢
 ++;
 
-369 
+501 
 	g∑øms
 .
 	gfcf
@@ -6193,7 +6489,7 @@ mac_d¢
 FRAME802154_LONGADDRMODE
 ;
 
-371 
+503 
 	g∑øms
 .
 	g§c_pid
@@ -6201,7 +6497,7 @@ FRAME802154_LONGADDRMODE
 mac_§c_∑n_id
 ;
 
-373 
+505 
 	g∑øms
 .
 	gfcf
@@ -6211,7 +6507,7 @@ mac_§c_∑n_id
 FRAME802154_LONGADDRMODE
 ;
 
-374 
+506 
 	g∑øms
 .
 	gde°_pid
@@ -6219,7 +6515,7 @@ FRAME802154_LONGADDRMODE
 mac_d°_∑n_id
 ;
 
-380 
+512 
 rimóddr_c›y
 ((
 rimóddr_t
@@ -6231,7 +6527,7 @@ rimóddr_t
 rimóddr_node_addr
 );
 
-381 
+513 
 rimóddr_c›y
 ((
 rimóddr_t
@@ -6243,17 +6539,17 @@ de°_addr
 rimóddr_∑nCo‹d_addr
 );
 
-385 
+517 
 	g∑ylﬂd
 [8] = 
 MAC_ASSOC_REQ
 ;
 
-389 
+521 
 	g∑ylﬂd
 [9] |= 0x0;
 
-390 
+522 
 	g∑øms
 .
 	g∑ylﬂd
@@ -6261,13 +6557,13 @@ MAC_ASSOC_REQ
 ∑ylﬂd
 [8];
 
-391 
+523 
 	g∑øms
 .
 	g∑ylﬂd_Àn
  = 2;
 
-392 
+524 
 	gÀn
  = 
 ‰ame802154_hdæí
@@ -6275,11 +6571,11 @@ MAC_ASSOC_REQ
 ∑øms
 );
 
-393 if(
+525 if(
 	gÀn
  <= 8) {
 
-394 
+526 
 ‰ame802154_¸óã
 (&
 ∑øms
@@ -6289,7 +6585,7 @@ MAC_ASSOC_REQ
 Àn
 ],Üen);
 
-396 
+528 
 	gNETSTACK_RADIO
 .
 £nd
@@ -6345,7 +6641,7 @@ n
 
 55 
 	mMAC_CONNECTED
-,
+
 
 56 }
 	tmac_°©e_t
@@ -6424,6 +6720,20 @@ mac_drivî
  
 nuŒmac_drivî
 ;
+
+83 
+uöt8_t
+ 
+mac_bóc⁄_Êag
+;
+
+85 #ifde‡
+LOWPAN_COORDINATOR
+
+
+86 
+mac_£nd_bóc⁄
+();
 
 	@core/net/mac/nullrdc.c
 
@@ -13940,7 +14250,7 @@ rimóddr_node_addr
 125 
 rimóddr_t
  
-rimóddr_node_addr
+rimóddr_∑nCo‹d_addr
 ;
 
 138 c⁄° 
@@ -45870,20 +46180,36 @@ TACLR
 ;
 
 242 
+TA1CTL
+ |
+TACLR
+;
+
+245 
 TA0CTL
  = 0x0;
 
-245 
+246 
+TA1CTL
+ = 0x0;
+
+249 
 TA0CTL
  |
 TASSEL_2
 ;
 
-246 
+250 
+TA1CTL
+ |
+TASSEL_2
+;
+
+251 
 	}
 }
 
-258 
+263 
 	$BSP_Dñay
 (
 uöt16_t
@@ -45891,7 +46217,7 @@ uöt16_t
 u£c
 )
 
-260 
+265 
 	`BSP_ASSERT
 (
 u£c
@@ -45899,11 +46225,11 @@ u£c
 BSP_DELAY_MAX_USEC
 );
 
-262 
+267 
 TA0R
  = 0;
 
-263 
+268 
 TA0CCR0
  = 
 BSP_TIMER_CLK_MHZ
@@ -45911,31 +46237,31 @@ BSP_TIMER_CLK_MHZ
 u£c
 ;
 
-266 
+271 
 TA0CTL
  |
 MC_1
 ;
 
-269 !(
+274 !(
 TA0CCTL0
  & 
 CCIFG
 ));
 
-272 
+277 
 TA0CTL
  &~(
 MC_1
 );
 
-275 
+280 
 TA0CCTL0
  &~
 CCIFG
 ;
 
-276 
+281 
 	}
 }
 
@@ -46393,6 +46719,10 @@ BSP_InôDrivîs
 	~"b•_c⁄fig.h
 "
 
+47 
+	~"b•_u¨t.h
+"
+
 59 
 	$BSP_InôDrivîs
 ()
@@ -46417,23 +46747,33 @@ BSP_NO_BUTTONS
 	`BSP_InôBuâ⁄s
 ();
 
-68 
+69 #i‡(!
+deföed
+ 
+BSP_NO_UART
+)
+
+70 
+	`BSP_InôUART
+();
+
+72 
 	}
 }
 
-75 #i‚de‡
+79 #i‚de‡
 BSP_NO_LEDS
 
 
-76 
+80 
 	~"b•_Àds.c
 "
 
-79 #i‚de‡
+83 #i‚de‡
 BSP_NO_BUTTONS
 
 
-80 
+84 
 	~"b•_buâ⁄s.c
 "
 
@@ -49247,6 +49587,146 @@ NULL
 
 	)
 
+	@platform/cc430/bsp/bsp_uart.c
+
+42 
+	~"b•_buâ⁄s.h
+"
+
+43 
+	~"b•_buâ⁄_defs.h
+"
+
+50 
+	#BSP_CONFIG_BUTTON1
+(Ë
+	`__b•_BUTTON1_CONFIG__
+()
+
+	)
+
+51 
+	#BSP_CONFIG_BUTTON2
+(Ë
+	`__b•_BUTTON2_CONFIG__
+()
+
+	)
+
+52 
+	#BSP_CONFIG_BUTTON3
+(Ë
+	`__b•_BUTTON3_CONFIG__
+()
+
+	)
+
+53 
+	#BSP_CONFIG_BUTTON4
+(Ë
+	`__b•_BUTTON4_CONFIG__
+()
+
+	)
+
+54 
+	#BSP_CONFIG_BUTTON5
+(Ë
+	`__b•_BUTTON5_CONFIG__
+()
+
+	)
+
+55 
+	#BSP_CONFIG_BUTTON6
+(Ë
+	`__b•_BUTTON6_CONFIG__
+()
+
+	)
+
+56 
+	#BSP_CONFIG_BUTTON7
+(Ë
+	`__b•_BUTTON7_CONFIG__
+()
+
+	)
+
+57 
+	#BSP_CONFIG_BUTTON8
+(Ë
+	`__b•_BUTTON8_CONFIG__
+()
+
+	)
+
+59 #ifde‡
+__b•_BUTTON_EXTENDED_CONFIG__
+
+
+60 
+	#BSP_BUTTON_EXTENDED_CONFIG
+(Ë
+	`__b•_BUTTON_EXTENDED_CONFIG__
+()
+
+	)
+
+62 
+	#BSP_BUTTON_EXTENDED_CONFIG
+()
+
+	)
+
+76 
+	$BSP_InôUART
+()
+
+79 
+	`BSP_CONFIG_BUTTON1
+();
+
+80 
+	`BSP_CONFIG_BUTTON2
+();
+
+81 
+	`BSP_CONFIG_BUTTON3
+();
+
+82 
+	`BSP_CONFIG_BUTTON4
+();
+
+83 
+	`BSP_CONFIG_BUTTON5
+();
+
+84 
+	`BSP_CONFIG_BUTTON6
+();
+
+85 
+	`BSP_CONFIG_BUTTON7
+();
+
+86 
+	`BSP_CONFIG_BUTTON8
+();
+
+89 
+	`BSP_BUTTON_EXTENDED_CONFIG
+();
+
+90 
+	}
+}
+
+	@platform/cc430/bsp/bsp_uart.h
+
+	@platform/cc430/bsp/bsp_uart_defs.h
+
 	@platform/cc430/bsp/mrfi_board_defs.h
 
 40 #i‚de‡
@@ -49817,7 +50297,7 @@ MRFI_H
 	~"°döt.h
 "
 
-54 
+55 
 	#MRFI_NUM_LOGICAL_CHANS
  
 __mrfi_NUM_LOGICAL_CHANS__
@@ -49825,7 +50305,7 @@ __mrfi_NUM_LOGICAL_CHANS__
 
 	)
 
-56 
+57 
 	#MRFI_NUM_POWER_SETTINGS
  
 __mrfi_NUM_POWER_SETTINGS__
@@ -49833,41 +50313,41 @@ __mrfi_NUM_POWER_SETTINGS__
 
 	)
 
-59 
+60 
 	#MRFI_TX_RESULT_SUCCESS
  0
 
 	)
 
-60 
+61 
 	#MRFI_TX_RESULT_FAILED
  1
 
 	)
 
-63 
+64 
 	#MRFI_TX_TYPE_FORCED
  0
 
 	)
 
-64 
+65 
 	#MRFI_TX_TYPE_CCA
  1
 
 	)
 
-76 #i‚de‡
+77 #i‚de‡
 SMPL_SECURE
 
 
-77 
+78 
 	#NWK_HDR_SIZE
  3
 
 	)
 
-78 
+79 
 	#NWK_PAYLOAD
  
 MAX_NWK_PAYLOAD
@@ -49875,13 +50355,13 @@ MAX_NWK_PAYLOAD
 
 	)
 
-80 
+81 
 	#NWK_HDR_SIZE
  6
 
 	)
 
-81 
+82 
 	#NWK_PAYLOAD
  (
 MAX_NWK_PAYLOAD
@@ -49889,15 +50369,15 @@ MAX_NWK_PAYLOAD
 
 	)
 
-85 #ifde‡
+86 #ifde‡
 MAX_APP_PAYLOAD
 
 
-86 #i‚de‡
+87 #i‚de‡
 MAX_NWK_PAYLOAD
 
 
-87 #îr‹ 
+88 #îr‹ 
 ERROR
 : 
 MAX_NWK_PAYLOAD
@@ -49907,13 +50387,13 @@ nŸ
 deföed
 
 
-89 #i‡
+90 #i‡
 MAX_APP_PAYLOAD
  < 
 NWK_PAYLOAD
 
 
-90 
+91 
 	#MAX_PAYLOAD
  
 NWK_PAYLOAD
@@ -49921,7 +50401,7 @@ NWK_PAYLOAD
 
 	)
 
-92 
+93 
 	#MAX_PAYLOAD
  
 MAX_APP_PAYLOAD
@@ -49929,7 +50409,7 @@ MAX_APP_PAYLOAD
 
 	)
 
-94 
+95 
 	#MRFI_MAX_PAYLOAD_SIZE
  (
 MAX_PAYLOAD
@@ -49939,7 +50419,7 @@ NWK_HDR_SIZE
 
 	)
 
-99 
+100 
 	#MRFI_ADDR_SIZE
  
 __mrfi_ADDR_SIZE__
@@ -49947,11 +50427,11 @@ __mrfi_ADDR_SIZE__
 
 	)
 
-100 #i‚de‡
+101 #i‚de‡
 MRFI_MAX_PAYLOAD_SIZE
 
 
-101 
+102 
 	#MRFI_MAX_PAYLOAD_SIZE
  
 __mrfi_MAX_PAYLOAD_SIZE__
@@ -49959,7 +50439,7 @@ __mrfi_MAX_PAYLOAD_SIZE__
 
 	)
 
-105 
+106 
 	#MRFI_MAX_FRAME_SIZE
  (
 MRFI_MAX_PAYLOAD_SIZE
@@ -49969,13 +50449,13 @@ __mrfi_FRAME_OVERHEAD_SIZE__
 
 	)
 
-108 
+109 
 	#MAX_802154_PKT_SIZE
  127
 
 	)
 
-109 
+110 
 	#MRFI_MAX_FRAME_SIZE
  (
 MAX_802154_PKT_SIZE
@@ -49985,7 +50465,7 @@ __mrfi_LENGTH_FIELD_SIZE__
 
 	)
 
-110 
+111 
 	#MRFI_MAX_FCF_LENGTH
  
 __mrfi_FCF_SIZE__
@@ -49993,7 +50473,7 @@ __mrfi_FCF_SIZE__
 
 	)
 
-111 
+112 
 	#MRFI_DSN_SIZE
  
 __mrfi_DSN_SIZE__
@@ -50001,7 +50481,7 @@ __mrfi_DSN_SIZE__
 
 	)
 
-114 
+115 
 	#MRFI_RX_METRICS_SIZE
  
 __mrfi_RX_METRICS_SIZE__
@@ -50009,7 +50489,7 @@ __mrfi_RX_METRICS_SIZE__
 
 	)
 
-115 
+116 
 	#MRFI_RX_METRICS_RSSI_OFS
  
 __mrfi_RX_METRICS_RSSI_OFS__
@@ -50017,7 +50497,7 @@ __mrfi_RX_METRICS_RSSI_OFS__
 
 	)
 
-116 
+117 
 	#MRFI_RX_METRICS_CRC_LQI_OFS
  
 __mrfi_RX_METRICS_CRC_LQI_OFS__
@@ -50025,37 +50505,37 @@ __mrfi_RX_METRICS_CRC_LQI_OFS__
 
 	)
 
-119 
+120 
 	#MRFI_RADIO_STATE_UNKNOWN
  0
 
 	)
 
-120 
+121 
 	#MRFI_RADIO_STATE_OFF
  1
 
 	)
 
-121 
+122 
 	#MRFI_RADIO_STATE_IDLE
  2
 
 	)
 
-122 
+123 
 	#MRFI_RADIO_STATE_RX
  3
 
 	)
 
-124 
+125 
 	#MAX_HOPS
  4
 
 	)
 
-135 
+136 
 	#PLATFORM_FACTOR_CONSTANT
  (2 + 2*(
 MAX_HOPS
@@ -50067,7 +50547,7 @@ MRFI_BACKOFF_PERIOD_USECS
 
 	)
 
-142 
+143 
 	#MRFI_GET_PAYLOAD_LEN
 (
 p
@@ -50077,7 +50557,7 @@ p
 
 	)
 
-143 
+144 
 	#MRFI_SET_PAYLOAD_LEN
 (
 p
@@ -50089,7 +50569,7 @@ x
 
 	)
 
-145 
+146 
 	#MRFI_P_DST_ADDR
 (
 p
@@ -50099,7 +50579,7 @@ p
 
 	)
 
-146 
+147 
 	#MRFI_P_SRC_ADDR
 (
 p
@@ -50109,7 +50589,7 @@ p
 
 	)
 
-147 
+148 
 	#MRFI_P_PAYLOAD
 (
 p
@@ -50119,7 +50599,7 @@ p
 
 	)
 
-155 
+156 
 uöt8_t
  
 	m‰ame
@@ -50127,7 +50607,7 @@ uöt8_t
 MRFI_MAX_FRAME_SIZE
 ];
 
-156 
+157 
 uöt8_t
  
 	mrxMërics
@@ -50135,43 +50615,43 @@ uöt8_t
 MRFI_RX_METRICS_SIZE
 ];
 
-157 } 
+158 } 
 	tmrfiPackë_t
 ;
 
-164 
+165 
 MRFI_Inô
 ();
 
-165 
+166 
 MRFI_Pª∑ª
 (const *, );
 
-166 
+167 
 MRFI_√wTønsmô
 ();
 
-167 
+168 
 MRFI_£nd
 (const *, );
 
-168 
+169 
 MRFI_ªad
 (*, );
 
-169 
+170 
 MRFI_cˇ
 ();
 
-170 
+171 
 MRFI_isRecvPkt
 ();
 
-171 
+172 
 MRFI_isPktPíd
 ();
 
-172 
+173 
 uöt8_t
  
 MRFI_Tønsmô
@@ -50179,103 +50659,103 @@ MRFI_Tønsmô
 mrfiPackë_t
  *, uint8_t);
 
-173 
+174 
 MRFI_Re˚ive
 (
 mrfiPackë_t
  *);
 
-174 
+175 
 MRFI_RxCom∂ëeISR
 ();
 
-175 
+176 
 uöt8_t
  
 MRFI_GëRadioSèã
 ();
 
-176 
+177 
 MRFI_RxOn
 ();
 
-177 
+178 
 MRFI_RxIdÀ
 ();
 
-178 
+179 
 öt8_t
  
 MRFI_Rssi
 ();
 
-179 
+180 
 MRFI_SëLogiˇlCh™√l
 (
 uöt8_t
 );
 
-180 
+181 
 uöt8_t
  
 MRFI_SëRxAddrFûãr
 (uint8_t *);
 
-181 
+182 
 MRFI_E«bÀRxAddrFûãr
 ();
 
-182 
+183 
 MRFI_DißbÀRxAddrFûãr
 ();
 
-183 
+184 
 MRFI_SÀï
 ();
 
-184 
+185 
 MRFI_WakeUp
 ();
 
-185 
+186 
 uöt8_t
  
 MRFI_R™domByã
 ();
 
-186 
+187 
 MRFI_DñayMs
 (
 uöt16_t
 );
 
-187 
+188 
 MRFI_RïlyDñay
 ();
 
-188 
+189 
 MRFI_Po°KûlSem
 ();
 
-189 
+190 
 MRFI_SëRFPwr
 (
 uöt8_t
 );
 
-195 c⁄° 
+196 c⁄° 
 uöt8_t
  
 mrfiBrﬂdˇ°Addr
 [];
 
-196 
+197 
 uöt8_t
  
 mrfiPktRe˚iveFœg
 ;
 
-197 
+198 
 uöt8_t
  
 mrfi_pkt_tx_≥nd
@@ -55962,6 +56442,21096 @@ SMARTRF_CC430_H
  0xFF
 
 	)
+
+	@platform/cc430f6147.h
+
+23 #i‚de‡
+__CC430F6147
+
+
+24 
+	#__CC430F6147
+
+
+	)
+
+26 
+	#__MSP430_HEADER_VERSION__
+ 1058
+
+	)
+
+28 #ifde‡
+__˝lu•lus
+
+
+38 
+	#SFR_8BIT
+(
+addªss
+Ëvﬁ©ûê
+	)
+address
+
+39 
+	#SFR_16BIT
+(
+addªss
+Ëvﬁ©ûê
+	)
+address
+
+41 (* 
+__SFR_FARPTR
+)();
+
+42 
+	#SFR_20BIT
+(
+addªss
+Ë
+__SFR_FARPTR
+ 
+	)
+address
+
+43 
+	#SFR_32BIT
+(
+addªss
+Ëvﬁ©ûê
+	)
+address
+
+51 
+	#BIT0
+ (0x0001)
+
+	)
+
+52 
+	#BIT1
+ (0x0002)
+
+	)
+
+53 
+	#BIT2
+ (0x0004)
+
+	)
+
+54 
+	#BIT3
+ (0x0008)
+
+	)
+
+55 
+	#BIT4
+ (0x0010)
+
+	)
+
+56 
+	#BIT5
+ (0x0020)
+
+	)
+
+57 
+	#BIT6
+ (0x0040)
+
+	)
+
+58 
+	#BIT7
+ (0x0080)
+
+	)
+
+59 
+	#BIT8
+ (0x0100)
+
+	)
+
+60 
+	#BIT9
+ (0x0200)
+
+	)
+
+61 
+	#BITA
+ (0x0400)
+
+	)
+
+62 
+	#BITB
+ (0x0800)
+
+	)
+
+63 
+	#BITC
+ (0x1000)
+
+	)
+
+64 
+	#BITD
+ (0x2000)
+
+	)
+
+65 
+	#BITE
+ (0x4000)
+
+	)
+
+66 
+	#BITF
+ (0x8000)
+
+	)
+
+72 
+	#C
+ (0x0001)
+
+	)
+
+73 
+	#Z
+ (0x0002)
+
+	)
+
+74 
+	#N
+ (0x0004)
+
+	)
+
+75 
+	#V
+ (0x0100)
+
+	)
+
+76 
+	#GIE
+ (0x0008)
+
+	)
+
+77 
+	#CPUOFF
+ (0x0010)
+
+	)
+
+78 
+	#OSCOFF
+ (0x0020)
+
+	)
+
+79 
+	#SCG0
+ (0x0040)
+
+	)
+
+80 
+	#SCG1
+ (0x0080)
+
+	)
+
+84 #ifde‡
+__ASM_HEADER__
+
+
+85 
+	#LPM0
+ (
+CPUOFF
+)
+
+	)
+
+86 
+	#LPM1
+ (
+SCG0
++
+CPUOFF
+)
+
+	)
+
+87 
+	#LPM2
+ (
+SCG1
++
+CPUOFF
+)
+
+	)
+
+88 
+	#LPM3
+ (
+SCG1
++
+SCG0
++
+CPUOFF
+)
+
+	)
+
+89 
+	#LPM4
+ (
+SCG1
++
+SCG0
++
+OSCOFF
++
+CPUOFF
+)
+
+	)
+
+93 
+	#LPM0_bôs
+ (
+CPUOFF
+)
+
+	)
+
+94 
+	#LPM1_bôs
+ (
+SCG0
++
+CPUOFF
+)
+
+	)
+
+95 
+	#LPM2_bôs
+ (
+SCG1
++
+CPUOFF
+)
+
+	)
+
+96 
+	#LPM3_bôs
+ (
+SCG1
++
+SCG0
++
+CPUOFF
+)
+
+	)
+
+97 
+	#LPM4_bôs
+ (
+SCG1
++
+SCG0
++
+OSCOFF
++
+CPUOFF
+)
+
+	)
+
+99 
+	~"ö430.h
+"
+
+101 
+	#LPM0
+ 
+	`_bis_SR_ªgi°î
+(
+LPM0_bôs
+Ë
+
+	)
+
+102 
+	#LPM0_EXIT
+ 
+	`_bic_SR_ªgi°î_⁄_exô
+(
+LPM0_bôs
+Ë
+
+	)
+
+103 
+	#LPM1
+ 
+	`_bis_SR_ªgi°î
+(
+LPM1_bôs
+Ë
+
+	)
+
+104 
+	#LPM1_EXIT
+ 
+	`_bic_SR_ªgi°î_⁄_exô
+(
+LPM1_bôs
+Ë
+
+	)
+
+105 
+	#LPM2
+ 
+	`_bis_SR_ªgi°î
+(
+LPM2_bôs
+Ë
+
+	)
+
+106 
+	#LPM2_EXIT
+ 
+	`_bic_SR_ªgi°î_⁄_exô
+(
+LPM2_bôs
+Ë
+
+	)
+
+107 
+	#LPM3
+ 
+	`_bis_SR_ªgi°î
+(
+LPM3_bôs
+Ë
+
+	)
+
+108 
+	#LPM3_EXIT
+ 
+	`_bic_SR_ªgi°î_⁄_exô
+(
+LPM3_bôs
+Ë
+
+	)
+
+109 
+	#LPM4
+ 
+	`_bis_SR_ªgi°î
+(
+LPM4_bôs
+Ë
+
+	)
+
+110 
+	#LPM4_EXIT
+ 
+	`_bic_SR_ªgi°î_⁄_exô
+(
+LPM4_bôs
+Ë
+
+	)
+
+116 
+	#__MSP430_HAS_MSP430XV2_CPU__
+
+
+	)
+
+125 
+	#__MSP430_HAS_ADC10_A__
+
+
+	)
+
+126 
+	#__MSP430_BASEADDRESS_ADC10_A__
+ 0x0740
+
+	)
+
+128 
+SFR_16BIT
+(
+ADC10CTL0
+);
+
+129 
+SFR_8BIT
+(
+ADC10CTL0_L
+);
+
+130 
+SFR_8BIT
+(
+ADC10CTL0_H
+);
+
+131 
+SFR_16BIT
+(
+ADC10CTL1
+);
+
+132 
+SFR_8BIT
+(
+ADC10CTL1_L
+);
+
+133 
+SFR_8BIT
+(
+ADC10CTL1_H
+);
+
+134 
+SFR_16BIT
+(
+ADC10CTL2
+);
+
+135 
+SFR_8BIT
+(
+ADC10CTL2_L
+);
+
+136 
+SFR_8BIT
+(
+ADC10CTL2_H
+);
+
+137 
+SFR_16BIT
+(
+ADC10LO
+);
+
+138 
+SFR_8BIT
+(
+ADC10LO_L
+);
+
+139 
+SFR_8BIT
+(
+ADC10LO_H
+);
+
+140 
+SFR_16BIT
+(
+ADC10HI
+);
+
+141 
+SFR_8BIT
+(
+ADC10HI_L
+);
+
+142 
+SFR_8BIT
+(
+ADC10HI_H
+);
+
+143 
+SFR_16BIT
+(
+ADC10MCTL0
+);
+
+144 
+SFR_8BIT
+(
+ADC10MCTL0_L
+);
+
+145 
+SFR_8BIT
+(
+ADC10MCTL0_H
+);
+
+146 
+SFR_16BIT
+(
+ADC10MEM0
+);
+
+147 
+SFR_8BIT
+(
+ADC10MEM0_L
+);
+
+148 
+SFR_8BIT
+(
+ADC10MEM0_H
+);
+
+149 
+SFR_16BIT
+(
+ADC10IE
+);
+
+150 
+SFR_8BIT
+(
+ADC10IE_L
+);
+
+151 
+SFR_8BIT
+(
+ADC10IE_H
+);
+
+152 
+SFR_16BIT
+(
+ADC10IFG
+);
+
+153 
+SFR_8BIT
+(
+ADC10IFG_L
+);
+
+154 
+SFR_8BIT
+(
+ADC10IFG_H
+);
+
+155 
+SFR_16BIT
+(
+ADC10IV
+);
+
+156 
+SFR_8BIT
+(
+ADC10IV_L
+);
+
+157 
+SFR_8BIT
+(
+ADC10IV_H
+);
+
+160 
+	#ADC10SC
+ (0x0001Ë
+
+	)
+
+161 
+	#ADC10ENC
+ (0x0002Ë
+
+	)
+
+162 
+	#ADC10ON
+ (0x0010Ë
+
+	)
+
+163 
+	#ADC10MSC
+ (0x0080Ë
+
+	)
+
+164 
+	#ADC10SHT0
+ (0x0100Ë
+
+	)
+
+165 
+	#ADC10SHT1
+ (0x0200Ë
+
+	)
+
+166 
+	#ADC10SHT2
+ (0x0400Ë
+
+	)
+
+167 
+	#ADC10SHT3
+ (0x0800Ë
+
+	)
+
+170 
+	#ADC10SC_L
+ (0x0001Ë
+
+	)
+
+171 
+	#ADC10ENC_L
+ (0x0002Ë
+
+	)
+
+172 
+	#ADC10ON_L
+ (0x0010Ë
+
+	)
+
+173 
+	#ADC10MSC_L
+ (0x0080Ë
+
+	)
+
+176 
+	#ADC10SHT0_H
+ (0x0001Ë
+
+	)
+
+177 
+	#ADC10SHT1_H
+ (0x0002Ë
+
+	)
+
+178 
+	#ADC10SHT2_H
+ (0x0004Ë
+
+	)
+
+179 
+	#ADC10SHT3_H
+ (0x0008Ë
+
+	)
+
+181 
+	#ADC10SHT_0
+ (0*0x100uË
+
+	)
+
+182 
+	#ADC10SHT_1
+ (1*0x100uË
+
+	)
+
+183 
+	#ADC10SHT_2
+ (2*0x100uË
+
+	)
+
+184 
+	#ADC10SHT_3
+ (3*0x100uË
+
+	)
+
+185 
+	#ADC10SHT_4
+ (4*0x100uË
+
+	)
+
+186 
+	#ADC10SHT_5
+ (5*0x100uË
+
+	)
+
+187 
+	#ADC10SHT_6
+ (6*0x100uË
+
+	)
+
+188 
+	#ADC10SHT_7
+ (7*0x100uË
+
+	)
+
+189 
+	#ADC10SHT_8
+ (8*0x100uË
+
+	)
+
+190 
+	#ADC10SHT_9
+ (9*0x100uË
+
+	)
+
+191 
+	#ADC10SHT_10
+ (10*0x100uË
+
+	)
+
+192 
+	#ADC10SHT_11
+ (11*0x100uË
+
+	)
+
+193 
+	#ADC10SHT_12
+ (12*0x100uË
+
+	)
+
+194 
+	#ADC10SHT_13
+ (13*0x100uË
+
+	)
+
+195 
+	#ADC10SHT_14
+ (14*0x100uË
+
+	)
+
+196 
+	#ADC10SHT_15
+ (15*0x100uË
+
+	)
+
+199 
+	#ADC10BUSY
+ (0x0001Ë
+
+	)
+
+200 
+	#ADC10CONSEQ0
+ (0x0002Ë
+
+	)
+
+201 
+	#ADC10CONSEQ1
+ (0x0004Ë
+
+	)
+
+202 
+	#ADC10SSEL0
+ (0x0008Ë
+
+	)
+
+203 
+	#ADC10SSEL1
+ (0x0010Ë
+
+	)
+
+204 
+	#ADC10DIV0
+ (0x0020Ë
+
+	)
+
+205 
+	#ADC10DIV1
+ (0x0040Ë
+
+	)
+
+206 
+	#ADC10DIV2
+ (0x0080Ë
+
+	)
+
+207 
+	#ADC10ISSH
+ (0x0100Ë
+
+	)
+
+208 
+	#ADC10SHP
+ (0x0200Ë
+
+	)
+
+209 
+	#ADC10SHS0
+ (0x0400Ë
+
+	)
+
+210 
+	#ADC10SHS1
+ (0x0800Ë
+
+	)
+
+213 
+	#ADC10BUSY_L
+ (0x0001Ë
+
+	)
+
+214 
+	#ADC10CONSEQ0_L
+ (0x0002Ë
+
+	)
+
+215 
+	#ADC10CONSEQ1_L
+ (0x0004Ë
+
+	)
+
+216 
+	#ADC10SSEL0_L
+ (0x0008Ë
+
+	)
+
+217 
+	#ADC10SSEL1_L
+ (0x0010Ë
+
+	)
+
+218 
+	#ADC10DIV0_L
+ (0x0020Ë
+
+	)
+
+219 
+	#ADC10DIV1_L
+ (0x0040Ë
+
+	)
+
+220 
+	#ADC10DIV2_L
+ (0x0080Ë
+
+	)
+
+223 
+	#ADC10ISSH_H
+ (0x0001Ë
+
+	)
+
+224 
+	#ADC10SHP_H
+ (0x0002Ë
+
+	)
+
+225 
+	#ADC10SHS0_H
+ (0x0004Ë
+
+	)
+
+226 
+	#ADC10SHS1_H
+ (0x0008Ë
+
+	)
+
+228 
+	#ADC10CONSEQ_0
+ (0*2uË
+
+	)
+
+229 
+	#ADC10CONSEQ_1
+ (1*2uË
+
+	)
+
+230 
+	#ADC10CONSEQ_2
+ (2*2uË
+
+	)
+
+231 
+	#ADC10CONSEQ_3
+ (3*2uË
+
+	)
+
+233 
+	#ADC10SSEL_0
+ (0*8uË
+
+	)
+
+234 
+	#ADC10SSEL_1
+ (1*8uË
+
+	)
+
+235 
+	#ADC10SSEL_2
+ (2*8uË
+
+	)
+
+236 
+	#ADC10SSEL_3
+ (3*8uË
+
+	)
+
+238 
+	#ADC10DIV_0
+ (0*0x20uË
+
+	)
+
+239 
+	#ADC10DIV_1
+ (1*0x20uË
+
+	)
+
+240 
+	#ADC10DIV_2
+ (2*0x20uË
+
+	)
+
+241 
+	#ADC10DIV_3
+ (3*0x20uË
+
+	)
+
+242 
+	#ADC10DIV_4
+ (4*0x20uË
+
+	)
+
+243 
+	#ADC10DIV_5
+ (5*0x20uË
+
+	)
+
+244 
+	#ADC10DIV_6
+ (6*0x20uË
+
+	)
+
+245 
+	#ADC10DIV_7
+ (7*0x20uË
+
+	)
+
+247 
+	#ADC10SHS_0
+ (0*0x400uË
+
+	)
+
+248 
+	#ADC10SHS_1
+ (1*0x400uË
+
+	)
+
+249 
+	#ADC10SHS_2
+ (2*0x400uË
+
+	)
+
+250 
+	#ADC10SHS_3
+ (3*0x400uË
+
+	)
+
+253 
+	#ADC10REFBURST
+ (0x0001Ë
+
+	)
+
+254 
+	#ADC10SR
+ (0x0004Ë
+
+	)
+
+255 
+	#ADC10DF
+ (0x0008Ë
+
+	)
+
+256 
+	#ADC10RES
+ (0x0010Ë
+
+	)
+
+257 
+	#ADC10PDIV0
+ (0x0100Ë
+
+	)
+
+258 
+	#ADC10PDIV1
+ (0x0200Ë
+
+	)
+
+261 
+	#ADC10REFBURST_L
+ (0x0001Ë
+
+	)
+
+262 
+	#ADC10SR_L
+ (0x0004Ë
+
+	)
+
+263 
+	#ADC10DF_L
+ (0x0008Ë
+
+	)
+
+264 
+	#ADC10RES_L
+ (0x0010Ë
+
+	)
+
+267 
+	#ADC10PDIV0_H
+ (0x0001Ë
+
+	)
+
+268 
+	#ADC10PDIV1_H
+ (0x0002Ë
+
+	)
+
+270 
+	#ADC10PDIV_0
+ (0x0000Ë
+
+	)
+
+271 
+	#ADC10PDIV_1
+ (0x0100Ë
+
+	)
+
+272 
+	#ADC10PDIV_2
+ (0x0200Ë
+
+	)
+
+273 
+	#ADC10PDIV_3
+ (0x0300Ë
+
+	)
+
+275 
+	#ADC10PDIV__1
+ (0x0000Ë
+
+	)
+
+276 
+	#ADC10PDIV__4
+ (0x0100Ë
+
+	)
+
+277 
+	#ADC10PDIV__64
+ (0x0200Ë
+
+	)
+
+280 
+	#ADC10INCH0
+ (0x0001Ë
+
+	)
+
+281 
+	#ADC10INCH1
+ (0x0002Ë
+
+	)
+
+282 
+	#ADC10INCH2
+ (0x0004Ë
+
+	)
+
+283 
+	#ADC10INCH3
+ (0x0008Ë
+
+	)
+
+284 
+	#ADC10SREF0
+ (0x0010Ë
+
+	)
+
+285 
+	#ADC10SREF1
+ (0x0020Ë
+
+	)
+
+286 
+	#ADC10SREF2
+ (0x0040Ë
+
+	)
+
+289 
+	#ADC10INCH0_L
+ (0x0001Ë
+
+	)
+
+290 
+	#ADC10INCH1_L
+ (0x0002Ë
+
+	)
+
+291 
+	#ADC10INCH2_L
+ (0x0004Ë
+
+	)
+
+292 
+	#ADC10INCH3_L
+ (0x0008Ë
+
+	)
+
+293 
+	#ADC10SREF0_L
+ (0x0010Ë
+
+	)
+
+294 
+	#ADC10SREF1_L
+ (0x0020Ë
+
+	)
+
+295 
+	#ADC10SREF2_L
+ (0x0040Ë
+
+	)
+
+299 
+	#ADC10INCH_0
+ (0Ë
+
+	)
+
+300 
+	#ADC10INCH_1
+ (1Ë
+
+	)
+
+301 
+	#ADC10INCH_2
+ (2Ë
+
+	)
+
+302 
+	#ADC10INCH_3
+ (3Ë
+
+	)
+
+303 
+	#ADC10INCH_4
+ (4Ë
+
+	)
+
+304 
+	#ADC10INCH_5
+ (5Ë
+
+	)
+
+305 
+	#ADC10INCH_6
+ (6Ë
+
+	)
+
+306 
+	#ADC10INCH_7
+ (7Ë
+
+	)
+
+307 
+	#ADC10INCH_8
+ (8Ë
+
+	)
+
+308 
+	#ADC10INCH_9
+ (9Ë
+
+	)
+
+309 
+	#ADC10INCH_10
+ (10Ë
+
+	)
+
+310 
+	#ADC10INCH_11
+ (11Ë
+
+	)
+
+311 
+	#ADC10INCH_12
+ (12Ë
+
+	)
+
+312 
+	#ADC10INCH_13
+ (13Ë
+
+	)
+
+313 
+	#ADC10INCH_14
+ (14Ë
+
+	)
+
+314 
+	#ADC10INCH_15
+ (15Ë
+
+	)
+
+316 
+	#ADC10SREF_0
+ (0*0x10uË
+
+	)
+
+317 
+	#ADC10SREF_1
+ (1*0x10uË
+
+	)
+
+318 
+	#ADC10SREF_2
+ (2*0x10uË
+
+	)
+
+319 
+	#ADC10SREF_3
+ (3*0x10uË
+
+	)
+
+320 
+	#ADC10SREF_4
+ (4*0x10uË
+
+	)
+
+321 
+	#ADC10SREF_5
+ (5*0x10uË
+
+	)
+
+322 
+	#ADC10SREF_6
+ (6*0x10uË
+
+	)
+
+323 
+	#ADC10SREF_7
+ (7*0x10uË
+
+	)
+
+326 
+	#ADC10IE0
+ (0x0001Ë
+
+	)
+
+327 
+	#ADC10INIE
+ (0x0002Ë
+
+	)
+
+328 
+	#ADC10LOIE
+ (0x0004Ë
+
+	)
+
+329 
+	#ADC10HIIE
+ (0x0008Ë
+
+	)
+
+330 
+	#ADC10OVIE
+ (0x0010Ë
+
+	)
+
+331 
+	#ADC10TOVIE
+ (0x0020Ë
+
+	)
+
+334 
+	#ADC10IE0_L
+ (0x0001Ë
+
+	)
+
+335 
+	#ADC10INIE_L
+ (0x0002Ë
+
+	)
+
+336 
+	#ADC10LOIE_L
+ (0x0004Ë
+
+	)
+
+337 
+	#ADC10HIIE_L
+ (0x0008Ë
+
+	)
+
+338 
+	#ADC10OVIE_L
+ (0x0010Ë
+
+	)
+
+339 
+	#ADC10TOVIE_L
+ (0x0020Ë
+
+	)
+
+344 
+	#ADC10IFG0
+ (0x0001Ë
+
+	)
+
+345 
+	#ADC10INIFG
+ (0x0002Ë
+
+	)
+
+346 
+	#ADC10LOIFG
+ (0x0004Ë
+
+	)
+
+347 
+	#ADC10HIIFG
+ (0x0008Ë
+
+	)
+
+348 
+	#ADC10OVIFG
+ (0x0010Ë
+
+	)
+
+349 
+	#ADC10TOVIFG
+ (0x0020Ë
+
+	)
+
+352 
+	#ADC10IFG0_L
+ (0x0001Ë
+
+	)
+
+353 
+	#ADC10INIFG_L
+ (0x0002Ë
+
+	)
+
+354 
+	#ADC10LOIFG_L
+ (0x0004Ë
+
+	)
+
+355 
+	#ADC10HIIFG_L
+ (0x0008Ë
+
+	)
+
+356 
+	#ADC10OVIFG_L
+ (0x0010Ë
+
+	)
+
+357 
+	#ADC10TOVIFG_L
+ (0x0020Ë
+
+	)
+
+362 
+	#ADC10IV_NONE
+ (0x0000Ë
+
+	)
+
+363 
+	#ADC10IV_ADC10OVIFG
+ (0x0002Ë
+
+	)
+
+364 
+	#ADC10IV_ADC10TOVIFG
+ (0x0004Ë
+
+	)
+
+365 
+	#ADC10IV_ADC10HIIFG
+ (0x0006Ë
+
+	)
+
+366 
+	#ADC10IV_ADC10LOIFG
+ (0x0008Ë
+
+	)
+
+367 
+	#ADC10IV_ADC10INIFG
+ (0x000AË
+
+	)
+
+368 
+	#ADC10IV_ADC10IFG
+ (0x000CË
+
+	)
+
+373 
+	#__MSP430_HAS_AES__
+
+
+	)
+
+374 
+	#__MSP430_BASEADDRESS_AES__
+ 0x09C0
+
+	)
+
+376 
+SFR_16BIT
+(
+AESACTL0
+);
+
+377 
+SFR_8BIT
+(
+AESACTL0_L
+);
+
+378 
+SFR_8BIT
+(
+AESACTL0_H
+);
+
+379 
+SFR_16BIT
+(
+AESASTAT
+);
+
+380 
+SFR_8BIT
+(
+AESASTAT_L
+);
+
+381 
+SFR_8BIT
+(
+AESASTAT_H
+);
+
+382 
+SFR_16BIT
+(
+AESAKEY
+);
+
+383 
+SFR_8BIT
+(
+AESAKEY_L
+);
+
+384 
+SFR_8BIT
+(
+AESAKEY_H
+);
+
+385 
+SFR_16BIT
+(
+AESADIN
+);
+
+386 
+SFR_8BIT
+(
+AESADIN_L
+);
+
+387 
+SFR_8BIT
+(
+AESADIN_H
+);
+
+388 
+SFR_16BIT
+(
+AESADOUT
+);
+
+389 
+SFR_8BIT
+(
+AESADOUT_L
+);
+
+390 
+SFR_8BIT
+(
+AESADOUT_H
+);
+
+393 
+	#AESOP0
+ (0x0001Ë
+
+	)
+
+394 
+	#AESOP1
+ (0x0002Ë
+
+	)
+
+395 
+	#AESSWRST
+ (0x0080Ë
+
+	)
+
+396 
+	#AESRDYIFG
+ (0x0100Ë
+
+	)
+
+397 
+	#AESERRFG
+ (0x0800Ë
+
+	)
+
+398 
+	#AESRDYIE
+ (0x1000Ë
+
+	)
+
+401 
+	#AESOP0_L
+ (0x0001Ë
+
+	)
+
+402 
+	#AESOP1_L
+ (0x0002Ë
+
+	)
+
+403 
+	#AESSWRST_L
+ (0x0080Ë
+
+	)
+
+406 
+	#AESRDYIFG_H
+ (0x0001Ë
+
+	)
+
+407 
+	#AESERRFG_H
+ (0x0008Ë
+
+	)
+
+408 
+	#AESRDYIE_H
+ (0x0010Ë
+
+	)
+
+410 
+	#AESOP_0
+ (0x0000Ë
+
+	)
+
+411 
+	#AESOP_1
+ (0x0001Ë
+
+	)
+
+412 
+	#AESOP_2
+ (0x0002Ë
+
+	)
+
+413 
+	#AESOP_3
+ (0x0003Ë
+
+	)
+
+416 
+	#AESBUSY
+ (0x0001Ë
+
+	)
+
+417 
+	#AESKEYWR
+ (0x0002Ë
+
+	)
+
+418 
+	#AESDINWR
+ (0x0004Ë
+
+	)
+
+419 
+	#AESDOUTRD
+ (0x0008Ë
+
+	)
+
+420 
+	#AESKEYCNT0
+ (0x0010Ë
+
+	)
+
+421 
+	#AESKEYCNT1
+ (0x0020Ë
+
+	)
+
+422 
+	#AESKEYCNT2
+ (0x0040Ë
+
+	)
+
+423 
+	#AESKEYCNT3
+ (0x0080Ë
+
+	)
+
+424 
+	#AESDINCNT0
+ (0x0100Ë
+
+	)
+
+425 
+	#AESDINCNT1
+ (0x0200Ë
+
+	)
+
+426 
+	#AESDINCNT2
+ (0x0400Ë
+
+	)
+
+427 
+	#AESDINCNT3
+ (0x0800Ë
+
+	)
+
+428 
+	#AESDOUTCNT0
+ (0x1000Ë
+
+	)
+
+429 
+	#AESDOUTCNT1
+ (0x2000Ë
+
+	)
+
+430 
+	#AESDOUTCNT2
+ (0x4000Ë
+
+	)
+
+431 
+	#AESDOUTCNT3
+ (0x8000Ë
+
+	)
+
+434 
+	#AESBUSY_L
+ (0x0001Ë
+
+	)
+
+435 
+	#AESKEYWR_L
+ (0x0002Ë
+
+	)
+
+436 
+	#AESDINWR_L
+ (0x0004Ë
+
+	)
+
+437 
+	#AESDOUTRD_L
+ (0x0008Ë
+
+	)
+
+438 
+	#AESKEYCNT0_L
+ (0x0010Ë
+
+	)
+
+439 
+	#AESKEYCNT1_L
+ (0x0020Ë
+
+	)
+
+440 
+	#AESKEYCNT2_L
+ (0x0040Ë
+
+	)
+
+441 
+	#AESKEYCNT3_L
+ (0x0080Ë
+
+	)
+
+444 
+	#AESDINCNT0_H
+ (0x0001Ë
+
+	)
+
+445 
+	#AESDINCNT1_H
+ (0x0002Ë
+
+	)
+
+446 
+	#AESDINCNT2_H
+ (0x0004Ë
+
+	)
+
+447 
+	#AESDINCNT3_H
+ (0x0008Ë
+
+	)
+
+448 
+	#AESDOUTCNT0_H
+ (0x0010Ë
+
+	)
+
+449 
+	#AESDOUTCNT1_H
+ (0x0020Ë
+
+	)
+
+450 
+	#AESDOUTCNT2_H
+ (0x0040Ë
+
+	)
+
+451 
+	#AESDOUTCNT3_H
+ (0x0080Ë
+
+	)
+
+456 
+	#__MSP430_HAS_COMPB__
+
+
+	)
+
+457 
+	#__MSP430_BASEADDRESS_COMPB__
+ 0x08C0
+
+	)
+
+459 
+SFR_16BIT
+(
+CBCTL0
+);
+
+460 
+SFR_8BIT
+(
+CBCTL0_L
+);
+
+461 
+SFR_8BIT
+(
+CBCTL0_H
+);
+
+462 
+SFR_16BIT
+(
+CBCTL1
+);
+
+463 
+SFR_8BIT
+(
+CBCTL1_L
+);
+
+464 
+SFR_8BIT
+(
+CBCTL1_H
+);
+
+465 
+SFR_16BIT
+(
+CBCTL2
+);
+
+466 
+SFR_8BIT
+(
+CBCTL2_L
+);
+
+467 
+SFR_8BIT
+(
+CBCTL2_H
+);
+
+468 
+SFR_16BIT
+(
+CBCTL3
+);
+
+469 
+SFR_8BIT
+(
+CBCTL3_L
+);
+
+470 
+SFR_8BIT
+(
+CBCTL3_H
+);
+
+471 
+SFR_16BIT
+(
+CBINT
+);
+
+472 
+SFR_8BIT
+(
+CBINT_L
+);
+
+473 
+SFR_8BIT
+(
+CBINT_H
+);
+
+474 
+SFR_16BIT
+(
+CBIV
+);
+
+477 
+	#CBIPSEL0
+ (0x0001Ë
+
+	)
+
+478 
+	#CBIPSEL1
+ (0x0002Ë
+
+	)
+
+479 
+	#CBIPSEL2
+ (0x0004Ë
+
+	)
+
+480 
+	#CBIPSEL3
+ (0x0008Ë
+
+	)
+
+484 
+	#CBIPEN
+ (0x0080Ë
+
+	)
+
+485 
+	#CBIMSEL0
+ (0x0100Ë
+
+	)
+
+486 
+	#CBIMSEL1
+ (0x0200Ë
+
+	)
+
+487 
+	#CBIMSEL2
+ (0x0400Ë
+
+	)
+
+488 
+	#CBIMSEL3
+ (0x0800Ë
+
+	)
+
+492 
+	#CBIMEN
+ (0x8000Ë
+
+	)
+
+495 
+	#CBIPSEL0_L
+ (0x0001Ë
+
+	)
+
+496 
+	#CBIPSEL1_L
+ (0x0002Ë
+
+	)
+
+497 
+	#CBIPSEL2_L
+ (0x0004Ë
+
+	)
+
+498 
+	#CBIPSEL3_L
+ (0x0008Ë
+
+	)
+
+502 
+	#CBIPEN_L
+ (0x0080Ë
+
+	)
+
+511 
+	#CBIMSEL0_H
+ (0x0001Ë
+
+	)
+
+512 
+	#CBIMSEL1_H
+ (0x0002Ë
+
+	)
+
+513 
+	#CBIMSEL2_H
+ (0x0004Ë
+
+	)
+
+514 
+	#CBIMSEL3_H
+ (0x0008Ë
+
+	)
+
+518 
+	#CBIMEN_H
+ (0x0080Ë
+
+	)
+
+520 
+	#CBIPSEL_0
+ (0x0000Ë
+
+	)
+
+521 
+	#CBIPSEL_1
+ (0x0001Ë
+
+	)
+
+522 
+	#CBIPSEL_2
+ (0x0002Ë
+
+	)
+
+523 
+	#CBIPSEL_3
+ (0x0003Ë
+
+	)
+
+524 
+	#CBIPSEL_4
+ (0x0004Ë
+
+	)
+
+525 
+	#CBIPSEL_5
+ (0x0005Ë
+
+	)
+
+526 
+	#CBIPSEL_6
+ (0x0006Ë
+
+	)
+
+527 
+	#CBIPSEL_7
+ (0x0007Ë
+
+	)
+
+528 
+	#CBIPSEL_8
+ (0x0008Ë
+
+	)
+
+529 
+	#CBIPSEL_9
+ (0x0009Ë
+
+	)
+
+530 
+	#CBIPSEL_10
+ (0x000AË
+
+	)
+
+531 
+	#CBIPSEL_11
+ (0x000BË
+
+	)
+
+532 
+	#CBIPSEL_12
+ (0x000CË
+
+	)
+
+533 
+	#CBIPSEL_13
+ (0x000DË
+
+	)
+
+534 
+	#CBIPSEL_14
+ (0x000EË
+
+	)
+
+535 
+	#CBIPSEL_15
+ (0x000FË
+
+	)
+
+537 
+	#CBIMSEL_0
+ (0x0000Ë
+
+	)
+
+538 
+	#CBIMSEL_1
+ (0x0100Ë
+
+	)
+
+539 
+	#CBIMSEL_2
+ (0x0200Ë
+
+	)
+
+540 
+	#CBIMSEL_3
+ (0x0300Ë
+
+	)
+
+541 
+	#CBIMSEL_4
+ (0x0400Ë
+
+	)
+
+542 
+	#CBIMSEL_5
+ (0x0500Ë
+
+	)
+
+543 
+	#CBIMSEL_6
+ (0x0600Ë
+
+	)
+
+544 
+	#CBIMSEL_7
+ (0x0700Ë
+
+	)
+
+545 
+	#CBIMSEL_8
+ (0x0800Ë
+
+	)
+
+546 
+	#CBIMSEL_9
+ (0x0900Ë
+
+	)
+
+547 
+	#CBIMSEL_10
+ (0x0A00Ë
+
+	)
+
+548 
+	#CBIMSEL_11
+ (0x0B00Ë
+
+	)
+
+549 
+	#CBIMSEL_12
+ (0x0C00Ë
+
+	)
+
+550 
+	#CBIMSEL_13
+ (0x0D00Ë
+
+	)
+
+551 
+	#CBIMSEL_14
+ (0x0E00Ë
+
+	)
+
+552 
+	#CBIMSEL_15
+ (0x0F00Ë
+
+	)
+
+555 
+	#CBOUT
+ (0x0001Ë
+
+	)
+
+556 
+	#CBOUTPOL
+ (0x0002Ë
+
+	)
+
+557 
+	#CBF
+ (0x0004Ë
+
+	)
+
+558 
+	#CBIES
+ (0x0008Ë
+
+	)
+
+559 
+	#CBSHORT
+ (0x0010Ë
+
+	)
+
+560 
+	#CBEX
+ (0x0020Ë
+
+	)
+
+561 
+	#CBFDLY0
+ (0x0040Ë
+
+	)
+
+562 
+	#CBFDLY1
+ (0x0080Ë
+
+	)
+
+563 
+	#CBPWRMD0
+ (0x0100Ë
+
+	)
+
+564 
+	#CBPWRMD1
+ (0x0200Ë
+
+	)
+
+565 
+	#CBON
+ (0x0400Ë
+
+	)
+
+566 
+	#CBMRVL
+ (0x0800Ë
+
+	)
+
+567 
+	#CBMRVS
+ (0x1000Ë
+
+	)
+
+573 
+	#CBOUT_L
+ (0x0001Ë
+
+	)
+
+574 
+	#CBOUTPOL_L
+ (0x0002Ë
+
+	)
+
+575 
+	#CBF_L
+ (0x0004Ë
+
+	)
+
+576 
+	#CBIES_L
+ (0x0008Ë
+
+	)
+
+577 
+	#CBSHORT_L
+ (0x0010Ë
+
+	)
+
+578 
+	#CBEX_L
+ (0x0020Ë
+
+	)
+
+579 
+	#CBFDLY0_L
+ (0x0040Ë
+
+	)
+
+580 
+	#CBFDLY1_L
+ (0x0080Ë
+
+	)
+
+586 
+	#CBPWRMD0_H
+ (0x0001Ë
+
+	)
+
+587 
+	#CBPWRMD1_H
+ (0x0002Ë
+
+	)
+
+588 
+	#CBON_H
+ (0x0004Ë
+
+	)
+
+589 
+	#CBMRVL_H
+ (0x0008Ë
+
+	)
+
+590 
+	#CBMRVS_H
+ (0x0010Ë
+
+	)
+
+595 
+	#CBFDLY_0
+ (0x0000Ë
+
+	)
+
+596 
+	#CBFDLY_1
+ (0x0040Ë
+
+	)
+
+597 
+	#CBFDLY_2
+ (0x0080Ë
+
+	)
+
+598 
+	#CBFDLY_3
+ (0x00C0Ë
+
+	)
+
+600 
+	#CBPWRMD_0
+ (0x0000Ë
+
+	)
+
+601 
+	#CBPWRMD_1
+ (0x0100Ë
+
+	)
+
+602 
+	#CBPWRMD_2
+ (0x0200Ë
+
+	)
+
+603 
+	#CBPWRMD_3
+ (0x0300Ë
+
+	)
+
+606 
+	#CBREF00
+ (0x0001Ë
+
+	)
+
+607 
+	#CBREF01
+ (0x0002Ë
+
+	)
+
+608 
+	#CBREF02
+ (0x0004Ë
+
+	)
+
+609 
+	#CBREF03
+ (0x0008Ë
+
+	)
+
+610 
+	#CBREF04
+ (0x0010Ë
+
+	)
+
+611 
+	#CBRSEL
+ (0x0020Ë
+
+	)
+
+612 
+	#CBRS0
+ (0x0040Ë
+
+	)
+
+613 
+	#CBRS1
+ (0x0080Ë
+
+	)
+
+614 
+	#CBREF10
+ (0x0100Ë
+
+	)
+
+615 
+	#CBREF11
+ (0x0200Ë
+
+	)
+
+616 
+	#CBREF12
+ (0x0400Ë
+
+	)
+
+617 
+	#CBREF13
+ (0x0800Ë
+
+	)
+
+618 
+	#CBREF14
+ (0x1000Ë
+
+	)
+
+619 
+	#CBREFL0
+ (0x2000Ë
+
+	)
+
+620 
+	#CBREFL1
+ (0x4000Ë
+
+	)
+
+621 
+	#CBREFACC
+ (0x8000Ë
+
+	)
+
+624 
+	#CBREF00_L
+ (0x0001Ë
+
+	)
+
+625 
+	#CBREF01_L
+ (0x0002Ë
+
+	)
+
+626 
+	#CBREF02_L
+ (0x0004Ë
+
+	)
+
+627 
+	#CBREF03_L
+ (0x0008Ë
+
+	)
+
+628 
+	#CBREF04_L
+ (0x0010Ë
+
+	)
+
+629 
+	#CBRSEL_L
+ (0x0020Ë
+
+	)
+
+630 
+	#CBRS0_L
+ (0x0040Ë
+
+	)
+
+631 
+	#CBRS1_L
+ (0x0080Ë
+
+	)
+
+634 
+	#CBREF10_H
+ (0x0001Ë
+
+	)
+
+635 
+	#CBREF11_H
+ (0x0002Ë
+
+	)
+
+636 
+	#CBREF12_H
+ (0x0004Ë
+
+	)
+
+637 
+	#CBREF13_H
+ (0x0008Ë
+
+	)
+
+638 
+	#CBREF14_H
+ (0x0010Ë
+
+	)
+
+639 
+	#CBREFL0_H
+ (0x0020Ë
+
+	)
+
+640 
+	#CBREFL1_H
+ (0x0040Ë
+
+	)
+
+641 
+	#CBREFACC_H
+ (0x0080Ë
+
+	)
+
+643 
+	#CBREF0_0
+ (0x0000Ë
+
+	)
+
+644 
+	#CBREF0_1
+ (0x0001Ë
+
+	)
+
+645 
+	#CBREF0_2
+ (0x0002Ë
+
+	)
+
+646 
+	#CBREF0_3
+ (0x0003Ë
+
+	)
+
+647 
+	#CBREF0_4
+ (0x0004Ë
+
+	)
+
+648 
+	#CBREF0_5
+ (0x0005Ë
+
+	)
+
+649 
+	#CBREF0_6
+ (0x0006Ë
+
+	)
+
+650 
+	#CBREF0_7
+ (0x0007Ë
+
+	)
+
+651 
+	#CBREF0_8
+ (0x0008Ë
+
+	)
+
+652 
+	#CBREF0_9
+ (0x0009Ë
+
+	)
+
+653 
+	#CBREF0_10
+ (0x000AË
+
+	)
+
+654 
+	#CBREF0_11
+ (0x000BË
+
+	)
+
+655 
+	#CBREF0_12
+ (0x000CË
+
+	)
+
+656 
+	#CBREF0_13
+ (0x000DË
+
+	)
+
+657 
+	#CBREF0_14
+ (0x000EË
+
+	)
+
+658 
+	#CBREF0_15
+ (0x000FË
+
+	)
+
+659 
+	#CBREF0_16
+ (0x0010Ë
+
+	)
+
+660 
+	#CBREF0_17
+ (0x0011Ë
+
+	)
+
+661 
+	#CBREF0_18
+ (0x0012Ë
+
+	)
+
+662 
+	#CBREF0_19
+ (0x0013Ë
+
+	)
+
+663 
+	#CBREF0_20
+ (0x0014Ë
+
+	)
+
+664 
+	#CBREF0_21
+ (0x0015Ë
+
+	)
+
+665 
+	#CBREF0_22
+ (0x0016Ë
+
+	)
+
+666 
+	#CBREF0_23
+ (0x0017Ë
+
+	)
+
+667 
+	#CBREF0_24
+ (0x0018Ë
+
+	)
+
+668 
+	#CBREF0_25
+ (0x0019Ë
+
+	)
+
+669 
+	#CBREF0_26
+ (0x001AË
+
+	)
+
+670 
+	#CBREF0_27
+ (0x001BË
+
+	)
+
+671 
+	#CBREF0_28
+ (0x001CË
+
+	)
+
+672 
+	#CBREF0_29
+ (0x001DË
+
+	)
+
+673 
+	#CBREF0_30
+ (0x001EË
+
+	)
+
+674 
+	#CBREF0_31
+ (0x001FË
+
+	)
+
+676 
+	#CBRS_0
+ (0x0000Ë
+
+	)
+
+677 
+	#CBRS_1
+ (0x0040Ë
+
+	)
+
+678 
+	#CBRS_2
+ (0x0080Ë
+
+	)
+
+679 
+	#CBRS_3
+ (0x00C0Ë
+
+	)
+
+681 
+	#CBREF1_0
+ (0x0000Ë
+
+	)
+
+682 
+	#CBREF1_1
+ (0x0100Ë
+
+	)
+
+683 
+	#CBREF1_2
+ (0x0200Ë
+
+	)
+
+684 
+	#CBREF1_3
+ (0x0300Ë
+
+	)
+
+685 
+	#CBREF1_4
+ (0x0400Ë
+
+	)
+
+686 
+	#CBREF1_5
+ (0x0500Ë
+
+	)
+
+687 
+	#CBREF1_6
+ (0x0600Ë
+
+	)
+
+688 
+	#CBREF1_7
+ (0x0700Ë
+
+	)
+
+689 
+	#CBREF1_8
+ (0x0800Ë
+
+	)
+
+690 
+	#CBREF1_9
+ (0x0900Ë
+
+	)
+
+691 
+	#CBREF1_10
+ (0x0A00Ë
+
+	)
+
+692 
+	#CBREF1_11
+ (0x0B00Ë
+
+	)
+
+693 
+	#CBREF1_12
+ (0x0C00Ë
+
+	)
+
+694 
+	#CBREF1_13
+ (0x0D00Ë
+
+	)
+
+695 
+	#CBREF1_14
+ (0x0E00Ë
+
+	)
+
+696 
+	#CBREF1_15
+ (0x0F00Ë
+
+	)
+
+697 
+	#CBREF1_16
+ (0x1000Ë
+
+	)
+
+698 
+	#CBREF1_17
+ (0x1100Ë
+
+	)
+
+699 
+	#CBREF1_18
+ (0x1200Ë
+
+	)
+
+700 
+	#CBREF1_19
+ (0x1300Ë
+
+	)
+
+701 
+	#CBREF1_20
+ (0x1400Ë
+
+	)
+
+702 
+	#CBREF1_21
+ (0x1500Ë
+
+	)
+
+703 
+	#CBREF1_22
+ (0x1600Ë
+
+	)
+
+704 
+	#CBREF1_23
+ (0x1700Ë
+
+	)
+
+705 
+	#CBREF1_24
+ (0x1800Ë
+
+	)
+
+706 
+	#CBREF1_25
+ (0x1900Ë
+
+	)
+
+707 
+	#CBREF1_26
+ (0x1A00Ë
+
+	)
+
+708 
+	#CBREF1_27
+ (0x1B00Ë
+
+	)
+
+709 
+	#CBREF1_28
+ (0x1C00Ë
+
+	)
+
+710 
+	#CBREF1_29
+ (0x1D00Ë
+
+	)
+
+711 
+	#CBREF1_30
+ (0x1E00Ë
+
+	)
+
+712 
+	#CBREF1_31
+ (0x1F00Ë
+
+	)
+
+714 
+	#CBREFL_0
+ (0x0000Ë
+
+	)
+
+715 
+	#CBREFL_1
+ (0x2000Ë
+
+	)
+
+716 
+	#CBREFL_2
+ (0x4000Ë
+
+	)
+
+717 
+	#CBREFL_3
+ (0x6000Ë
+
+	)
+
+719 
+	#CBPD0
+ (0x0001Ë
+
+	)
+
+720 
+	#CBPD1
+ (0x0002Ë
+
+	)
+
+721 
+	#CBPD2
+ (0x0004Ë
+
+	)
+
+722 
+	#CBPD3
+ (0x0008Ë
+
+	)
+
+723 
+	#CBPD4
+ (0x0010Ë
+
+	)
+
+724 
+	#CBPD5
+ (0x0020Ë
+
+	)
+
+725 
+	#CBPD6
+ (0x0040Ë
+
+	)
+
+726 
+	#CBPD7
+ (0x0080Ë
+
+	)
+
+727 
+	#CBPD8
+ (0x0100Ë
+
+	)
+
+728 
+	#CBPD9
+ (0x0200Ë
+
+	)
+
+729 
+	#CBPD10
+ (0x0400Ë
+
+	)
+
+730 
+	#CBPD11
+ (0x0800Ë
+
+	)
+
+731 
+	#CBPD12
+ (0x1000Ë
+
+	)
+
+732 
+	#CBPD13
+ (0x2000Ë
+
+	)
+
+733 
+	#CBPD14
+ (0x4000Ë
+
+	)
+
+734 
+	#CBPD15
+ (0x8000Ë
+
+	)
+
+736 
+	#CBPD0_L
+ (0x0001Ë
+
+	)
+
+737 
+	#CBPD1_L
+ (0x0002Ë
+
+	)
+
+738 
+	#CBPD2_L
+ (0x0004Ë
+
+	)
+
+739 
+	#CBPD3_L
+ (0x0008Ë
+
+	)
+
+740 
+	#CBPD4_L
+ (0x0010Ë
+
+	)
+
+741 
+	#CBPD5_L
+ (0x0020Ë
+
+	)
+
+742 
+	#CBPD6_L
+ (0x0040Ë
+
+	)
+
+743 
+	#CBPD7_L
+ (0x0080Ë
+
+	)
+
+745 
+	#CBPD8_H
+ (0x0001Ë
+
+	)
+
+746 
+	#CBPD9_H
+ (0x0002Ë
+
+	)
+
+747 
+	#CBPD10_H
+ (0x0004Ë
+
+	)
+
+748 
+	#CBPD11_H
+ (0x0008Ë
+
+	)
+
+749 
+	#CBPD12_H
+ (0x0010Ë
+
+	)
+
+750 
+	#CBPD13_H
+ (0x0020Ë
+
+	)
+
+751 
+	#CBPD14_H
+ (0x0040Ë
+
+	)
+
+752 
+	#CBPD15_H
+ (0x0080Ë
+
+	)
+
+755 
+	#CBIFG
+ (0x0001Ë
+
+	)
+
+756 
+	#CBIIFG
+ (0x0002Ë
+
+	)
+
+763 
+	#CBIE
+ (0x0100Ë
+
+	)
+
+764 
+	#CBIIE
+ (0x0200Ë
+
+	)
+
+773 
+	#CBIFG_L
+ (0x0001Ë
+
+	)
+
+774 
+	#CBIIFG_L
+ (0x0002Ë
+
+	)
+
+795 
+	#CBIE_H
+ (0x0001Ë
+
+	)
+
+796 
+	#CBIIE_H
+ (0x0002Ë
+
+	)
+
+805 
+	#CBIV_NONE
+ (0x0000Ë
+
+	)
+
+806 
+	#CBIV_CBIFG
+ (0x0002Ë
+
+	)
+
+807 
+	#CBIV_CBIIFG
+ (0x0004Ë
+
+	)
+
+812 
+	#__MSP430_HAS_CC1101__
+
+
+	)
+
+813 
+	#__MSP430_BASEADDRESS_CC1101__
+ 0x0F00
+
+	)
+
+815 
+SFR_16BIT
+(
+RF1AIFCTL0
+);
+
+816 
+SFR_8BIT
+(
+RF1AIFCTL0_L
+);
+
+817 
+SFR_8BIT
+(
+RF1AIFCTL0_H
+);
+
+818 
+SFR_16BIT
+(
+RF1AIFCTL1
+);
+
+819 
+SFR_8BIT
+(
+RF1AIFCTL1_L
+);
+
+820 
+SFR_8BIT
+(
+RF1AIFCTL1_H
+);
+
+821 
+	#RF1AIFIFG
+ 
+RF1AIFCTL1_L
+
+
+	)
+
+822 
+	#RF1AIFIE
+ 
+RF1AIFCTL1_H
+
+
+	)
+
+823 
+SFR_16BIT
+(
+RF1AIFCTL2
+);
+
+824 
+SFR_8BIT
+(
+RF1AIFCTL2_L
+);
+
+825 
+SFR_8BIT
+(
+RF1AIFCTL2_H
+);
+
+826 
+SFR_16BIT
+(
+RF1AIFERR
+);
+
+827 
+SFR_8BIT
+(
+RF1AIFERR_L
+);
+
+828 
+SFR_8BIT
+(
+RF1AIFERR_H
+);
+
+829 
+SFR_16BIT
+(
+RF1AIFERRV
+);
+
+830 
+SFR_8BIT
+(
+RF1AIFERRV_L
+);
+
+831 
+SFR_8BIT
+(
+RF1AIFERRV_H
+);
+
+832 
+SFR_16BIT
+(
+RF1AIFIV
+);
+
+833 
+SFR_8BIT
+(
+RF1AIFIV_L
+);
+
+834 
+SFR_8BIT
+(
+RF1AIFIV_H
+);
+
+835 
+SFR_16BIT
+(
+RF1AINSTRW
+);
+
+836 
+SFR_8BIT
+(
+RF1AINSTRW_L
+);
+
+837 
+SFR_8BIT
+(
+RF1AINSTRW_H
+);
+
+838 
+	#RF1ADINB
+ 
+RF1AINSTRW_L
+
+
+	)
+
+839 
+	#RF1AINSTRB
+ 
+RF1AINSTRW_H
+
+
+	)
+
+840 
+SFR_16BIT
+(
+RF1AINSTR1W
+);
+
+841 
+SFR_8BIT
+(
+RF1AINSTR1W_L
+);
+
+842 
+SFR_8BIT
+(
+RF1AINSTR1W_H
+);
+
+843 
+	#RF1AINSTR1B
+ 
+RF1AINSTR1W_H
+
+
+	)
+
+844 
+SFR_16BIT
+(
+RF1AINSTR2W
+);
+
+845 
+SFR_8BIT
+(
+RF1AINSTR2W_L
+);
+
+846 
+SFR_8BIT
+(
+RF1AINSTR2W_H
+);
+
+847 
+	#RF1AINSTR2B
+ 
+RF1AINSTR1W_H
+
+
+	)
+
+848 
+SFR_16BIT
+(
+RF1ADINW
+);
+
+849 
+SFR_8BIT
+(
+RF1ADINW_L
+);
+
+850 
+SFR_8BIT
+(
+RF1ADINW_H
+);
+
+852 
+SFR_16BIT
+(
+RF1ASTAT0W
+);
+
+853 
+SFR_8BIT
+(
+RF1ASTAT0W_L
+);
+
+854 
+SFR_8BIT
+(
+RF1ASTAT0W_H
+);
+
+855 
+	#RF1ADOUT0B
+ 
+RF1ASTAT0W_L
+
+
+	)
+
+856 
+	#RF1ASTAT0B
+ 
+RF1ASTAT0W_H
+
+
+	)
+
+857 
+	#RF1ASTATW
+ 
+RF1ASTAT0W
+
+
+	)
+
+858 
+	#RF1ADOUTB
+ 
+RF1ASTAT0W_L
+
+
+	)
+
+859 
+	#RF1ASTATB
+ 
+RF1ASTAT0W_H
+
+
+	)
+
+860 
+SFR_16BIT
+(
+RF1ASTAT1W
+);
+
+861 
+SFR_8BIT
+(
+RF1ASTAT1W_L
+);
+
+862 
+SFR_8BIT
+(
+RF1ASTAT1W_H
+);
+
+863 
+	#RF1ADOUT1B
+ 
+RF1ASTAT1W_L
+
+
+	)
+
+864 
+	#RF1ASTAT1B
+ 
+RF1ASTAT1W_H
+
+
+	)
+
+865 
+SFR_16BIT
+(
+RF1ASTAT2W
+);
+
+866 
+SFR_8BIT
+(
+RF1ASTAT2W_L
+);
+
+867 
+SFR_8BIT
+(
+RF1ASTAT2W_H
+);
+
+868 
+	#RF1ADOUT2B
+ 
+RF1ASTAT2W_L
+
+
+	)
+
+869 
+	#RF1ASTAT2B
+ 
+RF1ASTAT2W_H
+
+
+	)
+
+870 
+SFR_16BIT
+(
+RF1ADOUT0W
+);
+
+871 
+SFR_8BIT
+(
+RF1ADOUT0W_L
+);
+
+872 
+SFR_8BIT
+(
+RF1ADOUT0W_H
+);
+
+873 
+	#RF1ADOUTW
+ 
+RF1ADOUT0W
+
+
+	)
+
+874 
+	#RF1ADOUTW_L
+ 
+RF1ADOUT0W_L
+
+
+	)
+
+875 
+	#RF1ADOUTW_H
+ 
+RF1ADOUT0W_H
+
+
+	)
+
+876 
+SFR_16BIT
+(
+RF1ADOUT1W
+);
+
+877 
+SFR_8BIT
+(
+RF1ADOUT1W_L
+);
+
+878 
+SFR_8BIT
+(
+RF1ADOUT1W_H
+);
+
+879 
+SFR_16BIT
+(
+RF1ADOUT2W
+);
+
+880 
+SFR_8BIT
+(
+RF1ADOUT2W_L
+);
+
+881 
+SFR_8BIT
+(
+RF1ADOUT2W_H
+);
+
+882 
+SFR_16BIT
+(
+RF1AIN
+);
+
+883 
+SFR_8BIT
+(
+RF1AIN_L
+);
+
+884 
+SFR_8BIT
+(
+RF1AIN_H
+);
+
+885 
+SFR_16BIT
+(
+RF1AIFG
+);
+
+886 
+SFR_8BIT
+(
+RF1AIFG_L
+);
+
+887 
+SFR_8BIT
+(
+RF1AIFG_H
+);
+
+888 
+SFR_16BIT
+(
+RF1AIES
+);
+
+889 
+SFR_8BIT
+(
+RF1AIES_L
+);
+
+890 
+SFR_8BIT
+(
+RF1AIES_H
+);
+
+891 
+SFR_16BIT
+(
+RF1AIE
+);
+
+892 
+SFR_8BIT
+(
+RF1AIE_L
+);
+
+893 
+SFR_8BIT
+(
+RF1AIE_H
+);
+
+894 
+SFR_16BIT
+(
+RF1AIV
+);
+
+895 
+SFR_8BIT
+(
+RF1AIV_L
+);
+
+896 
+SFR_8BIT
+(
+RF1AIV_H
+);
+
+897 
+SFR_16BIT
+(
+RF1ARXFIFO
+);
+
+898 
+SFR_8BIT
+(
+RF1ARXFIFO_L
+);
+
+899 
+SFR_8BIT
+(
+RF1ARXFIFO_H
+);
+
+900 
+SFR_16BIT
+(
+RF1ATXFIFO
+);
+
+901 
+SFR_8BIT
+(
+RF1ATXFIFO_L
+);
+
+902 
+SFR_8BIT
+(
+RF1ATXFIFO_H
+);
+
+905 
+	#RFFIFOEN
+ (0x0001Ë
+
+	)
+
+906 
+	#RFENDIAN
+ (0x0002Ë
+
+	)
+
+909 
+	#RFFIFOEN_L
+ (0x0001Ë
+
+	)
+
+910 
+	#RFENDIAN_L
+ (0x0002Ë
+
+	)
+
+915 
+	#RFRXIFG
+ (0x0001Ë
+
+	)
+
+916 
+	#RFTXIFG
+ (0x0002Ë
+
+	)
+
+917 
+	#RFERRIFG
+ (0x0004Ë
+
+	)
+
+918 
+	#RFINSTRIFG
+ (0x0010Ë
+
+	)
+
+919 
+	#RFDINIFG
+ (0x0020Ë
+
+	)
+
+920 
+	#RFSTATIFG
+ (0x0040Ë
+
+	)
+
+921 
+	#RFDOUTIFG
+ (0x0080Ë
+
+	)
+
+922 
+	#RFRXIE
+ (0x0100Ë
+
+	)
+
+923 
+	#RFTXIE
+ (0x0200Ë
+
+	)
+
+924 
+	#RFERRIE
+ (0x0400Ë
+
+	)
+
+925 
+	#RFINSTRIE
+ (0x1000Ë
+
+	)
+
+926 
+	#RFDINIE
+ (0x2000Ë
+
+	)
+
+927 
+	#RFSTATIE
+ (0x4000Ë
+
+	)
+
+928 
+	#RFDOUTIE
+ (0x8000Ë
+
+	)
+
+931 
+	#RFRXIFG_L
+ (0x0001Ë
+
+	)
+
+932 
+	#RFTXIFG_L
+ (0x0002Ë
+
+	)
+
+933 
+	#RFERRIFG_L
+ (0x0004Ë
+
+	)
+
+934 
+	#RFINSTRIFG_L
+ (0x0010Ë
+
+	)
+
+935 
+	#RFDINIFG_L
+ (0x0020Ë
+
+	)
+
+936 
+	#RFSTATIFG_L
+ (0x0040Ë
+
+	)
+
+937 
+	#RFDOUTIFG_L
+ (0x0080Ë
+
+	)
+
+940 
+	#RFRXIE_H
+ (0x0001Ë
+
+	)
+
+941 
+	#RFTXIE_H
+ (0x0002Ë
+
+	)
+
+942 
+	#RFERRIE_H
+ (0x0004Ë
+
+	)
+
+943 
+	#RFINSTRIE_H
+ (0x0010Ë
+
+	)
+
+944 
+	#RFDINIE_H
+ (0x0020Ë
+
+	)
+
+945 
+	#RFSTATIE_H
+ (0x0040Ë
+
+	)
+
+946 
+	#RFDOUTIE_H
+ (0x0080Ë
+
+	)
+
+949 
+	#LVERR
+ (0x0001Ë
+
+	)
+
+950 
+	#OPERR
+ (0x0002Ë
+
+	)
+
+951 
+	#OUTERR
+ (0x0004Ë
+
+	)
+
+952 
+	#OPOVERR
+ (0x0008Ë
+
+	)
+
+955 
+	#LVERR_L
+ (0x0001Ë
+
+	)
+
+956 
+	#OPERR_L
+ (0x0002Ë
+
+	)
+
+957 
+	#OUTERR_L
+ (0x0004Ë
+
+	)
+
+958 
+	#OPOVERR_L
+ (0x0008Ë
+
+	)
+
+963 
+	#RF1AIFERRV_NONE
+ (0x0000Ë
+
+	)
+
+964 
+	#RF1AIFERRV_LVERR
+ (0x0002Ë
+
+	)
+
+965 
+	#RF1AIFERRV_OPERR
+ (0x0004Ë
+
+	)
+
+966 
+	#RF1AIFERRV_OUTERR
+ (0x0006Ë
+
+	)
+
+967 
+	#RF1AIFERRV_OPOVERR
+ (0x0008Ë
+
+	)
+
+970 
+	#RF1AIFIV_NONE
+ (0x0000Ë
+
+	)
+
+971 
+	#RF1AIFIV_RFERRIFG
+ (0x0002Ë
+
+	)
+
+972 
+	#RF1AIFIV_RFDOUTIFG
+ (0x0004Ë
+
+	)
+
+973 
+	#RF1AIFIV_RFSTATIFG
+ (0x0006Ë
+
+	)
+
+974 
+	#RF1AIFIV_RFDINIFG
+ (0x0008Ë
+
+	)
+
+975 
+	#RF1AIFIV_RFINSTRIFG
+ (0x000AË
+
+	)
+
+976 
+	#RF1AIFIV_RFRXIFG
+ (0x000CË
+
+	)
+
+977 
+	#RF1AIFIV_RFTXIFG
+ (0x000EË
+
+	)
+
+980 
+	#RF1AIV_NONE
+ (0x0000Ë
+
+	)
+
+981 
+	#RF1AIV_RFIFG0
+ (0x0002Ë
+
+	)
+
+982 
+	#RF1AIV_RFIFG1
+ (0x0004Ë
+
+	)
+
+983 
+	#RF1AIV_RFIFG2
+ (0x0006Ë
+
+	)
+
+984 
+	#RF1AIV_RFIFG3
+ (0x0008Ë
+
+	)
+
+985 
+	#RF1AIV_RFIFG4
+ (0x000AË
+
+	)
+
+986 
+	#RF1AIV_RFIFG5
+ (0x000CË
+
+	)
+
+987 
+	#RF1AIV_RFIFG6
+ (0x000EË
+
+	)
+
+988 
+	#RF1AIV_RFIFG7
+ (0x0010Ë
+
+	)
+
+989 
+	#RF1AIV_RFIFG8
+ (0x0012Ë
+
+	)
+
+990 
+	#RF1AIV_RFIFG9
+ (0x0014Ë
+
+	)
+
+991 
+	#RF1AIV_RFIFG10
+ (0x0016Ë
+
+	)
+
+992 
+	#RF1AIV_RFIFG11
+ (0x0018Ë
+
+	)
+
+993 
+	#RF1AIV_RFIFG12
+ (0x001AË
+
+	)
+
+994 
+	#RF1AIV_RFIFG13
+ (0x001CË
+
+	)
+
+995 
+	#RF1AIV_RFIFG14
+ (0x001EË
+
+	)
+
+996 
+	#RF1AIV_RFIFG15
+ (0x0020Ë
+
+	)
+
+999 
+	#IOCFG2
+ 0x00
+
+	)
+
+1000 
+	#IOCFG1
+ 0x01
+
+	)
+
+1001 
+	#IOCFG0
+ 0x02
+
+	)
+
+1002 
+	#FIFOTHR
+ 0x03
+
+	)
+
+1003 
+	#SYNC1
+ 0x04
+
+	)
+
+1004 
+	#SYNC0
+ 0x05
+
+	)
+
+1005 
+	#PKTLEN
+ 0x06
+
+	)
+
+1006 
+	#PKTCTRL1
+ 0x07
+
+	)
+
+1007 
+	#PKTCTRL0
+ 0x08
+
+	)
+
+1008 
+	#ADDR
+ 0x09
+
+	)
+
+1009 
+	#CHANNR
+ 0x0A
+
+	)
+
+1010 
+	#FSCTRL1
+ 0x0B
+
+	)
+
+1011 
+	#FSCTRL0
+ 0x0C
+
+	)
+
+1012 
+	#FREQ2
+ 0x0D
+
+	)
+
+1013 
+	#FREQ1
+ 0x0E
+
+	)
+
+1014 
+	#FREQ0
+ 0x0F
+
+	)
+
+1015 
+	#MDMCFG4
+ 0x10
+
+	)
+
+1016 
+	#MDMCFG3
+ 0x11
+
+	)
+
+1017 
+	#MDMCFG2
+ 0x12
+
+	)
+
+1018 
+	#MDMCFG1
+ 0x13
+
+	)
+
+1019 
+	#MDMCFG0
+ 0x14
+
+	)
+
+1020 
+	#DEVIATN
+ 0x15
+
+	)
+
+1021 
+	#MCSM2
+ 0x16
+
+	)
+
+1022 
+	#MCSM1
+ 0x17
+
+	)
+
+1023 
+	#MCSM0
+ 0x18
+
+	)
+
+1024 
+	#FOCCFG
+ 0x19
+
+	)
+
+1025 
+	#BSCFG
+ 0x1A
+
+	)
+
+1026 
+	#AGCCTRL2
+ 0x1B
+
+	)
+
+1027 
+	#AGCCTRL1
+ 0x1C
+
+	)
+
+1028 
+	#AGCCTRL0
+ 0x1D
+
+	)
+
+1029 
+	#WOREVT1
+ 0x1E
+
+	)
+
+1030 
+	#WOREVT0
+ 0x1F
+
+	)
+
+1031 
+	#WORCTRL
+ 0x20
+
+	)
+
+1032 
+	#FREND1
+ 0x21
+
+	)
+
+1033 
+	#FREND0
+ 0x22
+
+	)
+
+1034 
+	#FSCAL3
+ 0x23
+
+	)
+
+1035 
+	#FSCAL2
+ 0x24
+
+	)
+
+1036 
+	#FSCAL1
+ 0x25
+
+	)
+
+1037 
+	#FSCAL0
+ 0x26
+
+	)
+
+1040 
+	#FSTEST
+ 0x29
+
+	)
+
+1041 
+	#PTEST
+ 0x2A
+
+	)
+
+1042 
+	#AGCTEST
+ 0x2B
+
+	)
+
+1043 
+	#TEST2
+ 0x2C
+
+	)
+
+1044 
+	#TEST1
+ 0x2D
+
+	)
+
+1045 
+	#TEST0
+ 0x2E
+
+	)
+
+1048 
+	#PARTNUM
+ 0x30
+
+	)
+
+1049 
+	#VERSION
+ 0x31
+
+	)
+
+1050 
+	#FREQEST
+ 0x32
+
+	)
+
+1051 
+	#LQI
+ 0x33
+
+	)
+
+1052 
+	#RSSI
+ 0x34
+
+	)
+
+1053 
+	#MARCSTATE
+ 0x35
+
+	)
+
+1054 
+	#WORTIME1
+ 0x36
+
+	)
+
+1055 
+	#WORTIME0
+ 0x37
+
+	)
+
+1056 
+	#PKTSTATUS
+ 0x38
+
+	)
+
+1057 
+	#VCO_VC_DAC
+ 0x39
+
+	)
+
+1058 
+	#TXBYTES
+ 0x3A
+
+	)
+
+1059 
+	#RXBYTES
+ 0x3B
+
+	)
+
+1062 
+	#PATABLE
+ 0x3E
+
+	)
+
+1063 
+	#TXFIFO
+ 0x3F
+
+	)
+
+1064 
+	#RXFIFO
+ 0x3F
+
+	)
+
+1068 
+	#RF_SRES
+ 0x30
+
+	)
+
+1069 
+	#RF_SFSTXON
+ 0x31
+
+	)
+
+1070 
+	#RF_SXOFF
+ 0x32
+
+	)
+
+1071 
+	#RF_SCAL
+ 0x33
+
+	)
+
+1072 
+	#RF_SRX
+ 0x34
+
+	)
+
+1073 
+	#RF_STX
+ 0x35
+
+	)
+
+1074 
+	#RF_SIDLE
+ 0x36
+
+	)
+
+1076 
+	#RF_SWOR
+ 0x38
+
+	)
+
+1077 
+	#RF_SPWD
+ 0x39
+
+	)
+
+1078 
+	#RF_SFRX
+ 0x3A
+
+	)
+
+1079 
+	#RF_SFTX
+ 0x3B
+
+	)
+
+1080 
+	#RF_SWORRST
+ 0x3C
+
+	)
+
+1081 
+	#RF_SNOP
+ 0x3D
+
+	)
+
+1083 
+	#RF_RXSTAT
+ 0x80
+
+	)
+
+1084 
+	#RF_TXSTAT
+ 0x00
+
+	)
+
+1087 
+	#RF_SNGLREGRD
+ 0x80
+
+	)
+
+1088 
+	#RF_SNGLREGWR
+ 0x00
+
+	)
+
+1089 
+	#RF_REGRD
+ 0xC0
+
+	)
+
+1090 
+	#RF_REGWR
+ 0x40
+
+	)
+
+1091 
+	#RF_STATREGRD
+ 0xC0
+
+	)
+
+1092 
+	#RF_SNGLPATABRD
+ (
+RF_SNGLREGRD
++
+PATABLE
+)
+
+	)
+
+1093 
+	#RF_SNGLPATABWR
+ (
+RF_SNGLREGWR
++
+PATABLE
+)
+
+	)
+
+1094 
+	#RF_PATABRD
+ (
+RF_REGRD
++
+PATABLE
+)
+
+	)
+
+1095 
+	#RF_PATABWR
+ (
+RF_REGWR
++
+PATABLE
+)
+
+	)
+
+1096 
+	#RF_SNGLRXRD
+ (
+RF_SNGLREGRD
++
+RXFIFO
+)
+
+	)
+
+1097 
+	#RF_SNGLTXWR
+ (
+RF_SNGLREGWR
++
+TXFIFO
+)
+
+	)
+
+1098 
+	#RF_RXFIFORD
+ (
+RF_REGRD
++
+RXFIFO
+)
+
+	)
+
+1099 
+	#RF_TXFIFOWR
+ (
+RF_REGWR
++
+TXFIFO
+)
+
+	)
+
+1104 
+	#__MSP430_HAS_CRC__
+
+
+	)
+
+1105 
+	#__MSP430_BASEADDRESS_CRC__
+ 0x0150
+
+	)
+
+1107 
+SFR_16BIT
+(
+CRCDI
+);
+
+1108 
+SFR_8BIT
+(
+CRCDI_L
+);
+
+1109 
+SFR_8BIT
+(
+CRCDI_H
+);
+
+1110 
+SFR_16BIT
+(
+CRCDIRB
+);
+
+1111 
+SFR_8BIT
+(
+CRCDIRB_L
+);
+
+1112 
+SFR_8BIT
+(
+CRCDIRB_H
+);
+
+1113 
+SFR_16BIT
+(
+CRCINIRES
+);
+
+1114 
+SFR_8BIT
+(
+CRCINIRES_L
+);
+
+1115 
+SFR_8BIT
+(
+CRCINIRES_H
+);
+
+1116 
+SFR_16BIT
+(
+CRCRESR
+);
+
+1117 
+SFR_8BIT
+(
+CRCRESR_L
+);
+
+1118 
+SFR_8BIT
+(
+CRCRESR_H
+);
+
+1123 
+	#__MSP430_HAS_DMAX_3__
+
+
+	)
+
+1124 
+	#__MSP430_BASEADDRESS_DMAX_3__
+ 0x0500
+
+	)
+
+1126 
+SFR_16BIT
+(
+DMACTL0
+);
+
+1127 
+SFR_8BIT
+(
+DMACTL0_L
+);
+
+1128 
+SFR_8BIT
+(
+DMACTL0_H
+);
+
+1129 
+SFR_16BIT
+(
+DMACTL1
+);
+
+1130 
+SFR_8BIT
+(
+DMACTL1_L
+);
+
+1131 
+SFR_8BIT
+(
+DMACTL1_H
+);
+
+1132 
+SFR_16BIT
+(
+DMACTL2
+);
+
+1133 
+SFR_8BIT
+(
+DMACTL2_L
+);
+
+1134 
+SFR_8BIT
+(
+DMACTL2_H
+);
+
+1135 
+SFR_16BIT
+(
+DMACTL3
+);
+
+1136 
+SFR_8BIT
+(
+DMACTL3_L
+);
+
+1137 
+SFR_8BIT
+(
+DMACTL3_H
+);
+
+1138 
+SFR_16BIT
+(
+DMACTL4
+);
+
+1139 
+SFR_8BIT
+(
+DMACTL4_L
+);
+
+1140 
+SFR_8BIT
+(
+DMACTL4_H
+);
+
+1141 
+SFR_16BIT
+(
+DMAIV
+);
+
+1142 
+SFR_8BIT
+(
+DMAIV_L
+);
+
+1143 
+SFR_8BIT
+(
+DMAIV_H
+);
+
+1145 
+SFR_16BIT
+(
+DMA0CTL
+);
+
+1146 
+SFR_8BIT
+(
+DMA0CTL_L
+);
+
+1147 
+SFR_8BIT
+(
+DMA0CTL_H
+);
+
+1148 
+SFR_20BIT
+(
+DMA0SA
+);
+
+1149 
+SFR_16BIT
+(
+DMA0SAL
+);
+
+1150 
+SFR_20BIT
+(
+DMA0DA
+);
+
+1151 
+SFR_16BIT
+(
+DMA0DAL
+);
+
+1152 
+SFR_16BIT
+(
+DMA0SZ
+);
+
+1154 
+SFR_16BIT
+(
+DMA1CTL
+);
+
+1155 
+SFR_8BIT
+(
+DMA1CTL_L
+);
+
+1156 
+SFR_8BIT
+(
+DMA1CTL_H
+);
+
+1157 
+SFR_20BIT
+(
+DMA1SA
+);
+
+1158 
+SFR_16BIT
+(
+DMA1SAL
+);
+
+1159 
+SFR_20BIT
+(
+DMA1DA
+);
+
+1160 
+SFR_16BIT
+(
+DMA1DAL
+);
+
+1161 
+SFR_16BIT
+(
+DMA1SZ
+);
+
+1163 
+SFR_16BIT
+(
+DMA2CTL
+);
+
+1164 
+SFR_8BIT
+(
+DMA2CTL_L
+);
+
+1165 
+SFR_8BIT
+(
+DMA2CTL_H
+);
+
+1166 
+SFR_20BIT
+(
+DMA2SA
+);
+
+1167 
+SFR_16BIT
+(
+DMA2SAL
+);
+
+1168 
+SFR_20BIT
+(
+DMA2DA
+);
+
+1169 
+SFR_16BIT
+(
+DMA2DAL
+);
+
+1170 
+SFR_16BIT
+(
+DMA2SZ
+);
+
+1173 
+	#DMA0TSEL0
+ (0x0001Ë
+
+	)
+
+1174 
+	#DMA0TSEL1
+ (0x0002Ë
+
+	)
+
+1175 
+	#DMA0TSEL2
+ (0x0004Ë
+
+	)
+
+1176 
+	#DMA0TSEL3
+ (0x0008Ë
+
+	)
+
+1177 
+	#DMA0TSEL4
+ (0x0010Ë
+
+	)
+
+1178 
+	#DMA1TSEL0
+ (0x0100Ë
+
+	)
+
+1179 
+	#DMA1TSEL1
+ (0x0200Ë
+
+	)
+
+1180 
+	#DMA1TSEL2
+ (0x0400Ë
+
+	)
+
+1181 
+	#DMA1TSEL3
+ (0x0800Ë
+
+	)
+
+1182 
+	#DMA1TSEL4
+ (0x1000Ë
+
+	)
+
+1185 
+	#DMA0TSEL0_L
+ (0x0001Ë
+
+	)
+
+1186 
+	#DMA0TSEL1_L
+ (0x0002Ë
+
+	)
+
+1187 
+	#DMA0TSEL2_L
+ (0x0004Ë
+
+	)
+
+1188 
+	#DMA0TSEL3_L
+ (0x0008Ë
+
+	)
+
+1189 
+	#DMA0TSEL4_L
+ (0x0010Ë
+
+	)
+
+1192 
+	#DMA1TSEL0_H
+ (0x0001Ë
+
+	)
+
+1193 
+	#DMA1TSEL1_H
+ (0x0002Ë
+
+	)
+
+1194 
+	#DMA1TSEL2_H
+ (0x0004Ë
+
+	)
+
+1195 
+	#DMA1TSEL3_H
+ (0x0008Ë
+
+	)
+
+1196 
+	#DMA1TSEL4_H
+ (0x0010Ë
+
+	)
+
+1199 
+	#DMA2TSEL0
+ (0x0001Ë
+
+	)
+
+1200 
+	#DMA2TSEL1
+ (0x0002Ë
+
+	)
+
+1201 
+	#DMA2TSEL2
+ (0x0004Ë
+
+	)
+
+1202 
+	#DMA2TSEL3
+ (0x0008Ë
+
+	)
+
+1203 
+	#DMA2TSEL4
+ (0x0010Ë
+
+	)
+
+1206 
+	#DMA2TSEL0_L
+ (0x0001Ë
+
+	)
+
+1207 
+	#DMA2TSEL1_L
+ (0x0002Ë
+
+	)
+
+1208 
+	#DMA2TSEL2_L
+ (0x0004Ë
+
+	)
+
+1209 
+	#DMA2TSEL3_L
+ (0x0008Ë
+
+	)
+
+1210 
+	#DMA2TSEL4_L
+ (0x0010Ë
+
+	)
+
+1215 
+	#ENNMI
+ (0x0001Ë
+
+	)
+
+1216 
+	#ROUNDROBIN
+ (0x0002Ë
+
+	)
+
+1217 
+	#DMARMWDIS
+ (0x0004Ë
+
+	)
+
+1220 
+	#ENNMI_L
+ (0x0001Ë
+
+	)
+
+1221 
+	#ROUNDROBIN_L
+ (0x0002Ë
+
+	)
+
+1222 
+	#DMARMWDIS_L
+ (0x0004Ë
+
+	)
+
+1227 
+	#DMAREQ
+ (0x0001Ë
+
+	)
+
+1228 
+	#DMAABORT
+ (0x0002Ë
+
+	)
+
+1229 
+	#DMAIE
+ (0x0004Ë
+
+	)
+
+1230 
+	#DMAIFG
+ (0x0008Ë
+
+	)
+
+1231 
+	#DMAEN
+ (0x0010Ë
+
+	)
+
+1232 
+	#DMALEVEL
+ (0x0020Ë
+
+	)
+
+1233 
+	#DMASRCBYTE
+ (0x0040Ë
+
+	)
+
+1234 
+	#DMADSTBYTE
+ (0x0080Ë
+
+	)
+
+1235 
+	#DMASRCINCR0
+ (0x0100Ë
+
+	)
+
+1236 
+	#DMASRCINCR1
+ (0x0200Ë
+
+	)
+
+1237 
+	#DMADSTINCR0
+ (0x0400Ë
+
+	)
+
+1238 
+	#DMADSTINCR1
+ (0x0800Ë
+
+	)
+
+1239 
+	#DMADT0
+ (0x1000Ë
+
+	)
+
+1240 
+	#DMADT1
+ (0x2000Ë
+
+	)
+
+1241 
+	#DMADT2
+ (0x4000Ë
+
+	)
+
+1244 
+	#DMAREQ_L
+ (0x0001Ë
+
+	)
+
+1245 
+	#DMAABORT_L
+ (0x0002Ë
+
+	)
+
+1246 
+	#DMAIE_L
+ (0x0004Ë
+
+	)
+
+1247 
+	#DMAIFG_L
+ (0x0008Ë
+
+	)
+
+1248 
+	#DMAEN_L
+ (0x0010Ë
+
+	)
+
+1249 
+	#DMALEVEL_L
+ (0x0020Ë
+
+	)
+
+1250 
+	#DMASRCBYTE_L
+ (0x0040Ë
+
+	)
+
+1251 
+	#DMADSTBYTE_L
+ (0x0080Ë
+
+	)
+
+1254 
+	#DMASRCINCR0_H
+ (0x0001Ë
+
+	)
+
+1255 
+	#DMASRCINCR1_H
+ (0x0002Ë
+
+	)
+
+1256 
+	#DMADSTINCR0_H
+ (0x0004Ë
+
+	)
+
+1257 
+	#DMADSTINCR1_H
+ (0x0008Ë
+
+	)
+
+1258 
+	#DMADT0_H
+ (0x0010Ë
+
+	)
+
+1259 
+	#DMADT1_H
+ (0x0020Ë
+
+	)
+
+1260 
+	#DMADT2_H
+ (0x0040Ë
+
+	)
+
+1262 
+	#DMASWDW
+ (0*0x0040uË
+
+	)
+
+1263 
+	#DMASBDW
+ (1*0x0040uË
+
+	)
+
+1264 
+	#DMASWDB
+ (2*0x0040uË
+
+	)
+
+1265 
+	#DMASBDB
+ (3*0x0040uË
+
+	)
+
+1267 
+	#DMASRCINCR_0
+ (0*0x0100uË
+
+	)
+
+1268 
+	#DMASRCINCR_1
+ (1*0x0100uË
+
+	)
+
+1269 
+	#DMASRCINCR_2
+ (2*0x0100uË
+
+	)
+
+1270 
+	#DMASRCINCR_3
+ (3*0x0100uË
+
+	)
+
+1272 
+	#DMADSTINCR_0
+ (0*0x0400uË
+
+	)
+
+1273 
+	#DMADSTINCR_1
+ (1*0x0400uË
+
+	)
+
+1274 
+	#DMADSTINCR_2
+ (2*0x0400uË
+
+	)
+
+1275 
+	#DMADSTINCR_3
+ (3*0x0400uË
+
+	)
+
+1277 
+	#DMADT_0
+ (0*0x1000uË
+
+	)
+
+1278 
+	#DMADT_1
+ (1*0x1000uË
+
+	)
+
+1279 
+	#DMADT_2
+ (2*0x1000uË
+
+	)
+
+1280 
+	#DMADT_3
+ (3*0x1000uË
+
+	)
+
+1281 
+	#DMADT_4
+ (4*0x1000uË
+
+	)
+
+1282 
+	#DMADT_5
+ (5*0x1000uË
+
+	)
+
+1283 
+	#DMADT_6
+ (6*0x1000uË
+
+	)
+
+1284 
+	#DMADT_7
+ (7*0x1000uË
+
+	)
+
+1287 
+	#DMAIV_NONE
+ (0x0000Ë
+
+	)
+
+1288 
+	#DMAIV_DMA0IFG
+ (0x0002Ë
+
+	)
+
+1289 
+	#DMAIV_DMA1IFG
+ (0x0004Ë
+
+	)
+
+1290 
+	#DMAIV_DMA2IFG
+ (0x0006Ë
+
+	)
+
+1292 
+	#DMA0TSEL_0
+ (0*0x0001uË
+
+	)
+
+1293 
+	#DMA0TSEL_1
+ (1*0x0001uË
+
+	)
+
+1294 
+	#DMA0TSEL_2
+ (2*0x0001uË
+
+	)
+
+1295 
+	#DMA0TSEL_3
+ (3*0x0001uË
+
+	)
+
+1296 
+	#DMA0TSEL_4
+ (4*0x0001uË
+
+	)
+
+1297 
+	#DMA0TSEL_5
+ (5*0x0001uË
+
+	)
+
+1298 
+	#DMA0TSEL_6
+ (6*0x0001uË
+
+	)
+
+1299 
+	#DMA0TSEL_7
+ (7*0x0001uË
+
+	)
+
+1300 
+	#DMA0TSEL_8
+ (8*0x0001uË
+
+	)
+
+1301 
+	#DMA0TSEL_9
+ (9*0x0001uË
+
+	)
+
+1302 
+	#DMA0TSEL_10
+ (10*0x0001uË
+
+	)
+
+1303 
+	#DMA0TSEL_11
+ (11*0x0001uË
+
+	)
+
+1304 
+	#DMA0TSEL_12
+ (12*0x0001uË
+
+	)
+
+1305 
+	#DMA0TSEL_13
+ (13*0x0001uË
+
+	)
+
+1306 
+	#DMA0TSEL_14
+ (14*0x0001uË
+
+	)
+
+1307 
+	#DMA0TSEL_15
+ (15*0x0001uË
+
+	)
+
+1308 
+	#DMA0TSEL_16
+ (16*0x0001uË
+
+	)
+
+1309 
+	#DMA0TSEL_17
+ (17*0x0001uË
+
+	)
+
+1310 
+	#DMA0TSEL_18
+ (18*0x0001uË
+
+	)
+
+1311 
+	#DMA0TSEL_19
+ (19*0x0001uË
+
+	)
+
+1312 
+	#DMA0TSEL_20
+ (20*0x0001uË
+
+	)
+
+1313 
+	#DMA0TSEL_21
+ (21*0x0001uË
+
+	)
+
+1314 
+	#DMA0TSEL_22
+ (22*0x0001uË
+
+	)
+
+1315 
+	#DMA0TSEL_23
+ (23*0x0001uË
+
+	)
+
+1316 
+	#DMA0TSEL_24
+ (24*0x0001uË
+
+	)
+
+1317 
+	#DMA0TSEL_25
+ (25*0x0001uË
+
+	)
+
+1318 
+	#DMA0TSEL_26
+ (26*0x0001uË
+
+	)
+
+1319 
+	#DMA0TSEL_27
+ (27*0x0001uË
+
+	)
+
+1320 
+	#DMA0TSEL_28
+ (28*0x0001uË
+
+	)
+
+1321 
+	#DMA0TSEL_29
+ (29*0x0001uË
+
+	)
+
+1322 
+	#DMA0TSEL_30
+ (30*0x0001uË
+
+	)
+
+1323 
+	#DMA0TSEL_31
+ (31*0x0001uË
+
+	)
+
+1325 
+	#DMA1TSEL_0
+ (0*0x0100uË
+
+	)
+
+1326 
+	#DMA1TSEL_1
+ (1*0x0100uË
+
+	)
+
+1327 
+	#DMA1TSEL_2
+ (2*0x0100uË
+
+	)
+
+1328 
+	#DMA1TSEL_3
+ (3*0x0100uË
+
+	)
+
+1329 
+	#DMA1TSEL_4
+ (4*0x0100uË
+
+	)
+
+1330 
+	#DMA1TSEL_5
+ (5*0x0100uË
+
+	)
+
+1331 
+	#DMA1TSEL_6
+ (6*0x0100uË
+
+	)
+
+1332 
+	#DMA1TSEL_7
+ (7*0x0100uË
+
+	)
+
+1333 
+	#DMA1TSEL_8
+ (8*0x0100uË
+
+	)
+
+1334 
+	#DMA1TSEL_9
+ (9*0x0100uË
+
+	)
+
+1335 
+	#DMA1TSEL_10
+ (10*0x0100uË
+
+	)
+
+1336 
+	#DMA1TSEL_11
+ (11*0x0100uË
+
+	)
+
+1337 
+	#DMA1TSEL_12
+ (12*0x0100uË
+
+	)
+
+1338 
+	#DMA1TSEL_13
+ (13*0x0100uË
+
+	)
+
+1339 
+	#DMA1TSEL_14
+ (14*0x0100uË
+
+	)
+
+1340 
+	#DMA1TSEL_15
+ (15*0x0100uË
+
+	)
+
+1341 
+	#DMA1TSEL_16
+ (16*0x0100uË
+
+	)
+
+1342 
+	#DMA1TSEL_17
+ (17*0x0100uË
+
+	)
+
+1343 
+	#DMA1TSEL_18
+ (18*0x0100uË
+
+	)
+
+1344 
+	#DMA1TSEL_19
+ (19*0x0100uË
+
+	)
+
+1345 
+	#DMA1TSEL_20
+ (20*0x0100uË
+
+	)
+
+1346 
+	#DMA1TSEL_21
+ (21*0x0100uË
+
+	)
+
+1347 
+	#DMA1TSEL_22
+ (22*0x0100uË
+
+	)
+
+1348 
+	#DMA1TSEL_23
+ (23*0x0100uË
+
+	)
+
+1349 
+	#DMA1TSEL_24
+ (24*0x0100uË
+
+	)
+
+1350 
+	#DMA1TSEL_25
+ (25*0x0100uË
+
+	)
+
+1351 
+	#DMA1TSEL_26
+ (26*0x0100uË
+
+	)
+
+1352 
+	#DMA1TSEL_27
+ (27*0x0100uË
+
+	)
+
+1353 
+	#DMA1TSEL_28
+ (28*0x0100uË
+
+	)
+
+1354 
+	#DMA1TSEL_29
+ (29*0x0100uË
+
+	)
+
+1355 
+	#DMA1TSEL_30
+ (30*0x0100uË
+
+	)
+
+1356 
+	#DMA1TSEL_31
+ (31*0x0100uË
+
+	)
+
+1358 
+	#DMA2TSEL_0
+ (0*0x0001uË
+
+	)
+
+1359 
+	#DMA2TSEL_1
+ (1*0x0001uË
+
+	)
+
+1360 
+	#DMA2TSEL_2
+ (2*0x0001uË
+
+	)
+
+1361 
+	#DMA2TSEL_3
+ (3*0x0001uË
+
+	)
+
+1362 
+	#DMA2TSEL_4
+ (4*0x0001uË
+
+	)
+
+1363 
+	#DMA2TSEL_5
+ (5*0x0001uË
+
+	)
+
+1364 
+	#DMA2TSEL_6
+ (6*0x0001uË
+
+	)
+
+1365 
+	#DMA2TSEL_7
+ (7*0x0001uË
+
+	)
+
+1366 
+	#DMA2TSEL_8
+ (8*0x0001uË
+
+	)
+
+1367 
+	#DMA2TSEL_9
+ (9*0x0001uË
+
+	)
+
+1368 
+	#DMA2TSEL_10
+ (10*0x0001uË
+
+	)
+
+1369 
+	#DMA2TSEL_11
+ (11*0x0001uË
+
+	)
+
+1370 
+	#DMA2TSEL_12
+ (12*0x0001uË
+
+	)
+
+1371 
+	#DMA2TSEL_13
+ (13*0x0001uË
+
+	)
+
+1372 
+	#DMA2TSEL_14
+ (14*0x0001uË
+
+	)
+
+1373 
+	#DMA2TSEL_15
+ (15*0x0001uË
+
+	)
+
+1374 
+	#DMA2TSEL_16
+ (16*0x0001uË
+
+	)
+
+1375 
+	#DMA2TSEL_17
+ (17*0x0001uË
+
+	)
+
+1376 
+	#DMA2TSEL_18
+ (18*0x0001uË
+
+	)
+
+1377 
+	#DMA2TSEL_19
+ (19*0x0001uË
+
+	)
+
+1378 
+	#DMA2TSEL_20
+ (20*0x0001uË
+
+	)
+
+1379 
+	#DMA2TSEL_21
+ (21*0x0001uË
+
+	)
+
+1380 
+	#DMA2TSEL_22
+ (22*0x0001uË
+
+	)
+
+1381 
+	#DMA2TSEL_23
+ (23*0x0001uË
+
+	)
+
+1382 
+	#DMA2TSEL_24
+ (24*0x0001uË
+
+	)
+
+1383 
+	#DMA2TSEL_25
+ (25*0x0001uË
+
+	)
+
+1384 
+	#DMA2TSEL_26
+ (26*0x0001uË
+
+	)
+
+1385 
+	#DMA2TSEL_27
+ (27*0x0001uË
+
+	)
+
+1386 
+	#DMA2TSEL_28
+ (28*0x0001uË
+
+	)
+
+1387 
+	#DMA2TSEL_29
+ (29*0x0001uË
+
+	)
+
+1388 
+	#DMA2TSEL_30
+ (30*0x0001uË
+
+	)
+
+1389 
+	#DMA2TSEL_31
+ (31*0x0001uË
+
+	)
+
+1391 
+	#DMA0TSEL__DMA_REQ
+ (0*0x0001uË
+
+	)
+
+1392 
+	#DMA0TSEL__TA0CCR0
+ (1*0x0001uË
+
+	)
+
+1393 
+	#DMA0TSEL__TA0CCR2
+ (2*0x0001uË
+
+	)
+
+1394 
+	#DMA0TSEL__TA1CCR0
+ (3*0x0001uË
+
+	)
+
+1395 
+	#DMA0TSEL__TA1CCR2
+ (4*0x0001uË
+
+	)
+
+1396 
+	#DMA0TSEL__TB0CCR0
+ (5*0x0001uË
+
+	)
+
+1397 
+	#DMA0TSEL__TB0CCR2
+ (6*0x0001uË
+
+	)
+
+1398 
+	#DMA0TSEL__RES7
+ (7*0x0001uË
+
+	)
+
+1399 
+	#DMA0TSEL__RES8
+ (8*0x0001uË
+
+	)
+
+1400 
+	#DMA0TSEL__RES9
+ (9*0x0001uË
+
+	)
+
+1401 
+	#DMA0TSEL__RES10
+ (10*0x0001uË
+
+	)
+
+1402 
+	#DMA0TSEL__RES11
+ (11*0x0001uË
+
+	)
+
+1403 
+	#DMA0TSEL__RES12
+ (12*0x0001uË
+
+	)
+
+1404 
+	#DMA0TSEL__RES13
+ (13*0x0001uË
+
+	)
+
+1405 
+	#DMA0TSEL__RFRXIFG
+ (14*0x0001uË
+
+	)
+
+1406 
+	#DMA0TSEL__RFTXIFG
+ (15*0x0001uË
+
+	)
+
+1407 
+	#DMA0TSEL__USCIA0RX
+ (16*0x0001uË
+
+	)
+
+1408 
+	#DMA0TSEL__USCIA0TX
+ (17*0x0001uË
+
+	)
+
+1409 
+	#DMA0TSEL__USCIB0RX
+ (18*0x0001uË
+
+	)
+
+1410 
+	#DMA0TSEL__USCIB0TX
+ (19*0x0001uË
+
+	)
+
+1411 
+	#DMA0TSEL__RES20
+ (20*0x0001uË
+
+	)
+
+1412 
+	#DMA0TSEL__RES21
+ (21*0x0001uË
+
+	)
+
+1413 
+	#DMA0TSEL__RES22
+ (22*0x0001uË
+
+	)
+
+1414 
+	#DMA0TSEL__RES23
+ (23*0x0001uË
+
+	)
+
+1415 
+	#DMA0TSEL__ADC12IFG
+ (24*0x0001uË
+
+	)
+
+1416 
+	#DMA0TSEL__RES25
+ (25*0x0001uË
+
+	)
+
+1417 
+	#DMA0TSEL__RES26
+ (26*0x0001uË
+
+	)
+
+1418 
+	#DMA0TSEL__RES27
+ (27*0x0001uË
+
+	)
+
+1419 
+	#DMA0TSEL__RES28
+ (28*0x0001uË
+
+	)
+
+1420 
+	#DMA0TSEL__MPY
+ (29*0x0001uË
+
+	)
+
+1421 
+	#DMA0TSEL__DMA2IFG
+ (30*0x0001uË
+
+	)
+
+1422 
+	#DMA0TSEL__DMAE0
+ (31*0x0001uË
+
+	)
+
+1424 
+	#DMA1TSEL__DMA_REQ
+ (0*0x0100uË
+
+	)
+
+1425 
+	#DMA1TSEL__TA0CCR0
+ (1*0x0100uË
+
+	)
+
+1426 
+	#DMA1TSEL__TA0CCR2
+ (2*0x0100uË
+
+	)
+
+1427 
+	#DMA1TSEL__TA1CCR0
+ (3*0x0100uË
+
+	)
+
+1428 
+	#DMA1TSEL__TA1CCR2
+ (4*0x0100uË
+
+	)
+
+1429 
+	#DMA1TSEL__TB0CCR0
+ (5*0x0100uË
+
+	)
+
+1430 
+	#DMA1TSEL__TB0CCR2
+ (6*0x0100uË
+
+	)
+
+1431 
+	#DMA1TSEL__RES7
+ (7*0x0100uË
+
+	)
+
+1432 
+	#DMA1TSEL__RES8
+ (8*0x0100uË
+
+	)
+
+1433 
+	#DMA1TSEL__RES9
+ (9*0x0100uË
+
+	)
+
+1434 
+	#DMA1TSEL__RES10
+ (10*0x0100uË
+
+	)
+
+1435 
+	#DMA1TSEL__RES11
+ (11*0x0100uË
+
+	)
+
+1436 
+	#DMA1TSEL__RES12
+ (12*0x0100uË
+
+	)
+
+1437 
+	#DMA1TSEL__RES13
+ (13*0x0100uË
+
+	)
+
+1438 
+	#DMA1TSEL__RFRXIFG
+ (14*0x0100uË
+
+	)
+
+1439 
+	#DMA1TSEL__RFTXIFG
+ (15*0x0100uË
+
+	)
+
+1440 
+	#DMA1TSEL__USCIA0RX
+ (16*0x0100uË
+
+	)
+
+1441 
+	#DMA1TSEL__USCIA0TX
+ (17*0x0100uË
+
+	)
+
+1442 
+	#DMA1TSEL__USCIB0RX
+ (18*0x0100uË
+
+	)
+
+1443 
+	#DMA1TSEL__USCIB0TX
+ (19*0x0100uË
+
+	)
+
+1444 
+	#DMA1TSEL__RES20
+ (20*0x0100uË
+
+	)
+
+1445 
+	#DMA1TSEL__RES21
+ (21*0x0100uË
+
+	)
+
+1446 
+	#DMA1TSEL__RES22
+ (22*0x0100uË
+
+	)
+
+1447 
+	#DMA1TSEL__RES23
+ (23*0x0100uË
+
+	)
+
+1448 
+	#DMA1TSEL__ADC12IFG
+ (24*0x0100uË
+
+	)
+
+1449 
+	#DMA1TSEL__RES25
+ (25*0x0100uË
+
+	)
+
+1450 
+	#DMA1TSEL__RES26
+ (26*0x0100uË
+
+	)
+
+1451 
+	#DMA1TSEL__RES27
+ (27*0x0100uË
+
+	)
+
+1452 
+	#DMA1TSEL__RES28
+ (28*0x0100uË
+
+	)
+
+1453 
+	#DMA1TSEL__MPY
+ (29*0x0100uË
+
+	)
+
+1454 
+	#DMA1TSEL__DMA0IFG
+ (30*0x0100uË
+
+	)
+
+1455 
+	#DMA1TSEL__DMAE0
+ (31*0x0100uË
+
+	)
+
+1457 
+	#DMA2TSEL__DMA_REQ
+ (0*0x0001uË
+
+	)
+
+1458 
+	#DMA2TSEL__TA0CCR0
+ (1*0x0001uË
+
+	)
+
+1459 
+	#DMA2TSEL__TA0CCR2
+ (2*0x0001uË
+
+	)
+
+1460 
+	#DMA2TSEL__TA1CCR0
+ (3*0x0001uË
+
+	)
+
+1461 
+	#DMA2TSEL__TA1CCR2
+ (4*0x0001uË
+
+	)
+
+1462 
+	#DMA2TSEL__TB0CCR0
+ (5*0x0001uË
+
+	)
+
+1463 
+	#DMA2TSEL__TB0CCR2
+ (6*0x0001uË
+
+	)
+
+1464 
+	#DMA2TSEL__RES7
+ (7*0x0001uË
+
+	)
+
+1465 
+	#DMA2TSEL__RES8
+ (8*0x0001uË
+
+	)
+
+1466 
+	#DMA2TSEL__RES9
+ (9*0x0001uË
+
+	)
+
+1467 
+	#DMA2TSEL__RES10
+ (10*0x0001uË
+
+	)
+
+1468 
+	#DMA2TSEL__RES11
+ (11*0x0001uË
+
+	)
+
+1469 
+	#DMA2TSEL__RES12
+ (12*0x0001uË
+
+	)
+
+1470 
+	#DMA2TSEL__RES13
+ (13*0x0001uË
+
+	)
+
+1471 
+	#DMA2TSEL__RFRXIFG
+ (14*0x0001uË
+
+	)
+
+1472 
+	#DMA2TSEL__RFTXIFG
+ (15*0x0001uË
+
+	)
+
+1473 
+	#DMA2TSEL__USCIA0RX
+ (16*0x0001uË
+
+	)
+
+1474 
+	#DMA2TSEL__USCIA0TX
+ (17*0x0001uË
+
+	)
+
+1475 
+	#DMA2TSEL__USCIB0RX
+ (18*0x0001uË
+
+	)
+
+1476 
+	#DMA2TSEL__USCIB0TX
+ (19*0x0001uË
+
+	)
+
+1477 
+	#DMA2TSEL__RES20
+ (20*0x0001uË
+
+	)
+
+1478 
+	#DMA2TSEL__RES21
+ (21*0x0001uË
+
+	)
+
+1479 
+	#DMA2TSEL__RES22
+ (22*0x0001uË
+
+	)
+
+1480 
+	#DMA2TSEL__RES23
+ (23*0x0001uË
+
+	)
+
+1481 
+	#DMA2TSEL__ADC12IFG
+ (24*0x0001uË
+
+	)
+
+1482 
+	#DMA2TSEL__RES25
+ (25*0x0001uË
+
+	)
+
+1483 
+	#DMA2TSEL__RES26
+ (26*0x0001uË
+
+	)
+
+1484 
+	#DMA2TSEL__RES27
+ (27*0x0001uË
+
+	)
+
+1485 
+	#DMA2TSEL__RES28
+ (28*0x0001uË
+
+	)
+
+1486 
+	#DMA2TSEL__MPY
+ (29*0x0001uË
+
+	)
+
+1487 
+	#DMA2TSEL__DMA1IFG
+ (30*0x0001uË
+
+	)
+
+1488 
+	#DMA2TSEL__DMAE0
+ (31*0x0001uË
+
+	)
+
+1493 
+	#__MSP430_HAS_FLASH__
+
+
+	)
+
+1494 
+	#__MSP430_BASEADDRESS_FLASH__
+ 0x0140
+
+	)
+
+1496 
+SFR_16BIT
+(
+FCTL1
+);
+
+1497 
+SFR_8BIT
+(
+FCTL1_L
+);
+
+1498 
+SFR_8BIT
+(
+FCTL1_H
+);
+
+1500 
+SFR_16BIT
+(
+FCTL3
+);
+
+1501 
+SFR_8BIT
+(
+FCTL3_L
+);
+
+1502 
+SFR_8BIT
+(
+FCTL3_H
+);
+
+1503 
+SFR_16BIT
+(
+FCTL4
+);
+
+1504 
+SFR_8BIT
+(
+FCTL4_L
+);
+
+1505 
+SFR_8BIT
+(
+FCTL4_H
+);
+
+1507 
+	#FRPW
+ (0x9600Ë
+
+	)
+
+1508 
+	#FWPW
+ (0xA500Ë
+
+	)
+
+1509 
+	#FXPW
+ (0x3300Ë
+
+	)
+
+1510 
+	#FRKEY
+ (0x9600Ë
+
+	)
+
+1511 
+	#FWKEY
+ (0xA500Ë
+
+	)
+
+1512 
+	#FXKEY
+ (0x3300Ë
+
+	)
+
+1516 
+	#ERASE
+ (0x0002Ë
+
+	)
+
+1517 
+	#MERAS
+ (0x0004Ë
+
+	)
+
+1520 
+	#SWRT
+ (0x0020Ë
+
+	)
+
+1521 
+	#WRT
+ (0x0040Ë
+
+	)
+
+1522 
+	#BLKWRT
+ (0x0080Ë
+
+	)
+
+1526 
+	#ERASE_L
+ (0x0002Ë
+
+	)
+
+1527 
+	#MERAS_L
+ (0x0004Ë
+
+	)
+
+1530 
+	#SWRT_L
+ (0x0020Ë
+
+	)
+
+1531 
+	#WRT_L
+ (0x0040Ë
+
+	)
+
+1532 
+	#BLKWRT_L
+ (0x0080Ë
+
+	)
+
+1540 
+	#BUSY
+ (0x0001Ë
+
+	)
+
+1541 
+	#KEYV
+ (0x0002Ë
+
+	)
+
+1542 
+	#ACCVIFG
+ (0x0004Ë
+
+	)
+
+1543 
+	#WAIT
+ (0x0008Ë
+
+	)
+
+1544 
+	#LOCK
+ (0x0010Ë
+
+	)
+
+1545 
+	#EMEX
+ (0x0020Ë
+
+	)
+
+1546 
+	#LOCKA
+ (0x0040Ë
+
+	)
+
+1550 
+	#BUSY_L
+ (0x0001Ë
+
+	)
+
+1551 
+	#KEYV_L
+ (0x0002Ë
+
+	)
+
+1552 
+	#ACCVIFG_L
+ (0x0004Ë
+
+	)
+
+1553 
+	#WAIT_L
+ (0x0008Ë
+
+	)
+
+1554 
+	#LOCK_L
+ (0x0010Ë
+
+	)
+
+1555 
+	#EMEX_L
+ (0x0020Ë
+
+	)
+
+1556 
+	#LOCKA_L
+ (0x0040Ë
+
+	)
+
+1563 
+	#VPE
+ (0x0001Ë
+
+	)
+
+1564 
+	#MGR0
+ (0x0010Ë
+
+	)
+
+1565 
+	#MGR1
+ (0x0020Ë
+
+	)
+
+1566 
+	#LOCKINFO
+ (0x0080Ë
+
+	)
+
+1569 
+	#VPE_L
+ (0x0001Ë
+
+	)
+
+1570 
+	#MGR0_L
+ (0x0010Ë
+
+	)
+
+1571 
+	#MGR1_L
+ (0x0020Ë
+
+	)
+
+1572 
+	#LOCKINFO_L
+ (0x0080Ë
+
+	)
+
+1579 
+	#__MSP430_HAS_LCD_B__
+
+
+	)
+
+1580 
+	#__MSP430_BASEADDRESS_LCD_B__
+ 0x0A00
+
+	)
+
+1582 
+SFR_16BIT
+(
+LCDBCTL0
+);
+
+1583 
+SFR_8BIT
+(
+LCDBCTL0_L
+);
+
+1584 
+SFR_8BIT
+(
+LCDBCTL0_H
+);
+
+1585 
+SFR_16BIT
+(
+LCDBCTL1
+);
+
+1586 
+SFR_8BIT
+(
+LCDBCTL1_L
+);
+
+1587 
+SFR_8BIT
+(
+LCDBCTL1_H
+);
+
+1588 
+SFR_16BIT
+(
+LCDBBLKCTL
+);
+
+1589 
+SFR_8BIT
+(
+LCDBBLKCTL_L
+);
+
+1590 
+SFR_8BIT
+(
+LCDBBLKCTL_H
+);
+
+1591 
+SFR_16BIT
+(
+LCDBMEMCTL
+);
+
+1592 
+SFR_8BIT
+(
+LCDBMEMCTL_L
+);
+
+1593 
+SFR_8BIT
+(
+LCDBMEMCTL_H
+);
+
+1594 
+SFR_16BIT
+(
+LCDBVCTL
+);
+
+1595 
+SFR_8BIT
+(
+LCDBVCTL_L
+);
+
+1596 
+SFR_8BIT
+(
+LCDBVCTL_H
+);
+
+1597 
+SFR_16BIT
+(
+LCDBPCTL0
+);
+
+1598 
+SFR_8BIT
+(
+LCDBPCTL0_L
+);
+
+1599 
+SFR_8BIT
+(
+LCDBPCTL0_H
+);
+
+1600 
+SFR_16BIT
+(
+LCDBPCTL1
+);
+
+1601 
+SFR_8BIT
+(
+LCDBPCTL1_L
+);
+
+1602 
+SFR_8BIT
+(
+LCDBPCTL1_H
+);
+
+1603 
+SFR_16BIT
+(
+LCDBPCTL2
+);
+
+1604 
+SFR_8BIT
+(
+LCDBPCTL2_L
+);
+
+1605 
+SFR_8BIT
+(
+LCDBPCTL2_H
+);
+
+1606 
+SFR_16BIT
+(
+LCDBPCTL3
+);
+
+1607 
+SFR_8BIT
+(
+LCDBPCTL3_L
+);
+
+1608 
+SFR_8BIT
+(
+LCDBPCTL3_H
+);
+
+1609 
+SFR_16BIT
+(
+LCDBCPCTL
+);
+
+1610 
+SFR_8BIT
+(
+LCDBCPCTL_L
+);
+
+1611 
+SFR_8BIT
+(
+LCDBCPCTL_H
+);
+
+1612 
+SFR_16BIT
+(
+LCDBIV
+);
+
+1615 
+	#LCDON
+ (0x0001Ë
+
+	)
+
+1616 
+	#LCDSON
+ (0x0004Ë
+
+	)
+
+1617 
+	#LCDMX0
+ (0x0008Ë
+
+	)
+
+1618 
+	#LCDMX1
+ (0x0010Ë
+
+	)
+
+1621 
+	#LCDSSEL
+ (0x0080Ë
+
+	)
+
+1622 
+	#LCDPRE0
+ (0x0100Ë
+
+	)
+
+1623 
+	#LCDPRE1
+ (0x0200Ë
+
+	)
+
+1624 
+	#LCDPRE2
+ (0x0400Ë
+
+	)
+
+1625 
+	#LCDDIV0
+ (0x0800Ë
+
+	)
+
+1626 
+	#LCDDIV1
+ (0x1000Ë
+
+	)
+
+1627 
+	#LCDDIV2
+ (0x2000Ë
+
+	)
+
+1628 
+	#LCDDIV3
+ (0x4000Ë
+
+	)
+
+1629 
+	#LCDDIV4
+ (0x8000Ë
+
+	)
+
+1632 
+	#LCDON_L
+ (0x0001Ë
+
+	)
+
+1633 
+	#LCDSON_L
+ (0x0004Ë
+
+	)
+
+1634 
+	#LCDMX0_L
+ (0x0008Ë
+
+	)
+
+1635 
+	#LCDMX1_L
+ (0x0010Ë
+
+	)
+
+1638 
+	#LCDSSEL_L
+ (0x0080Ë
+
+	)
+
+1643 
+	#LCDPRE0_H
+ (0x0001Ë
+
+	)
+
+1644 
+	#LCDPRE1_H
+ (0x0002Ë
+
+	)
+
+1645 
+	#LCDPRE2_H
+ (0x0004Ë
+
+	)
+
+1646 
+	#LCDDIV0_H
+ (0x0008Ë
+
+	)
+
+1647 
+	#LCDDIV1_H
+ (0x0010Ë
+
+	)
+
+1648 
+	#LCDDIV2_H
+ (0x0020Ë
+
+	)
+
+1649 
+	#LCDDIV3_H
+ (0x0040Ë
+
+	)
+
+1650 
+	#LCDDIV4_H
+ (0x0080Ë
+
+	)
+
+1652 
+	#LCDPRE_0
+ (0x0000Ë
+
+	)
+
+1653 
+	#LCDPRE_1
+ (0x0100Ë
+
+	)
+
+1654 
+	#LCDPRE_2
+ (0x0200Ë
+
+	)
+
+1655 
+	#LCDPRE_3
+ (0x0300Ë
+
+	)
+
+1656 
+	#LCDPRE_4
+ (0x0400Ë
+
+	)
+
+1657 
+	#LCDPRE_5
+ (0x0500Ë
+
+	)
+
+1658 
+	#LCDPRE__1
+ (0x0000Ë
+
+	)
+
+1659 
+	#LCDPRE__2
+ (0x0100Ë
+
+	)
+
+1660 
+	#LCDPRE__4
+ (0x0200Ë
+
+	)
+
+1661 
+	#LCDPRE__8
+ (0x0300Ë
+
+	)
+
+1662 
+	#LCDPRE__16
+ (0x0400Ë
+
+	)
+
+1663 
+	#LCDPRE__32
+ (0x0500Ë
+
+	)
+
+1665 
+	#LCDDIV_0
+ (0x0000Ë
+
+	)
+
+1666 
+	#LCDDIV_1
+ (0x0800Ë
+
+	)
+
+1667 
+	#LCDDIV_2
+ (0x1000Ë
+
+	)
+
+1668 
+	#LCDDIV_3
+ (0x1800Ë
+
+	)
+
+1669 
+	#LCDDIV_4
+ (0x2000Ë
+
+	)
+
+1670 
+	#LCDDIV_5
+ (0x2800Ë
+
+	)
+
+1671 
+	#LCDDIV_6
+ (0x3000Ë
+
+	)
+
+1672 
+	#LCDDIV_7
+ (0x3800Ë
+
+	)
+
+1673 
+	#LCDDIV_8
+ (0x4000Ë
+
+	)
+
+1674 
+	#LCDDIV_9
+ (0x4800Ë
+
+	)
+
+1675 
+	#LCDDIV_10
+ (0x5000Ë
+
+	)
+
+1676 
+	#LCDDIV_11
+ (0x5800Ë
+
+	)
+
+1677 
+	#LCDDIV_12
+ (0x6000Ë
+
+	)
+
+1678 
+	#LCDDIV_13
+ (0x6800Ë
+
+	)
+
+1679 
+	#LCDDIV_14
+ (0x7000Ë
+
+	)
+
+1680 
+	#LCDDIV_15
+ (0x7800Ë
+
+	)
+
+1681 
+	#LCDDIV_16
+ (0x8000Ë
+
+	)
+
+1682 
+	#LCDDIV_17
+ (0x8800Ë
+
+	)
+
+1683 
+	#LCDDIV_18
+ (0x9000Ë
+
+	)
+
+1684 
+	#LCDDIV_19
+ (0x9800Ë
+
+	)
+
+1685 
+	#LCDDIV_20
+ (0xA000Ë
+
+	)
+
+1686 
+	#LCDDIV_21
+ (0xA800Ë
+
+	)
+
+1687 
+	#LCDDIV_22
+ (0xB000Ë
+
+	)
+
+1688 
+	#LCDDIV_23
+ (0xB800Ë
+
+	)
+
+1689 
+	#LCDDIV_24
+ (0xC000Ë
+
+	)
+
+1690 
+	#LCDDIV_25
+ (0xC800Ë
+
+	)
+
+1691 
+	#LCDDIV_26
+ (0xD000Ë
+
+	)
+
+1692 
+	#LCDDIV_27
+ (0xD800Ë
+
+	)
+
+1693 
+	#LCDDIV_28
+ (0xE000Ë
+
+	)
+
+1694 
+	#LCDDIV_29
+ (0xE800Ë
+
+	)
+
+1695 
+	#LCDDIV_30
+ (0xF000Ë
+
+	)
+
+1696 
+	#LCDDIV_31
+ (0xF800Ë
+
+	)
+
+1697 
+	#LCDDIV__1
+ (0x0000Ë
+
+	)
+
+1698 
+	#LCDDIV__2
+ (0x0800Ë
+
+	)
+
+1699 
+	#LCDDIV__3
+ (0x1000Ë
+
+	)
+
+1700 
+	#LCDDIV__4
+ (0x1800Ë
+
+	)
+
+1701 
+	#LCDDIV__5
+ (0x2000Ë
+
+	)
+
+1702 
+	#LCDDIV__6
+ (0x2800Ë
+
+	)
+
+1703 
+	#LCDDIV__7
+ (0x3000Ë
+
+	)
+
+1704 
+	#LCDDIV__8
+ (0x3800Ë
+
+	)
+
+1705 
+	#LCDDIV__9
+ (0x4000Ë
+
+	)
+
+1706 
+	#LCDDIV__10
+ (0x4800Ë
+
+	)
+
+1707 
+	#LCDDIV__11
+ (0x5000Ë
+
+	)
+
+1708 
+	#LCDDIV__12
+ (0x5800Ë
+
+	)
+
+1709 
+	#LCDDIV__13
+ (0x6000Ë
+
+	)
+
+1710 
+	#LCDDIV__14
+ (0x6800Ë
+
+	)
+
+1711 
+	#LCDDIV__15
+ (0x7000Ë
+
+	)
+
+1712 
+	#LCDDIV__16
+ (0x7800Ë
+
+	)
+
+1713 
+	#LCDDIV__17
+ (0x8000Ë
+
+	)
+
+1714 
+	#LCDDIV__18
+ (0x8800Ë
+
+	)
+
+1715 
+	#LCDDIV__19
+ (0x9000Ë
+
+	)
+
+1716 
+	#LCDDIV__20
+ (0x9800Ë
+
+	)
+
+1717 
+	#LCDDIV__21
+ (0xA000Ë
+
+	)
+
+1718 
+	#LCDDIV__22
+ (0xA800Ë
+
+	)
+
+1719 
+	#LCDDIV__23
+ (0xB000Ë
+
+	)
+
+1720 
+	#LCDDIV__24
+ (0xB800Ë
+
+	)
+
+1721 
+	#LCDDIV__25
+ (0xC000Ë
+
+	)
+
+1722 
+	#LCDDIV__26
+ (0xC800Ë
+
+	)
+
+1723 
+	#LCDDIV__27
+ (0xD000Ë
+
+	)
+
+1724 
+	#LCDDIV__28
+ (0xD800Ë
+
+	)
+
+1725 
+	#LCDDIV__29
+ (0xE000Ë
+
+	)
+
+1726 
+	#LCDDIV__30
+ (0xE800Ë
+
+	)
+
+1727 
+	#LCDDIV__31
+ (0xF000Ë
+
+	)
+
+1728 
+	#LCDDIV__32
+ (0xF800Ë
+
+	)
+
+1731 
+	#LCDSTATIC
+ (
+LCDSON
+)
+
+	)
+
+1732 
+	#LCD2MUX
+ (
+LCDMX0
++
+LCDSON
+)
+
+	)
+
+1733 
+	#LCD3MUX
+ (
+LCDMX1
++
+LCDSON
+)
+
+	)
+
+1734 
+	#LCD4MUX
+ (
+LCDMX1
++
+LCDMX0
++
+LCDSON
+)
+
+	)
+
+1737 
+	#LCDFRMIFG
+ (0x0001Ë
+
+	)
+
+1738 
+	#LCDBLKOFFIFG
+ (0x0002Ë
+
+	)
+
+1739 
+	#LCDBLKONIFG
+ (0x0004Ë
+
+	)
+
+1740 
+	#LCDNOCAPIFG
+ (0x0008Ë
+
+	)
+
+1741 
+	#LCDFRMIE
+ (0x0100Ë
+
+	)
+
+1742 
+	#LCDBLKOFFIE
+ (0x0200Ë
+
+	)
+
+1743 
+	#LCDBLKONIE
+ (0x0400Ë
+
+	)
+
+1744 
+	#LCDNOCAPIE
+ (0x0800Ë
+
+	)
+
+1747 
+	#LCDFRMIFG_L
+ (0x0001Ë
+
+	)
+
+1748 
+	#LCDBLKOFFIFG_L
+ (0x0002Ë
+
+	)
+
+1749 
+	#LCDBLKONIFG_L
+ (0x0004Ë
+
+	)
+
+1750 
+	#LCDNOCAPIFG_L
+ (0x0008Ë
+
+	)
+
+1753 
+	#LCDFRMIE_H
+ (0x0001Ë
+
+	)
+
+1754 
+	#LCDBLKOFFIE_H
+ (0x0002Ë
+
+	)
+
+1755 
+	#LCDBLKONIE_H
+ (0x0004Ë
+
+	)
+
+1756 
+	#LCDNOCAPIE_H
+ (0x0008Ë
+
+	)
+
+1759 
+	#LCDBLKMOD0
+ (0x0001Ë
+
+	)
+
+1760 
+	#LCDBLKMOD1
+ (0x0002Ë
+
+	)
+
+1761 
+	#LCDBLKPRE0
+ (0x0004Ë
+
+	)
+
+1762 
+	#LCDBLKPRE1
+ (0x0008Ë
+
+	)
+
+1763 
+	#LCDBLKPRE2
+ (0x0010Ë
+
+	)
+
+1764 
+	#LCDBLKDIV0
+ (0x0020Ë
+
+	)
+
+1765 
+	#LCDBLKDIV1
+ (0x0040Ë
+
+	)
+
+1766 
+	#LCDBLKDIV2
+ (0x0080Ë
+
+	)
+
+1769 
+	#LCDBLKMOD0_L
+ (0x0001Ë
+
+	)
+
+1770 
+	#LCDBLKMOD1_L
+ (0x0002Ë
+
+	)
+
+1771 
+	#LCDBLKPRE0_L
+ (0x0004Ë
+
+	)
+
+1772 
+	#LCDBLKPRE1_L
+ (0x0008Ë
+
+	)
+
+1773 
+	#LCDBLKPRE2_L
+ (0x0010Ë
+
+	)
+
+1774 
+	#LCDBLKDIV0_L
+ (0x0020Ë
+
+	)
+
+1775 
+	#LCDBLKDIV1_L
+ (0x0040Ë
+
+	)
+
+1776 
+	#LCDBLKDIV2_L
+ (0x0080Ë
+
+	)
+
+1780 
+	#LCDBLKMOD_0
+ (0x0000Ë
+
+	)
+
+1781 
+	#LCDBLKMOD_1
+ (0x0001Ë
+
+	)
+
+1782 
+	#LCDBLKMOD_2
+ (0x0002Ë
+
+	)
+
+1783 
+	#LCDBLKMOD_3
+ (0x0003Ë
+
+	)
+
+1786 
+	#LCDDISP
+ (0x0001Ë
+
+	)
+
+1787 
+	#LCDCLRM
+ (0x0002Ë
+
+	)
+
+1788 
+	#LCDCLRBM
+ (0x0004Ë
+
+	)
+
+1791 
+	#LCDDISP_L
+ (0x0001Ë
+
+	)
+
+1792 
+	#LCDCLRM_L
+ (0x0002Ë
+
+	)
+
+1793 
+	#LCDCLRBM_L
+ (0x0004Ë
+
+	)
+
+1798 
+	#LCD2B
+ (0x0001Ë
+
+	)
+
+1799 
+	#VLCDREF0
+ (0x0002Ë
+
+	)
+
+1800 
+	#VLCDREF1
+ (0x0004Ë
+
+	)
+
+1801 
+	#LCDCPEN
+ (0x0008Ë
+
+	)
+
+1802 
+	#VLCDEXT
+ (0x0010Ë
+
+	)
+
+1803 
+	#LCDEXTBIAS
+ (0x0020Ë
+
+	)
+
+1804 
+	#R03EXT
+ (0x0040Ë
+
+	)
+
+1805 
+	#LCDREXT
+ (0x0080Ë
+
+	)
+
+1806 
+	#VLCD0
+ (0x0200Ë
+
+	)
+
+1807 
+	#VLCD1
+ (0x0400Ë
+
+	)
+
+1808 
+	#VLCD2
+ (0x0800Ë
+
+	)
+
+1809 
+	#VLCD3
+ (0x1000Ë
+
+	)
+
+1812 
+	#LCD2B_L
+ (0x0001Ë
+
+	)
+
+1813 
+	#VLCDREF0_L
+ (0x0002Ë
+
+	)
+
+1814 
+	#VLCDREF1_L
+ (0x0004Ë
+
+	)
+
+1815 
+	#LCDCPEN_L
+ (0x0008Ë
+
+	)
+
+1816 
+	#VLCDEXT_L
+ (0x0010Ë
+
+	)
+
+1817 
+	#LCDEXTBIAS_L
+ (0x0020Ë
+
+	)
+
+1818 
+	#R03EXT_L
+ (0x0040Ë
+
+	)
+
+1819 
+	#LCDREXT_L
+ (0x0080Ë
+
+	)
+
+1822 
+	#VLCD0_H
+ (0x0002Ë
+
+	)
+
+1823 
+	#VLCD1_H
+ (0x0004Ë
+
+	)
+
+1824 
+	#VLCD2_H
+ (0x0008Ë
+
+	)
+
+1825 
+	#VLCD3_H
+ (0x0010Ë
+
+	)
+
+1828 
+	#VLCDREF_0
+ (0<<1Ë
+
+	)
+
+1829 
+	#VLCDREF_1
+ (1<<1Ë
+
+	)
+
+1830 
+	#VLCDREF_2
+ (2<<1Ë
+
+	)
+
+1831 
+	#VLCDREF_3
+ (3<<1Ë
+
+	)
+
+1834 
+	#VLCD_0
+ (0<<9Ë
+
+	)
+
+1835 
+	#VLCD_1
+ (1<<9Ë
+
+	)
+
+1836 
+	#VLCD_2
+ (2<<9Ë
+
+	)
+
+1837 
+	#VLCD_3
+ (3<<9Ë
+
+	)
+
+1838 
+	#VLCD_4
+ (4<<9Ë
+
+	)
+
+1839 
+	#VLCD_5
+ (5<<9Ë
+
+	)
+
+1840 
+	#VLCD_6
+ (6<<9Ë
+
+	)
+
+1841 
+	#VLCD_7
+ (7<<9Ë
+
+	)
+
+1842 
+	#VLCD_8
+ (8<<9Ë
+
+	)
+
+1843 
+	#VLCD_9
+ (9<<9Ë
+
+	)
+
+1844 
+	#VLCD_10
+ (10<<9Ë
+
+	)
+
+1845 
+	#VLCD_11
+ (11<<9Ë
+
+	)
+
+1846 
+	#VLCD_12
+ (12<<9Ë
+
+	)
+
+1847 
+	#VLCD_13
+ (12<<9Ë
+
+	)
+
+1848 
+	#VLCD_14
+ (13<<9Ë
+
+	)
+
+1849 
+	#VLCD_15
+ (15<<9Ë
+
+	)
+
+1851 
+	#VLCD_DISABLED
+ (0<<9Ë
+
+	)
+
+1852 
+	#VLCD_2_60
+ (1<<9Ë
+
+	)
+
+1853 
+	#VLCD_2_66
+ (2<<9Ë
+
+	)
+
+1854 
+	#VLCD_2_72
+ (3<<9Ë
+
+	)
+
+1855 
+	#VLCD_2_78
+ (4<<9Ë
+
+	)
+
+1856 
+	#VLCD_2_84
+ (5<<9Ë
+
+	)
+
+1857 
+	#VLCD_2_90
+ (6<<9Ë
+
+	)
+
+1858 
+	#VLCD_2_96
+ (7<<9Ë
+
+	)
+
+1859 
+	#VLCD_3_02
+ (8<<9Ë
+
+	)
+
+1860 
+	#VLCD_3_08
+ (9<<9Ë
+
+	)
+
+1861 
+	#VLCD_3_14
+ (10<<9Ë
+
+	)
+
+1862 
+	#VLCD_3_20
+ (11<<9Ë
+
+	)
+
+1863 
+	#VLCD_3_26
+ (12<<9Ë
+
+	)
+
+1864 
+	#VLCD_3_32
+ (12<<9Ë
+
+	)
+
+1865 
+	#VLCD_3_38
+ (13<<9Ë
+
+	)
+
+1866 
+	#VLCD_3_44
+ (15<<9Ë
+
+	)
+
+1869 
+	#LCDS0
+ (0x0001Ë
+
+	)
+
+1870 
+	#LCDS1
+ (0x0002Ë
+
+	)
+
+1871 
+	#LCDS2
+ (0x0004Ë
+
+	)
+
+1872 
+	#LCDS3
+ (0x0008Ë
+
+	)
+
+1873 
+	#LCDS4
+ (0x0010Ë
+
+	)
+
+1874 
+	#LCDS5
+ (0x0020Ë
+
+	)
+
+1875 
+	#LCDS6
+ (0x0040Ë
+
+	)
+
+1876 
+	#LCDS7
+ (0x0080Ë
+
+	)
+
+1877 
+	#LCDS8
+ (0x0100Ë
+
+	)
+
+1878 
+	#LCDS9
+ (0x0200Ë
+
+	)
+
+1879 
+	#LCDS10
+ (0x0400Ë
+
+	)
+
+1880 
+	#LCDS11
+ (0x0800Ë
+
+	)
+
+1881 
+	#LCDS12
+ (0x1000Ë
+
+	)
+
+1882 
+	#LCDS13
+ (0x2000Ë
+
+	)
+
+1883 
+	#LCDS14
+ (0x4000Ë
+
+	)
+
+1884 
+	#LCDS15
+ (0x8000Ë
+
+	)
+
+1887 
+	#LCDS0_L
+ (0x0001Ë
+
+	)
+
+1888 
+	#LCDS1_L
+ (0x0002Ë
+
+	)
+
+1889 
+	#LCDS2_L
+ (0x0004Ë
+
+	)
+
+1890 
+	#LCDS3_L
+ (0x0008Ë
+
+	)
+
+1891 
+	#LCDS4_L
+ (0x0010Ë
+
+	)
+
+1892 
+	#LCDS5_L
+ (0x0020Ë
+
+	)
+
+1893 
+	#LCDS6_L
+ (0x0040Ë
+
+	)
+
+1894 
+	#LCDS7_L
+ (0x0080Ë
+
+	)
+
+1897 
+	#LCDS8_H
+ (0x0001Ë
+
+	)
+
+1898 
+	#LCDS9_H
+ (0x0002Ë
+
+	)
+
+1899 
+	#LCDS10_H
+ (0x0004Ë
+
+	)
+
+1900 
+	#LCDS11_H
+ (0x0008Ë
+
+	)
+
+1901 
+	#LCDS12_H
+ (0x0010Ë
+
+	)
+
+1902 
+	#LCDS13_H
+ (0x0020Ë
+
+	)
+
+1903 
+	#LCDS14_H
+ (0x0040Ë
+
+	)
+
+1904 
+	#LCDS15_H
+ (0x0080Ë
+
+	)
+
+1907 
+	#LCDS16
+ (0x0001Ë
+
+	)
+
+1908 
+	#LCDS17
+ (0x0002Ë
+
+	)
+
+1909 
+	#LCDS18
+ (0x0004Ë
+
+	)
+
+1910 
+	#LCDS19
+ (0x0008Ë
+
+	)
+
+1911 
+	#LCDS20
+ (0x0010Ë
+
+	)
+
+1912 
+	#LCDS21
+ (0x0020Ë
+
+	)
+
+1913 
+	#LCDS22
+ (0x0040Ë
+
+	)
+
+1914 
+	#LCDS23
+ (0x0080Ë
+
+	)
+
+1915 
+	#LCDS24
+ (0x0100Ë
+
+	)
+
+1916 
+	#LCDS25
+ (0x0200Ë
+
+	)
+
+1917 
+	#LCDS26
+ (0x0400Ë
+
+	)
+
+1918 
+	#LCDS27
+ (0x0800Ë
+
+	)
+
+1919 
+	#LCDS28
+ (0x1000Ë
+
+	)
+
+1920 
+	#LCDS29
+ (0x2000Ë
+
+	)
+
+1921 
+	#LCDS30
+ (0x4000Ë
+
+	)
+
+1922 
+	#LCDS31
+ (0x8000Ë
+
+	)
+
+1925 
+	#LCDS16_L
+ (0x0001Ë
+
+	)
+
+1926 
+	#LCDS17_L
+ (0x0002Ë
+
+	)
+
+1927 
+	#LCDS18_L
+ (0x0004Ë
+
+	)
+
+1928 
+	#LCDS19_L
+ (0x0008Ë
+
+	)
+
+1929 
+	#LCDS20_L
+ (0x0010Ë
+
+	)
+
+1930 
+	#LCDS21_L
+ (0x0020Ë
+
+	)
+
+1931 
+	#LCDS22_L
+ (0x0040Ë
+
+	)
+
+1932 
+	#LCDS23_L
+ (0x0080Ë
+
+	)
+
+1935 
+	#LCDS24_H
+ (0x0001Ë
+
+	)
+
+1936 
+	#LCDS25_H
+ (0x0002Ë
+
+	)
+
+1937 
+	#LCDS26_H
+ (0x0004Ë
+
+	)
+
+1938 
+	#LCDS27_H
+ (0x0008Ë
+
+	)
+
+1939 
+	#LCDS28_H
+ (0x0010Ë
+
+	)
+
+1940 
+	#LCDS29_H
+ (0x0020Ë
+
+	)
+
+1941 
+	#LCDS30_H
+ (0x0040Ë
+
+	)
+
+1942 
+	#LCDS31_H
+ (0x0080Ë
+
+	)
+
+1945 
+	#LCDS32
+ (0x0001Ë
+
+	)
+
+1946 
+	#LCDS33
+ (0x0002Ë
+
+	)
+
+1947 
+	#LCDS34
+ (0x0004Ë
+
+	)
+
+1948 
+	#LCDS35
+ (0x0008Ë
+
+	)
+
+1949 
+	#LCDS36
+ (0x0010Ë
+
+	)
+
+1950 
+	#LCDS37
+ (0x0020Ë
+
+	)
+
+1951 
+	#LCDS38
+ (0x0040Ë
+
+	)
+
+1952 
+	#LCDS39
+ (0x0080Ë
+
+	)
+
+1953 
+	#LCDS40
+ (0x0100Ë
+
+	)
+
+1954 
+	#LCDS41
+ (0x0200Ë
+
+	)
+
+1955 
+	#LCDS42
+ (0x0400Ë
+
+	)
+
+1956 
+	#LCDS43
+ (0x0800Ë
+
+	)
+
+1957 
+	#LCDS44
+ (0x1000Ë
+
+	)
+
+1958 
+	#LCDS45
+ (0x2000Ë
+
+	)
+
+1959 
+	#LCDS46
+ (0x4000Ë
+
+	)
+
+1960 
+	#LCDS47
+ (0x8000Ë
+
+	)
+
+1963 
+	#LCDS32_L
+ (0x0001Ë
+
+	)
+
+1964 
+	#LCDS33_L
+ (0x0002Ë
+
+	)
+
+1965 
+	#LCDS34_L
+ (0x0004Ë
+
+	)
+
+1966 
+	#LCDS35_L
+ (0x0008Ë
+
+	)
+
+1967 
+	#LCDS36_L
+ (0x0010Ë
+
+	)
+
+1968 
+	#LCDS37_L
+ (0x0020Ë
+
+	)
+
+1969 
+	#LCDS38_L
+ (0x0040Ë
+
+	)
+
+1970 
+	#LCDS39_L
+ (0x0080Ë
+
+	)
+
+1973 
+	#LCDS40_H
+ (0x0001Ë
+
+	)
+
+1974 
+	#LCDS41_H
+ (0x0002Ë
+
+	)
+
+1975 
+	#LCDS42_H
+ (0x0004Ë
+
+	)
+
+1976 
+	#LCDS43_H
+ (0x0008Ë
+
+	)
+
+1977 
+	#LCDS44_H
+ (0x0010Ë
+
+	)
+
+1978 
+	#LCDS45_H
+ (0x0020Ë
+
+	)
+
+1979 
+	#LCDS46_H
+ (0x0040Ë
+
+	)
+
+1980 
+	#LCDS47_H
+ (0x0080Ë
+
+	)
+
+1983 
+	#LCDS48
+ (0x0001Ë
+
+	)
+
+1984 
+	#LCDS49
+ (0x0002Ë
+
+	)
+
+1985 
+	#LCDS50
+ (0x0004Ë
+
+	)
+
+1988 
+	#LCDS48_L
+ (0x0001Ë
+
+	)
+
+1989 
+	#LCDS49_L
+ (0x0002Ë
+
+	)
+
+1990 
+	#LCDS50_L
+ (0x0004Ë
+
+	)
+
+1995 
+	#LCDCPDIS0
+ (0x0001Ë
+
+	)
+
+1996 
+	#LCDCPDIS1
+ (0x0002Ë
+
+	)
+
+1997 
+	#LCDCPDIS2
+ (0x0004Ë
+
+	)
+
+1998 
+	#LCDCPDIS3
+ (0x0008Ë
+
+	)
+
+1999 
+	#LCDCPDIS4
+ (0x0010Ë
+
+	)
+
+2000 
+	#LCDCPDIS5
+ (0x0020Ë
+
+	)
+
+2001 
+	#LCDCPDIS6
+ (0x0040Ë
+
+	)
+
+2002 
+	#LCDCPDIS7
+ (0x0080Ë
+
+	)
+
+2003 
+	#LCDCPCLKSYNC
+ (0x8000Ë
+
+	)
+
+2006 
+	#LCDCPDIS0_L
+ (0x0001Ë
+
+	)
+
+2007 
+	#LCDCPDIS1_L
+ (0x0002Ë
+
+	)
+
+2008 
+	#LCDCPDIS2_L
+ (0x0004Ë
+
+	)
+
+2009 
+	#LCDCPDIS3_L
+ (0x0008Ë
+
+	)
+
+2010 
+	#LCDCPDIS4_L
+ (0x0010Ë
+
+	)
+
+2011 
+	#LCDCPDIS5_L
+ (0x0020Ë
+
+	)
+
+2012 
+	#LCDCPDIS6_L
+ (0x0040Ë
+
+	)
+
+2013 
+	#LCDCPDIS7_L
+ (0x0080Ë
+
+	)
+
+2016 
+	#LCDCPCLKSYNC_H
+ (0x0080Ë
+
+	)
+
+2018 
+SFR_8BIT
+(
+LCDM1
+);
+
+2019 
+	#LCDMEM_
+ 
+LCDM1
+
+
+	)
+
+2020 #ifde‡
+__ASM_HEADER__
+
+
+2021 
+	#LCDMEM
+ 
+LCDM1
+
+
+	)
+
+2023 
+	#LCDMEM
+ ((*Ë&
+LCDM1
+Ë
+
+	)
+
+2025 
+SFR_8BIT
+(
+LCDM2
+);
+
+2026 
+SFR_8BIT
+(
+LCDM3
+);
+
+2027 
+SFR_8BIT
+(
+LCDM4
+);
+
+2028 
+SFR_8BIT
+(
+LCDM5
+);
+
+2029 
+SFR_8BIT
+(
+LCDM6
+);
+
+2030 
+SFR_8BIT
+(
+LCDM7
+);
+
+2031 
+SFR_8BIT
+(
+LCDM8
+);
+
+2032 
+SFR_8BIT
+(
+LCDM9
+);
+
+2033 
+SFR_8BIT
+(
+LCDM10
+);
+
+2034 
+SFR_8BIT
+(
+LCDM11
+);
+
+2035 
+SFR_8BIT
+(
+LCDM12
+);
+
+2036 
+SFR_8BIT
+(
+LCDM13
+);
+
+2037 
+SFR_8BIT
+(
+LCDM14
+);
+
+2038 
+SFR_8BIT
+(
+LCDM15
+);
+
+2039 
+SFR_8BIT
+(
+LCDM16
+);
+
+2040 
+SFR_8BIT
+(
+LCDM17
+);
+
+2041 
+SFR_8BIT
+(
+LCDM18
+);
+
+2042 
+SFR_8BIT
+(
+LCDM19
+);
+
+2043 
+SFR_8BIT
+(
+LCDM20
+);
+
+2044 
+SFR_8BIT
+(
+LCDM21
+);
+
+2045 
+SFR_8BIT
+(
+LCDM22
+);
+
+2046 
+SFR_8BIT
+(
+LCDM23
+);
+
+2047 
+SFR_8BIT
+(
+LCDM24
+);
+
+2049 
+SFR_8BIT
+(
+LCDBM1
+);
+
+2050 
+	#LCDBMEM_
+ 
+LCDBM1
+
+
+	)
+
+2051 #ifde‡
+__ASM_HEADER__
+
+
+2052 
+	#LCDBMEM
+ (
+LCDBM1
+Ë
+
+	)
+
+2054 
+	#LCDBMEM
+ ((*Ë&
+LCDBM1
+Ë
+
+	)
+
+2056 
+SFR_8BIT
+(
+LCDBM2
+);
+
+2057 
+SFR_8BIT
+(
+LCDBM3
+);
+
+2058 
+SFR_8BIT
+(
+LCDBM4
+);
+
+2059 
+SFR_8BIT
+(
+LCDBM5
+);
+
+2060 
+SFR_8BIT
+(
+LCDBM6
+);
+
+2061 
+SFR_8BIT
+(
+LCDBM7
+);
+
+2062 
+SFR_8BIT
+(
+LCDBM8
+);
+
+2063 
+SFR_8BIT
+(
+LCDBM9
+);
+
+2064 
+SFR_8BIT
+(
+LCDBM10
+);
+
+2065 
+SFR_8BIT
+(
+LCDBM11
+);
+
+2066 
+SFR_8BIT
+(
+LCDBM12
+);
+
+2067 
+SFR_8BIT
+(
+LCDBM13
+);
+
+2068 
+SFR_8BIT
+(
+LCDBM14
+);
+
+2069 
+SFR_8BIT
+(
+LCDBM15
+);
+
+2070 
+SFR_8BIT
+(
+LCDBM16
+);
+
+2071 
+SFR_8BIT
+(
+LCDBM17
+);
+
+2072 
+SFR_8BIT
+(
+LCDBM18
+);
+
+2073 
+SFR_8BIT
+(
+LCDBM19
+);
+
+2074 
+SFR_8BIT
+(
+LCDBM20
+);
+
+2075 
+SFR_8BIT
+(
+LCDBM21
+);
+
+2076 
+SFR_8BIT
+(
+LCDBM22
+);
+
+2077 
+SFR_8BIT
+(
+LCDBM23
+);
+
+2078 
+SFR_8BIT
+(
+LCDBM24
+);
+
+2081 
+	#LCDBIV_NONE
+ (0x0000Ë
+
+	)
+
+2082 
+	#LCDBIV_LCDNOCAPIFG
+ (0x0002Ë
+
+	)
+
+2083 
+	#LCDBIV_LCDBLKOFFIFG
+ (0x0004Ë
+
+	)
+
+2084 
+	#LCDBIV_LCDBLKONIFG
+ (0x0006Ë
+
+	)
+
+2085 
+	#LCDBIV_LCDFRMIFG
+ (0x0008Ë
+
+	)
+
+2090 
+	#__MSP430_HAS_MPY32__
+
+
+	)
+
+2091 
+	#__MSP430_BASEADDRESS_MPY32__
+ 0x04C0
+
+	)
+
+2093 
+SFR_16BIT
+(
+MPY
+);
+
+2094 
+SFR_8BIT
+(
+MPY_L
+);
+
+2095 
+SFR_8BIT
+(
+MPY_H
+);
+
+2096 
+SFR_16BIT
+(
+MPYS
+);
+
+2097 
+SFR_8BIT
+(
+MPYS_L
+);
+
+2098 
+SFR_8BIT
+(
+MPYS_H
+);
+
+2099 
+SFR_16BIT
+(
+MAC
+);
+
+2100 
+SFR_8BIT
+(
+MAC_L
+);
+
+2101 
+SFR_8BIT
+(
+MAC_H
+);
+
+2102 
+SFR_16BIT
+(
+MACS
+);
+
+2103 
+SFR_8BIT
+(
+MACS_L
+);
+
+2104 
+SFR_8BIT
+(
+MACS_H
+);
+
+2105 
+SFR_16BIT
+(
+OP2
+);
+
+2106 
+SFR_8BIT
+(
+OP2_L
+);
+
+2107 
+SFR_8BIT
+(
+OP2_H
+);
+
+2108 
+SFR_16BIT
+(
+RESLO
+);
+
+2109 
+SFR_8BIT
+(
+RESLO_L
+);
+
+2110 
+SFR_8BIT
+(
+RESLO_H
+);
+
+2111 
+SFR_16BIT
+(
+RESHI
+);
+
+2112 
+SFR_8BIT
+(
+RESHI_L
+);
+
+2113 
+SFR_8BIT
+(
+RESHI_H
+);
+
+2114 
+SFR_16BIT
+(
+SUMEXT
+);
+
+2115 
+SFR_8BIT
+(
+SUMEXT_L
+);
+
+2116 
+SFR_8BIT
+(
+SUMEXT_H
+);
+
+2118 
+SFR_16BIT
+(
+MPY32L
+);
+
+2119 
+SFR_8BIT
+(
+MPY32L_L
+);
+
+2120 
+SFR_8BIT
+(
+MPY32L_H
+);
+
+2121 
+SFR_16BIT
+(
+MPY32H
+);
+
+2122 
+SFR_8BIT
+(
+MPY32H_L
+);
+
+2123 
+SFR_8BIT
+(
+MPY32H_H
+);
+
+2124 
+SFR_16BIT
+(
+MPYS32L
+);
+
+2125 
+SFR_8BIT
+(
+MPYS32L_L
+);
+
+2126 
+SFR_8BIT
+(
+MPYS32L_H
+);
+
+2127 
+SFR_16BIT
+(
+MPYS32H
+);
+
+2128 
+SFR_8BIT
+(
+MPYS32H_L
+);
+
+2129 
+SFR_8BIT
+(
+MPYS32H_H
+);
+
+2130 
+SFR_16BIT
+(
+MAC32L
+);
+
+2131 
+SFR_8BIT
+(
+MAC32L_L
+);
+
+2132 
+SFR_8BIT
+(
+MAC32L_H
+);
+
+2133 
+SFR_16BIT
+(
+MAC32H
+);
+
+2134 
+SFR_8BIT
+(
+MAC32H_L
+);
+
+2135 
+SFR_8BIT
+(
+MAC32H_H
+);
+
+2136 
+SFR_16BIT
+(
+MACS32L
+);
+
+2137 
+SFR_8BIT
+(
+MACS32L_L
+);
+
+2138 
+SFR_8BIT
+(
+MACS32L_H
+);
+
+2139 
+SFR_16BIT
+(
+MACS32H
+);
+
+2140 
+SFR_8BIT
+(
+MACS32H_L
+);
+
+2141 
+SFR_8BIT
+(
+MACS32H_H
+);
+
+2142 
+SFR_16BIT
+(
+OP2L
+);
+
+2143 
+SFR_8BIT
+(
+OP2L_L
+);
+
+2144 
+SFR_8BIT
+(
+OP2L_H
+);
+
+2145 
+SFR_16BIT
+(
+OP2H
+);
+
+2146 
+SFR_8BIT
+(
+OP2H_L
+);
+
+2147 
+SFR_8BIT
+(
+OP2H_H
+);
+
+2148 
+SFR_16BIT
+(
+RES0
+);
+
+2149 
+SFR_8BIT
+(
+RES0_L
+);
+
+2150 
+SFR_8BIT
+(
+RES0_H
+);
+
+2151 
+SFR_16BIT
+(
+RES1
+);
+
+2152 
+SFR_8BIT
+(
+RES1_L
+);
+
+2153 
+SFR_8BIT
+(
+RES1_H
+);
+
+2154 
+SFR_16BIT
+(
+RES2
+);
+
+2155 
+SFR_8BIT
+(
+RES2_L
+);
+
+2156 
+SFR_8BIT
+(
+RES2_H
+);
+
+2157 
+SFR_16BIT
+(
+RES3
+);
+
+2158 
+SFR_8BIT
+(
+RES3_L
+);
+
+2159 
+SFR_8BIT
+(
+RES3_H
+);
+
+2160 
+SFR_16BIT
+(
+MPY32CTL0
+);
+
+2161 
+SFR_8BIT
+(
+MPY32CTL0_L
+);
+
+2162 
+SFR_8BIT
+(
+MPY32CTL0_H
+);
+
+2164 
+	#MPY_B
+ 
+MPY_L
+
+
+	)
+
+2165 
+	#MPYS_B
+ 
+MPYS_L
+
+
+	)
+
+2166 
+	#MAC_B
+ 
+MAC_L
+
+
+	)
+
+2167 
+	#MACS_B
+ 
+MACS_L
+
+
+	)
+
+2168 
+	#OP2_B
+ 
+OP2_L
+
+
+	)
+
+2169 
+	#MPY32L_B
+ 
+MPY32L_L
+
+
+	)
+
+2170 
+	#MPY32H_B
+ 
+MPY32H_L
+
+
+	)
+
+2171 
+	#MPYS32L_B
+ 
+MPYS32L_L
+
+
+	)
+
+2172 
+	#MPYS32H_B
+ 
+MPYS32H_L
+
+
+	)
+
+2173 
+	#MAC32L_B
+ 
+MAC32L_L
+
+
+	)
+
+2174 
+	#MAC32H_B
+ 
+MAC32H_L
+
+
+	)
+
+2175 
+	#MACS32L_B
+ 
+MACS32L_L
+
+
+	)
+
+2176 
+	#MACS32H_B
+ 
+MACS32H_L
+
+
+	)
+
+2177 
+	#OP2L_B
+ 
+OP2L_L
+
+
+	)
+
+2178 
+	#OP2H_B
+ 
+OP2H_L
+
+
+	)
+
+2181 
+	#MPYC
+ (0x0001Ë
+
+	)
+
+2183 
+	#MPYFRAC
+ (0x0004Ë
+
+	)
+
+2184 
+	#MPYSAT
+ (0x0008Ë
+
+	)
+
+2185 
+	#MPYM0
+ (0x0010Ë
+
+	)
+
+2186 
+	#MPYM1
+ (0x0020Ë
+
+	)
+
+2187 
+	#OP1_32
+ (0x0040Ë
+
+	)
+
+2188 
+	#OP2_32
+ (0x0080Ë
+
+	)
+
+2189 
+	#MPYDLYWRTEN
+ (0x0100Ë
+
+	)
+
+2190 
+	#MPYDLY32
+ (0x0200Ë
+
+	)
+
+2193 
+	#MPYC_L
+ (0x0001Ë
+
+	)
+
+2195 
+	#MPYFRAC_L
+ (0x0004Ë
+
+	)
+
+2196 
+	#MPYSAT_L
+ (0x0008Ë
+
+	)
+
+2197 
+	#MPYM0_L
+ (0x0010Ë
+
+	)
+
+2198 
+	#MPYM1_L
+ (0x0020Ë
+
+	)
+
+2199 
+	#OP1_32_L
+ (0x0040Ë
+
+	)
+
+2200 
+	#OP2_32_L
+ (0x0080Ë
+
+	)
+
+2204 
+	#MPYDLYWRTEN_H
+ (0x0001Ë
+
+	)
+
+2205 
+	#MPYDLY32_H
+ (0x0002Ë
+
+	)
+
+2207 
+	#MPYM_0
+ (0x0000Ë
+
+	)
+
+2208 
+	#MPYM_1
+ (0x0010Ë
+
+	)
+
+2209 
+	#MPYM_2
+ (0x0020Ë
+
+	)
+
+2210 
+	#MPYM_3
+ (0x0030Ë
+
+	)
+
+2211 
+	#MPYM__MPY
+ (0x0000Ë
+
+	)
+
+2212 
+	#MPYM__MPYS
+ (0x0010Ë
+
+	)
+
+2213 
+	#MPYM__MAC
+ (0x0020Ë
+
+	)
+
+2214 
+	#MPYM__MACS
+ (0x0030Ë
+
+	)
+
+2219 
+	#__MSP430_HAS_PORT1_R__
+
+
+	)
+
+2220 
+	#__MSP430_BASEADDRESS_PORT1_R__
+ 0x0200
+
+	)
+
+2221 
+	#__MSP430_HAS_PORT2_R__
+
+
+	)
+
+2222 
+	#__MSP430_BASEADDRESS_PORT2_R__
+ 0x0200
+
+	)
+
+2223 
+	#__MSP430_HAS_PORTA_R__
+
+
+	)
+
+2224 
+	#__MSP430_BASEADDRESS_PORTA_R__
+ 0x0200
+
+	)
+
+2226 
+SFR_16BIT
+(
+PAIN
+);
+
+2227 
+SFR_8BIT
+(
+PAIN_L
+);
+
+2228 
+SFR_8BIT
+(
+PAIN_H
+);
+
+2229 
+SFR_16BIT
+(
+PAOUT
+);
+
+2230 
+SFR_8BIT
+(
+PAOUT_L
+);
+
+2231 
+SFR_8BIT
+(
+PAOUT_H
+);
+
+2232 
+SFR_16BIT
+(
+PADIR
+);
+
+2233 
+SFR_8BIT
+(
+PADIR_L
+);
+
+2234 
+SFR_8BIT
+(
+PADIR_H
+);
+
+2235 
+SFR_16BIT
+(
+PAREN
+);
+
+2236 
+SFR_8BIT
+(
+PAREN_L
+);
+
+2237 
+SFR_8BIT
+(
+PAREN_H
+);
+
+2238 
+SFR_16BIT
+(
+PADS
+);
+
+2239 
+SFR_8BIT
+(
+PADS_L
+);
+
+2240 
+SFR_8BIT
+(
+PADS_H
+);
+
+2241 
+SFR_16BIT
+(
+PASEL
+);
+
+2242 
+SFR_8BIT
+(
+PASEL_L
+);
+
+2243 
+SFR_8BIT
+(
+PASEL_H
+);
+
+2244 
+SFR_16BIT
+(
+PAIES
+);
+
+2245 
+SFR_8BIT
+(
+PAIES_L
+);
+
+2246 
+SFR_8BIT
+(
+PAIES_H
+);
+
+2247 
+SFR_16BIT
+(
+PAIE
+);
+
+2248 
+SFR_8BIT
+(
+PAIE_L
+);
+
+2249 
+SFR_8BIT
+(
+PAIE_H
+);
+
+2250 
+SFR_16BIT
+(
+PAIFG
+);
+
+2251 
+SFR_8BIT
+(
+PAIFG_L
+);
+
+2252 
+SFR_8BIT
+(
+PAIFG_H
+);
+
+2255 
+SFR_16BIT
+(
+P1IV
+);
+
+2256 
+SFR_16BIT
+(
+P2IV
+);
+
+2257 
+	#P1IN
+ (
+PAIN_L
+Ë
+
+	)
+
+2258 
+	#P1OUT
+ (
+PAOUT_L
+Ë
+
+	)
+
+2259 
+	#P1DIR
+ (
+PADIR_L
+Ë
+
+	)
+
+2260 
+	#P1REN
+ (
+PAREN_L
+Ë
+
+	)
+
+2261 
+	#P1DS
+ (
+PADS_L
+Ë
+
+	)
+
+2262 
+	#P1SEL
+ (
+PASEL_L
+Ë
+
+	)
+
+2263 
+	#P1IES
+ (
+PAIES_L
+Ë
+
+	)
+
+2264 
+	#P1IE
+ (
+PAIE_L
+Ë
+
+	)
+
+2265 
+	#P1IFG
+ (
+PAIFG_L
+Ë
+
+	)
+
+2268 
+	#P1IV_NONE
+ (0x0000Ë
+
+	)
+
+2269 
+	#P1IV_P1IFG0
+ (0x0002Ë
+
+	)
+
+2270 
+	#P1IV_P1IFG1
+ (0x0004Ë
+
+	)
+
+2271 
+	#P1IV_P1IFG2
+ (0x0006Ë
+
+	)
+
+2272 
+	#P1IV_P1IFG3
+ (0x0008Ë
+
+	)
+
+2273 
+	#P1IV_P1IFG4
+ (0x000AË
+
+	)
+
+2274 
+	#P1IV_P1IFG5
+ (0x000CË
+
+	)
+
+2275 
+	#P1IV_P1IFG6
+ (0x000EË
+
+	)
+
+2276 
+	#P1IV_P1IFG7
+ (0x0010Ë
+
+	)
+
+2278 
+	#P2IN
+ (
+PAIN_H
+Ë
+
+	)
+
+2279 
+	#P2OUT
+ (
+PAOUT_H
+Ë
+
+	)
+
+2280 
+	#P2DIR
+ (
+PADIR_H
+Ë
+
+	)
+
+2281 
+	#P2REN
+ (
+PAREN_H
+Ë
+
+	)
+
+2282 
+	#P2DS
+ (
+PADS_H
+Ë
+
+	)
+
+2283 
+	#P2SEL
+ (
+PASEL_H
+Ë
+
+	)
+
+2284 
+	#P2IES
+ (
+PAIES_H
+Ë
+
+	)
+
+2285 
+	#P2IE
+ (
+PAIE_H
+Ë
+
+	)
+
+2286 
+	#P2IFG
+ (
+PAIFG_H
+Ë
+
+	)
+
+2289 
+	#P2IV_NONE
+ (0x0000Ë
+
+	)
+
+2290 
+	#P2IV_P2IFG0
+ (0x0002Ë
+
+	)
+
+2291 
+	#P2IV_P2IFG1
+ (0x0004Ë
+
+	)
+
+2292 
+	#P2IV_P2IFG2
+ (0x0006Ë
+
+	)
+
+2293 
+	#P2IV_P2IFG3
+ (0x0008Ë
+
+	)
+
+2294 
+	#P2IV_P2IFG4
+ (0x000AË
+
+	)
+
+2295 
+	#P2IV_P2IFG5
+ (0x000CË
+
+	)
+
+2296 
+	#P2IV_P2IFG6
+ (0x000EË
+
+	)
+
+2297 
+	#P2IV_P2IFG7
+ (0x0010Ë
+
+	)
+
+2303 
+	#__MSP430_HAS_PORT3_R__
+
+
+	)
+
+2304 
+	#__MSP430_BASEADDRESS_PORT3_R__
+ 0x0220
+
+	)
+
+2305 
+	#__MSP430_HAS_PORT4_R__
+
+
+	)
+
+2306 
+	#__MSP430_BASEADDRESS_PORT4_R__
+ 0x0220
+
+	)
+
+2307 
+	#__MSP430_HAS_PORTB_R__
+
+
+	)
+
+2308 
+	#__MSP430_BASEADDRESS_PORTB_R__
+ 0x0220
+
+	)
+
+2310 
+SFR_16BIT
+(
+PBIN
+);
+
+2311 
+SFR_8BIT
+(
+PBIN_L
+);
+
+2312 
+SFR_8BIT
+(
+PBIN_H
+);
+
+2313 
+SFR_16BIT
+(
+PBOUT
+);
+
+2314 
+SFR_8BIT
+(
+PBOUT_L
+);
+
+2315 
+SFR_8BIT
+(
+PBOUT_H
+);
+
+2316 
+SFR_16BIT
+(
+PBDIR
+);
+
+2317 
+SFR_8BIT
+(
+PBDIR_L
+);
+
+2318 
+SFR_8BIT
+(
+PBDIR_H
+);
+
+2319 
+SFR_16BIT
+(
+PBREN
+);
+
+2320 
+SFR_8BIT
+(
+PBREN_L
+);
+
+2321 
+SFR_8BIT
+(
+PBREN_H
+);
+
+2322 
+SFR_16BIT
+(
+PBDS
+);
+
+2323 
+SFR_8BIT
+(
+PBDS_L
+);
+
+2324 
+SFR_8BIT
+(
+PBDS_H
+);
+
+2325 
+SFR_16BIT
+(
+PBSEL
+);
+
+2326 
+SFR_8BIT
+(
+PBSEL_L
+);
+
+2327 
+SFR_8BIT
+(
+PBSEL_H
+);
+
+2330 
+	#P3IN
+ (
+PBIN_L
+Ë
+
+	)
+
+2331 
+	#P3OUT
+ (
+PBOUT_L
+Ë
+
+	)
+
+2332 
+	#P3DIR
+ (
+PBDIR_L
+Ë
+
+	)
+
+2333 
+	#P3REN
+ (
+PBREN_L
+Ë
+
+	)
+
+2334 
+	#P3DS
+ (
+PBDS_L
+Ë
+
+	)
+
+2335 
+	#P3SEL
+ (
+PBSEL_L
+Ë
+
+	)
+
+2337 
+	#P4IN
+ (
+PBIN_H
+Ë
+
+	)
+
+2338 
+	#P4OUT
+ (
+PBOUT_H
+Ë
+
+	)
+
+2339 
+	#P4DIR
+ (
+PBDIR_H
+Ë
+
+	)
+
+2340 
+	#P4REN
+ (
+PBREN_H
+Ë
+
+	)
+
+2341 
+	#P4DS
+ (
+PBDS_H
+Ë
+
+	)
+
+2342 
+	#P4SEL
+ (
+PBSEL_H
+Ë
+
+	)
+
+2348 
+	#__MSP430_HAS_PORT5_R__
+
+
+	)
+
+2349 
+	#__MSP430_BASEADDRESS_PORT5_R__
+ 0x0240
+
+	)
+
+2350 
+	#__MSP430_HAS_PORTC_R__
+
+
+	)
+
+2351 
+	#__MSP430_BASEADDRESS_PORTC_R__
+ 0x0240
+
+	)
+
+2353 
+SFR_16BIT
+(
+PCIN
+);
+
+2354 
+SFR_8BIT
+(
+PCIN_L
+);
+
+2355 
+SFR_8BIT
+(
+PCIN_H
+);
+
+2356 
+SFR_16BIT
+(
+PCOUT
+);
+
+2357 
+SFR_8BIT
+(
+PCOUT_L
+);
+
+2358 
+SFR_8BIT
+(
+PCOUT_H
+);
+
+2359 
+SFR_16BIT
+(
+PCDIR
+);
+
+2360 
+SFR_8BIT
+(
+PCDIR_L
+);
+
+2361 
+SFR_8BIT
+(
+PCDIR_H
+);
+
+2362 
+SFR_16BIT
+(
+PCREN
+);
+
+2363 
+SFR_8BIT
+(
+PCREN_L
+);
+
+2364 
+SFR_8BIT
+(
+PCREN_H
+);
+
+2365 
+SFR_16BIT
+(
+PCDS
+);
+
+2366 
+SFR_8BIT
+(
+PCDS_L
+);
+
+2367 
+SFR_8BIT
+(
+PCDS_H
+);
+
+2368 
+SFR_16BIT
+(
+PCSEL
+);
+
+2369 
+SFR_8BIT
+(
+PCSEL_L
+);
+
+2370 
+SFR_8BIT
+(
+PCSEL_H
+);
+
+2373 
+	#P5IN
+ (
+PCIN_L
+Ë
+
+	)
+
+2374 
+	#P5OUT
+ (
+PCOUT_L
+Ë
+
+	)
+
+2375 
+	#P5DIR
+ (
+PCDIR_L
+Ë
+
+	)
+
+2376 
+	#P5REN
+ (
+PCREN_L
+Ë
+
+	)
+
+2377 
+	#P5DS
+ (
+PCDS_L
+Ë
+
+	)
+
+2378 
+	#P5SEL
+ (
+PCSEL_L
+Ë
+
+	)
+
+2384 
+	#__MSP430_HAS_PORTJ_R__
+
+
+	)
+
+2385 
+	#__MSP430_BASEADDRESS_PORTJ_R__
+ 0x0320
+
+	)
+
+2387 
+SFR_16BIT
+(
+PJIN
+);
+
+2388 
+SFR_8BIT
+(
+PJIN_L
+);
+
+2389 
+SFR_8BIT
+(
+PJIN_H
+);
+
+2390 
+SFR_16BIT
+(
+PJOUT
+);
+
+2391 
+SFR_8BIT
+(
+PJOUT_L
+);
+
+2392 
+SFR_8BIT
+(
+PJOUT_H
+);
+
+2393 
+SFR_16BIT
+(
+PJDIR
+);
+
+2394 
+SFR_8BIT
+(
+PJDIR_L
+);
+
+2395 
+SFR_8BIT
+(
+PJDIR_H
+);
+
+2396 
+SFR_16BIT
+(
+PJREN
+);
+
+2397 
+SFR_8BIT
+(
+PJREN_L
+);
+
+2398 
+SFR_8BIT
+(
+PJREN_H
+);
+
+2399 
+SFR_16BIT
+(
+PJDS
+);
+
+2400 
+SFR_8BIT
+(
+PJDS_L
+);
+
+2401 
+SFR_8BIT
+(
+PJDS_H
+);
+
+2406 
+	#__MSP430_HAS_PORT_MAPPING__
+
+
+	)
+
+2407 
+	#__MSP430_BASEADDRESS_PORT_MAPPING__
+ 0x01C0
+
+	)
+
+2409 
+SFR_16BIT
+(
+PMAPKEYID
+);
+
+2410 
+SFR_8BIT
+(
+PMAPKEYID_L
+);
+
+2411 
+SFR_8BIT
+(
+PMAPKEYID_H
+);
+
+2412 
+SFR_16BIT
+(
+PMAPCTL
+);
+
+2413 
+SFR_8BIT
+(
+PMAPCTL_L
+);
+
+2414 
+SFR_8BIT
+(
+PMAPCTL_H
+);
+
+2416 
+	#PMAPKEY
+ (0x2D52Ë
+
+	)
+
+2417 
+	#PMAPPWD
+ 
+PMAPKEYID
+
+
+	)
+
+2418 
+	#PMAPPW
+ (0x2D52Ë
+
+	)
+
+2421 
+	#PMAPLOCKED
+ (0x0001Ë
+
+	)
+
+2422 
+	#PMAPRECFG
+ (0x0002Ë
+
+	)
+
+2425 
+	#PMAPLOCKED_L
+ (0x0001Ë
+
+	)
+
+2426 
+	#PMAPRECFG_L
+ (0x0002Ë
+
+	)
+
+2433 
+	#__MSP430_HAS_PORT1_MAPPING__
+
+
+	)
+
+2434 
+	#__MSP430_BASEADDRESS_PORT1_MAPPING__
+ 0x01C8
+
+	)
+
+2436 
+SFR_16BIT
+(
+P1MAP01
+);
+
+2437 
+SFR_8BIT
+(
+P1MAP01_L
+);
+
+2438 
+SFR_8BIT
+(
+P1MAP01_H
+);
+
+2439 
+SFR_16BIT
+(
+P1MAP23
+);
+
+2440 
+SFR_8BIT
+(
+P1MAP23_L
+);
+
+2441 
+SFR_8BIT
+(
+P1MAP23_H
+);
+
+2442 
+SFR_16BIT
+(
+P1MAP45
+);
+
+2443 
+SFR_8BIT
+(
+P1MAP45_L
+);
+
+2444 
+SFR_8BIT
+(
+P1MAP45_H
+);
+
+2445 
+SFR_16BIT
+(
+P1MAP67
+);
+
+2446 
+SFR_8BIT
+(
+P1MAP67_L
+);
+
+2447 
+SFR_8BIT
+(
+P1MAP67_H
+);
+
+2449 
+	#P1MAP0
+ 
+P1MAP01_L
+
+
+	)
+
+2450 
+	#P1MAP1
+ 
+P1MAP01_H
+
+
+	)
+
+2451 
+	#P1MAP2
+ 
+P1MAP23_L
+
+
+	)
+
+2452 
+	#P1MAP3
+ 
+P1MAP23_H
+
+
+	)
+
+2453 
+	#P1MAP4
+ 
+P1MAP45_L
+
+
+	)
+
+2454 
+	#P1MAP5
+ 
+P1MAP45_H
+
+
+	)
+
+2455 
+	#P1MAP6
+ 
+P1MAP67_L
+
+
+	)
+
+2456 
+	#P1MAP7
+ 
+P1MAP67_H
+
+
+	)
+
+2461 
+	#__MSP430_HAS_PORT2_MAPPING__
+
+
+	)
+
+2462 
+	#__MSP430_BASEADDRESS_PORT2_MAPPING__
+ 0x01D0
+
+	)
+
+2464 
+SFR_16BIT
+(
+P2MAP01
+);
+
+2465 
+SFR_8BIT
+(
+P2MAP01_L
+);
+
+2466 
+SFR_8BIT
+(
+P2MAP01_H
+);
+
+2467 
+SFR_16BIT
+(
+P2MAP23
+);
+
+2468 
+SFR_8BIT
+(
+P2MAP23_L
+);
+
+2469 
+SFR_8BIT
+(
+P2MAP23_H
+);
+
+2470 
+SFR_16BIT
+(
+P2MAP45
+);
+
+2471 
+SFR_8BIT
+(
+P2MAP45_L
+);
+
+2472 
+SFR_8BIT
+(
+P2MAP45_H
+);
+
+2473 
+SFR_16BIT
+(
+P2MAP67
+);
+
+2474 
+SFR_8BIT
+(
+P2MAP67_L
+);
+
+2475 
+SFR_8BIT
+(
+P2MAP67_H
+);
+
+2477 
+	#P2MAP0
+ 
+P2MAP01_L
+
+
+	)
+
+2478 
+	#P2MAP1
+ 
+P2MAP01_H
+
+
+	)
+
+2479 
+	#P2MAP2
+ 
+P2MAP23_L
+
+
+	)
+
+2480 
+	#P2MAP3
+ 
+P2MAP23_H
+
+
+	)
+
+2481 
+	#P2MAP4
+ 
+P2MAP45_L
+
+
+	)
+
+2482 
+	#P2MAP5
+ 
+P2MAP45_H
+
+
+	)
+
+2483 
+	#P2MAP6
+ 
+P2MAP67_L
+
+
+	)
+
+2484 
+	#P2MAP7
+ 
+P2MAP67_H
+
+
+	)
+
+2489 
+	#__MSP430_HAS_PORT3_MAPPING__
+
+
+	)
+
+2490 
+	#__MSP430_BASEADDRESS_PORT3_MAPPING__
+ 0x01D8
+
+	)
+
+2492 
+SFR_16BIT
+(
+P3MAP01
+);
+
+2493 
+SFR_8BIT
+(
+P3MAP01_L
+);
+
+2494 
+SFR_8BIT
+(
+P3MAP01_H
+);
+
+2495 
+SFR_16BIT
+(
+P3MAP23
+);
+
+2496 
+SFR_8BIT
+(
+P3MAP23_L
+);
+
+2497 
+SFR_8BIT
+(
+P3MAP23_H
+);
+
+2498 
+SFR_16BIT
+(
+P3MAP45
+);
+
+2499 
+SFR_8BIT
+(
+P3MAP45_L
+);
+
+2500 
+SFR_8BIT
+(
+P3MAP45_H
+);
+
+2501 
+SFR_16BIT
+(
+P3MAP67
+);
+
+2502 
+SFR_8BIT
+(
+P3MAP67_L
+);
+
+2503 
+SFR_8BIT
+(
+P3MAP67_H
+);
+
+2505 
+	#P3MAP0
+ 
+P3MAP01_L
+
+
+	)
+
+2506 
+	#P3MAP1
+ 
+P3MAP01_H
+
+
+	)
+
+2507 
+	#P3MAP2
+ 
+P3MAP23_L
+
+
+	)
+
+2508 
+	#P3MAP3
+ 
+P3MAP23_H
+
+
+	)
+
+2509 
+	#P3MAP4
+ 
+P3MAP45_L
+
+
+	)
+
+2510 
+	#P3MAP5
+ 
+P3MAP45_H
+
+
+	)
+
+2511 
+	#P3MAP6
+ 
+P3MAP67_L
+
+
+	)
+
+2512 
+	#P3MAP7
+ 
+P3MAP67_H
+
+
+	)
+
+2514 
+	#PM_NONE
+ 0
+
+	)
+
+2515 
+	#PM_CBOUT0
+ 1
+
+	)
+
+2516 
+	#PM_TA0CLK
+ 1
+
+	)
+
+2517 
+	#PM_CBOUT1
+ 2
+
+	)
+
+2518 
+	#PM_TA1CLK
+ 2
+
+	)
+
+2519 
+	#PM_ACLK
+ 3
+
+	)
+
+2520 
+	#PM_MCLK
+ 4
+
+	)
+
+2521 
+	#PM_SMCLK
+ 5
+
+	)
+
+2522 
+	#PM_RTCCLK
+ 6
+
+	)
+
+2523 
+	#PM_MODCLK
+ 7
+
+	)
+
+2524 
+	#PM_DMAE0
+ 7
+
+	)
+
+2525 
+	#PM_SVMOUT
+ 8
+
+	)
+
+2526 
+	#PM_TA0CCR0A
+ 9
+
+	)
+
+2527 
+	#PM_TA0CCR1A
+ 10
+
+	)
+
+2528 
+	#PM_TA0CCR2A
+ 11
+
+	)
+
+2529 
+	#PM_TA0CCR3A
+ 12
+
+	)
+
+2530 
+	#PM_TA0CCR4A
+ 13
+
+	)
+
+2531 
+	#PM_TA1CCR0A
+ 14
+
+	)
+
+2532 
+	#PM_TA1CCR1A
+ 15
+
+	)
+
+2533 
+	#PM_TA1CCR2A
+ 16
+
+	)
+
+2534 
+	#PM_UCA0RXD
+ 17
+
+	)
+
+2535 
+	#PM_UCA0SOMI
+ 17
+
+	)
+
+2536 
+	#PM_UCA0TXD
+ 18
+
+	)
+
+2537 
+	#PM_UCA0SIMO
+ 18
+
+	)
+
+2538 
+	#PM_UCA0CLK
+ 19
+
+	)
+
+2539 
+	#PM_UCB0STE
+ 19
+
+	)
+
+2540 
+	#PM_UCB0SOMI
+ 20
+
+	)
+
+2541 
+	#PM_UCB0SCL
+ 20
+
+	)
+
+2542 
+	#PM_UCB0SIMO
+ 21
+
+	)
+
+2543 
+	#PM_UCB0SDA
+ 21
+
+	)
+
+2544 
+	#PM_UCB0CLK
+ 22
+
+	)
+
+2545 
+	#PM_UCA0STE
+ 22
+
+	)
+
+2546 
+	#PM_RFGDO0
+ 23
+
+	)
+
+2547 
+	#PM_RFGDO1
+ 24
+
+	)
+
+2548 
+	#PM_RFGDO2
+ 25
+
+	)
+
+2549 
+	#PM_ANALOG
+ 31
+
+	)
+
+2554 
+	#__MSP430_HAS_PMM__
+
+
+	)
+
+2555 
+	#__MSP430_BASEADDRESS_PMM__
+ 0x0120
+
+	)
+
+2557 
+SFR_16BIT
+(
+PMMCTL0
+);
+
+2558 
+SFR_8BIT
+(
+PMMCTL0_L
+);
+
+2559 
+SFR_8BIT
+(
+PMMCTL0_H
+);
+
+2560 
+SFR_16BIT
+(
+PMMCTL1
+);
+
+2561 
+SFR_8BIT
+(
+PMMCTL1_L
+);
+
+2562 
+SFR_8BIT
+(
+PMMCTL1_H
+);
+
+2563 
+SFR_16BIT
+(
+SVSMHCTL
+);
+
+2564 
+SFR_8BIT
+(
+SVSMHCTL_L
+);
+
+2565 
+SFR_8BIT
+(
+SVSMHCTL_H
+);
+
+2566 
+SFR_16BIT
+(
+SVSMLCTL
+);
+
+2567 
+SFR_8BIT
+(
+SVSMLCTL_L
+);
+
+2568 
+SFR_8BIT
+(
+SVSMLCTL_H
+);
+
+2569 
+SFR_16BIT
+(
+SVSMIO
+);
+
+2570 
+SFR_8BIT
+(
+SVSMIO_L
+);
+
+2571 
+SFR_8BIT
+(
+SVSMIO_H
+);
+
+2572 
+SFR_16BIT
+(
+PMMIFG
+);
+
+2573 
+SFR_8BIT
+(
+PMMIFG_L
+);
+
+2574 
+SFR_8BIT
+(
+PMMIFG_H
+);
+
+2575 
+SFR_16BIT
+(
+PMMRIE
+);
+
+2576 
+SFR_8BIT
+(
+PMMRIE_L
+);
+
+2577 
+SFR_8BIT
+(
+PMMRIE_H
+);
+
+2578 
+SFR_16BIT
+(
+PM5CTL0
+);
+
+2579 
+SFR_8BIT
+(
+PM5CTL0_L
+);
+
+2580 
+SFR_8BIT
+(
+PM5CTL0_H
+);
+
+2582 
+	#PMMPW
+ (0xA500Ë
+
+	)
+
+2583 
+	#PMMPW_H
+ (0xA5Ë
+
+	)
+
+2586 
+	#PMMCOREV0
+ (0x0001Ë
+
+	)
+
+2587 
+	#PMMCOREV1
+ (0x0002Ë
+
+	)
+
+2588 
+	#PMMSWBOR
+ (0x0004Ë
+
+	)
+
+2589 
+	#PMMSWPOR
+ (0x0008Ë
+
+	)
+
+2590 
+	#PMMREGOFF
+ (0x0010Ë
+
+	)
+
+2591 
+	#PMMHPMRE
+ (0x0080Ë
+
+	)
+
+2594 
+	#PMMCOREV0_L
+ (0x0001Ë
+
+	)
+
+2595 
+	#PMMCOREV1_L
+ (0x0002Ë
+
+	)
+
+2596 
+	#PMMSWBOR_L
+ (0x0004Ë
+
+	)
+
+2597 
+	#PMMSWPOR_L
+ (0x0008Ë
+
+	)
+
+2598 
+	#PMMREGOFF_L
+ (0x0010Ë
+
+	)
+
+2599 
+	#PMMHPMRE_L
+ (0x0080Ë
+
+	)
+
+2603 
+	#PMMCOREV_0
+ (0x0000Ë
+
+	)
+
+2604 
+	#PMMCOREV_1
+ (0x0001Ë
+
+	)
+
+2605 
+	#PMMCOREV_2
+ (0x0002Ë
+
+	)
+
+2606 
+	#PMMCOREV_3
+ (0x0003Ë
+
+	)
+
+2609 
+	#PMMREFMD
+ (0x0001Ë
+
+	)
+
+2610 
+	#PMMCMD0
+ (0x0010Ë
+
+	)
+
+2611 
+	#PMMCMD1
+ (0x0020Ë
+
+	)
+
+2614 
+	#PMMREFMD_L
+ (0x0001Ë
+
+	)
+
+2615 
+	#PMMCMD0_L
+ (0x0010Ë
+
+	)
+
+2616 
+	#PMMCMD1_L
+ (0x0020Ë
+
+	)
+
+2621 
+	#SVSMHRRL0
+ (0x0001Ë
+
+	)
+
+2622 
+	#SVSMHRRL1
+ (0x0002Ë
+
+	)
+
+2623 
+	#SVSMHRRL2
+ (0x0004Ë
+
+	)
+
+2624 
+	#SVSMHDLYST
+ (0x0008Ë
+
+	)
+
+2625 
+	#SVSHMD
+ (0x0010Ë
+
+	)
+
+2626 
+	#SVSMHEVM
+ (0x0040Ë
+
+	)
+
+2627 
+	#SVSMHACE
+ (0x0080Ë
+
+	)
+
+2628 
+	#SVSHRVL0
+ (0x0100Ë
+
+	)
+
+2629 
+	#SVSHRVL1
+ (0x0200Ë
+
+	)
+
+2630 
+	#SVSHE
+ (0x0400Ë
+
+	)
+
+2631 
+	#SVSHFP
+ (0x0800Ë
+
+	)
+
+2632 
+	#SVMHOVPE
+ (0x1000Ë
+
+	)
+
+2633 
+	#SVMHE
+ (0x4000Ë
+
+	)
+
+2634 
+	#SVMHFP
+ (0x8000Ë
+
+	)
+
+2637 
+	#SVSMHRRL0_L
+ (0x0001Ë
+
+	)
+
+2638 
+	#SVSMHRRL1_L
+ (0x0002Ë
+
+	)
+
+2639 
+	#SVSMHRRL2_L
+ (0x0004Ë
+
+	)
+
+2640 
+	#SVSMHDLYST_L
+ (0x0008Ë
+
+	)
+
+2641 
+	#SVSHMD_L
+ (0x0010Ë
+
+	)
+
+2642 
+	#SVSMHEVM_L
+ (0x0040Ë
+
+	)
+
+2643 
+	#SVSMHACE_L
+ (0x0080Ë
+
+	)
+
+2646 
+	#SVSHRVL0_H
+ (0x0001Ë
+
+	)
+
+2647 
+	#SVSHRVL1_H
+ (0x0002Ë
+
+	)
+
+2648 
+	#SVSHE_H
+ (0x0004Ë
+
+	)
+
+2649 
+	#SVSHFP_H
+ (0x0008Ë
+
+	)
+
+2650 
+	#SVMHOVPE_H
+ (0x0010Ë
+
+	)
+
+2651 
+	#SVMHE_H
+ (0x0040Ë
+
+	)
+
+2652 
+	#SVMHFP_H
+ (0x0080Ë
+
+	)
+
+2654 
+	#SVSMHRRL_0
+ (0x0000Ë
+
+	)
+
+2655 
+	#SVSMHRRL_1
+ (0x0001Ë
+
+	)
+
+2656 
+	#SVSMHRRL_2
+ (0x0002Ë
+
+	)
+
+2657 
+	#SVSMHRRL_3
+ (0x0003Ë
+
+	)
+
+2658 
+	#SVSMHRRL_4
+ (0x0004Ë
+
+	)
+
+2659 
+	#SVSMHRRL_5
+ (0x0005Ë
+
+	)
+
+2660 
+	#SVSMHRRL_6
+ (0x0006Ë
+
+	)
+
+2661 
+	#SVSMHRRL_7
+ (0x0007Ë
+
+	)
+
+2663 
+	#SVSHRVL_0
+ (0x0000Ë
+
+	)
+
+2664 
+	#SVSHRVL_1
+ (0x0100Ë
+
+	)
+
+2665 
+	#SVSHRVL_2
+ (0x0200Ë
+
+	)
+
+2666 
+	#SVSHRVL_3
+ (0x0300Ë
+
+	)
+
+2669 
+	#SVSMLRRL0
+ (0x0001Ë
+
+	)
+
+2670 
+	#SVSMLRRL1
+ (0x0002Ë
+
+	)
+
+2671 
+	#SVSMLRRL2
+ (0x0004Ë
+
+	)
+
+2672 
+	#SVSMLDLYST
+ (0x0008Ë
+
+	)
+
+2673 
+	#SVSLMD
+ (0x0010Ë
+
+	)
+
+2674 
+	#SVSMLEVM
+ (0x0040Ë
+
+	)
+
+2675 
+	#SVSMLACE
+ (0x0080Ë
+
+	)
+
+2676 
+	#SVSLRVL0
+ (0x0100Ë
+
+	)
+
+2677 
+	#SVSLRVL1
+ (0x0200Ë
+
+	)
+
+2678 
+	#SVSLE
+ (0x0400Ë
+
+	)
+
+2679 
+	#SVSLFP
+ (0x0800Ë
+
+	)
+
+2680 
+	#SVMLOVPE
+ (0x1000Ë
+
+	)
+
+2681 
+	#SVMLE
+ (0x4000Ë
+
+	)
+
+2682 
+	#SVMLFP
+ (0x8000Ë
+
+	)
+
+2685 
+	#SVSMLRRL0_L
+ (0x0001Ë
+
+	)
+
+2686 
+	#SVSMLRRL1_L
+ (0x0002Ë
+
+	)
+
+2687 
+	#SVSMLRRL2_L
+ (0x0004Ë
+
+	)
+
+2688 
+	#SVSMLDLYST_L
+ (0x0008Ë
+
+	)
+
+2689 
+	#SVSLMD_L
+ (0x0010Ë
+
+	)
+
+2690 
+	#SVSMLEVM_L
+ (0x0040Ë
+
+	)
+
+2691 
+	#SVSMLACE_L
+ (0x0080Ë
+
+	)
+
+2694 
+	#SVSLRVL0_H
+ (0x0001Ë
+
+	)
+
+2695 
+	#SVSLRVL1_H
+ (0x0002Ë
+
+	)
+
+2696 
+	#SVSLE_H
+ (0x0004Ë
+
+	)
+
+2697 
+	#SVSLFP_H
+ (0x0008Ë
+
+	)
+
+2698 
+	#SVMLOVPE_H
+ (0x0010Ë
+
+	)
+
+2699 
+	#SVMLE_H
+ (0x0040Ë
+
+	)
+
+2700 
+	#SVMLFP_H
+ (0x0080Ë
+
+	)
+
+2702 
+	#SVSMLRRL_0
+ (0x0000Ë
+
+	)
+
+2703 
+	#SVSMLRRL_1
+ (0x0001Ë
+
+	)
+
+2704 
+	#SVSMLRRL_2
+ (0x0002Ë
+
+	)
+
+2705 
+	#SVSMLRRL_3
+ (0x0003Ë
+
+	)
+
+2706 
+	#SVSMLRRL_4
+ (0x0004Ë
+
+	)
+
+2707 
+	#SVSMLRRL_5
+ (0x0005Ë
+
+	)
+
+2708 
+	#SVSMLRRL_6
+ (0x0006Ë
+
+	)
+
+2709 
+	#SVSMLRRL_7
+ (0x0007Ë
+
+	)
+
+2711 
+	#SVSLRVL_0
+ (0x0000Ë
+
+	)
+
+2712 
+	#SVSLRVL_1
+ (0x0100Ë
+
+	)
+
+2713 
+	#SVSLRVL_2
+ (0x0200Ë
+
+	)
+
+2714 
+	#SVSLRVL_3
+ (0x0300Ë
+
+	)
+
+2717 
+	#SVMLOE
+ (0x0008Ë
+
+	)
+
+2718 
+	#SVMLVLROE
+ (0x0010Ë
+
+	)
+
+2719 
+	#SVMOUTPOL
+ (0x0020Ë
+
+	)
+
+2720 
+	#SVMHOE
+ (0x0800Ë
+
+	)
+
+2721 
+	#SVMHVLROE
+ (0x1000Ë
+
+	)
+
+2724 
+	#SVMLOE_L
+ (0x0008Ë
+
+	)
+
+2725 
+	#SVMLVLROE_L
+ (0x0010Ë
+
+	)
+
+2726 
+	#SVMOUTPOL_L
+ (0x0020Ë
+
+	)
+
+2729 
+	#SVMHOE_H
+ (0x0008Ë
+
+	)
+
+2730 
+	#SVMHVLROE_H
+ (0x0010Ë
+
+	)
+
+2733 
+	#SVSMLDLYIFG
+ (0x0001Ë
+
+	)
+
+2734 
+	#SVMLIFG
+ (0x0002Ë
+
+	)
+
+2735 
+	#SVMLVLRIFG
+ (0x0004Ë
+
+	)
+
+2736 
+	#SVSMHDLYIFG
+ (0x0010Ë
+
+	)
+
+2737 
+	#SVMHIFG
+ (0x0020Ë
+
+	)
+
+2738 
+	#SVMHVLRIFG
+ (0x0040Ë
+
+	)
+
+2739 
+	#PMMBORIFG
+ (0x0100Ë
+
+	)
+
+2740 
+	#PMMRSTIFG
+ (0x0200Ë
+
+	)
+
+2741 
+	#PMMPORIFG
+ (0x0400Ë
+
+	)
+
+2742 
+	#SVSHIFG
+ (0x1000Ë
+
+	)
+
+2743 
+	#SVSLIFG
+ (0x2000Ë
+
+	)
+
+2744 
+	#PMMLPM5IFG
+ (0x8000Ë
+
+	)
+
+2747 
+	#SVSMLDLYIFG_L
+ (0x0001Ë
+
+	)
+
+2748 
+	#SVMLIFG_L
+ (0x0002Ë
+
+	)
+
+2749 
+	#SVMLVLRIFG_L
+ (0x0004Ë
+
+	)
+
+2750 
+	#SVSMHDLYIFG_L
+ (0x0010Ë
+
+	)
+
+2751 
+	#SVMHIFG_L
+ (0x0020Ë
+
+	)
+
+2752 
+	#SVMHVLRIFG_L
+ (0x0040Ë
+
+	)
+
+2755 
+	#PMMBORIFG_H
+ (0x0001Ë
+
+	)
+
+2756 
+	#PMMRSTIFG_H
+ (0x0002Ë
+
+	)
+
+2757 
+	#PMMPORIFG_H
+ (0x0004Ë
+
+	)
+
+2758 
+	#SVSHIFG_H
+ (0x0010Ë
+
+	)
+
+2759 
+	#SVSLIFG_H
+ (0x0020Ë
+
+	)
+
+2760 
+	#PMMLPM5IFG_H
+ (0x0080Ë
+
+	)
+
+2762 
+	#PMMRSTLPM5IFG
+ 
+PMMLPM5IFG
+
+
+	)
+
+2765 
+	#SVSMLDLYIE
+ (0x0001Ë
+
+	)
+
+2766 
+	#SVMLIE
+ (0x0002Ë
+
+	)
+
+2767 
+	#SVMLVLRIE
+ (0x0004Ë
+
+	)
+
+2768 
+	#SVSMHDLYIE
+ (0x0010Ë
+
+	)
+
+2769 
+	#SVMHIE
+ (0x0020Ë
+
+	)
+
+2770 
+	#SVMHVLRIE
+ (0x0040Ë
+
+	)
+
+2771 
+	#SVSLPE
+ (0x0100Ë
+
+	)
+
+2772 
+	#SVMLVLRPE
+ (0x0200Ë
+
+	)
+
+2773 
+	#SVSHPE
+ (0x1000Ë
+
+	)
+
+2774 
+	#SVMHVLRPE
+ (0x2000Ë
+
+	)
+
+2777 
+	#SVSMLDLYIE_L
+ (0x0001Ë
+
+	)
+
+2778 
+	#SVMLIE_L
+ (0x0002Ë
+
+	)
+
+2779 
+	#SVMLVLRIE_L
+ (0x0004Ë
+
+	)
+
+2780 
+	#SVSMHDLYIE_L
+ (0x0010Ë
+
+	)
+
+2781 
+	#SVMHIE_L
+ (0x0020Ë
+
+	)
+
+2782 
+	#SVMHVLRIE_L
+ (0x0040Ë
+
+	)
+
+2785 
+	#SVSLPE_H
+ (0x0001Ë
+
+	)
+
+2786 
+	#SVMLVLRPE_H
+ (0x0002Ë
+
+	)
+
+2787 
+	#SVSHPE_H
+ (0x0010Ë
+
+	)
+
+2788 
+	#SVMHVLRPE_H
+ (0x0020Ë
+
+	)
+
+2791 
+	#LOCKLPM5
+ (0x0001Ë
+
+	)
+
+2794 
+	#LOCKLPM5_L
+ (0x0001Ë
+
+	)
+
+2797 
+	#LOCKIO
+ 
+LOCKLPM5
+
+
+	)
+
+2802 
+	#__MSP430_HAS_RC__
+
+
+	)
+
+2803 
+	#__MSP430_BASEADDRESS_RC__
+ 0x0158
+
+	)
+
+2805 
+SFR_16BIT
+(
+RCCTL0
+);
+
+2806 
+SFR_8BIT
+(
+RCCTL0_L
+);
+
+2807 
+SFR_8BIT
+(
+RCCTL0_H
+);
+
+2810 
+	#RCRS0OFF
+ (0x0001Ë
+
+	)
+
+2811 
+	#RCRS1OFF
+ (0x0002Ë
+
+	)
+
+2812 
+	#RCRS2OFF
+ (0x0004Ë
+
+	)
+
+2813 
+	#RCRS3OFF
+ (0x0008Ë
+
+	)
+
+2816 
+	#RCRS0OFF_L
+ (0x0001Ë
+
+	)
+
+2817 
+	#RCRS1OFF_L
+ (0x0002Ë
+
+	)
+
+2818 
+	#RCRS2OFF_L
+ (0x0004Ë
+
+	)
+
+2819 
+	#RCRS3OFF_L
+ (0x0008Ë
+
+	)
+
+2823 
+	#RCKEY
+ (0x5A00)
+
+	)
+
+2828 
+	#__MSP430_HAS_REF__
+
+
+	)
+
+2829 
+	#__MSP430_BASEADDRESS_REF__
+ 0x01B0
+
+	)
+
+2831 
+SFR_16BIT
+(
+REFCTL0
+);
+
+2832 
+SFR_8BIT
+(
+REFCTL0_L
+);
+
+2833 
+SFR_8BIT
+(
+REFCTL0_H
+);
+
+2836 
+	#REFON
+ (0x0001Ë
+
+	)
+
+2837 
+	#REFOUT
+ (0x0002Ë
+
+	)
+
+2839 
+	#REFTCOFF
+ (0x0008Ë
+
+	)
+
+2840 
+	#REFVSEL0
+ (0x0010Ë
+
+	)
+
+2841 
+	#REFVSEL1
+ (0x0020Ë
+
+	)
+
+2843 
+	#REFMSTR
+ (0x0080Ë
+
+	)
+
+2844 
+	#REFGENACT
+ (0x0100Ë
+
+	)
+
+2845 
+	#REFBGACT
+ (0x0200Ë
+
+	)
+
+2846 
+	#REFGENBUSY
+ (0x0400Ë
+
+	)
+
+2847 
+	#BGMODE
+ (0x0800Ë
+
+	)
+
+2854 
+	#REFON_L
+ (0x0001Ë
+
+	)
+
+2855 
+	#REFOUT_L
+ (0x0002Ë
+
+	)
+
+2857 
+	#REFTCOFF_L
+ (0x0008Ë
+
+	)
+
+2858 
+	#REFVSEL0_L
+ (0x0010Ë
+
+	)
+
+2859 
+	#REFVSEL1_L
+ (0x0020Ë
+
+	)
+
+2861 
+	#REFMSTR_L
+ (0x0080Ë
+
+	)
+
+2870 
+	#REFGENACT_H
+ (0x0001Ë
+
+	)
+
+2871 
+	#REFBGACT_H
+ (0x0002Ë
+
+	)
+
+2872 
+	#REFGENBUSY_H
+ (0x0004Ë
+
+	)
+
+2873 
+	#BGMODE_H
+ (0x0008Ë
+
+	)
+
+2879 
+	#REFVSEL_0
+ (0x0000Ë
+
+	)
+
+2880 
+	#REFVSEL_1
+ (0x0010Ë
+
+	)
+
+2881 
+	#REFVSEL_2
+ (0x0020Ë
+
+	)
+
+2882 
+	#REFVSEL_3
+ (0x0030Ë
+
+	)
+
+2887 
+	#__MSP430_HAS_RTC_D__
+
+
+	)
+
+2888 
+	#__MSP430_BASEADDRESS_RTC_D__
+ 0x04A0
+
+	)
+
+2890 
+SFR_16BIT
+(
+RTCCTL01
+);
+
+2891 
+SFR_8BIT
+(
+RTCCTL01_L
+);
+
+2892 
+SFR_8BIT
+(
+RTCCTL01_H
+);
+
+2893 
+SFR_16BIT
+(
+RTCCTL23
+);
+
+2894 
+SFR_8BIT
+(
+RTCCTL23_L
+);
+
+2895 
+SFR_8BIT
+(
+RTCCTL23_H
+);
+
+2896 
+SFR_16BIT
+(
+RTCPS0CTL
+);
+
+2897 
+SFR_8BIT
+(
+RTCPS0CTL_L
+);
+
+2898 
+SFR_8BIT
+(
+RTCPS0CTL_H
+);
+
+2899 
+SFR_16BIT
+(
+RTCPS1CTL
+);
+
+2900 
+SFR_8BIT
+(
+RTCPS1CTL_L
+);
+
+2901 
+SFR_8BIT
+(
+RTCPS1CTL_H
+);
+
+2902 
+SFR_16BIT
+(
+RTCPS
+);
+
+2903 
+SFR_8BIT
+(
+RTCPS_L
+);
+
+2904 
+SFR_8BIT
+(
+RTCPS_H
+);
+
+2905 
+SFR_16BIT
+(
+RTCIV
+);
+
+2906 
+SFR_16BIT
+(
+RTCTIM0
+);
+
+2907 
+SFR_8BIT
+(
+RTCTIM0_L
+);
+
+2908 
+SFR_8BIT
+(
+RTCTIM0_H
+);
+
+2909 
+SFR_16BIT
+(
+RTCTIM1
+);
+
+2910 
+SFR_8BIT
+(
+RTCTIM1_L
+);
+
+2911 
+SFR_8BIT
+(
+RTCTIM1_H
+);
+
+2912 
+SFR_16BIT
+(
+RTCDATE
+);
+
+2913 
+SFR_8BIT
+(
+RTCDATE_L
+);
+
+2914 
+SFR_8BIT
+(
+RTCDATE_H
+);
+
+2915 
+SFR_16BIT
+(
+RTCYEAR
+);
+
+2916 
+SFR_8BIT
+(
+RTCYEAR_L
+);
+
+2917 
+SFR_8BIT
+(
+RTCYEAR_H
+);
+
+2918 
+SFR_16BIT
+(
+RTCAMINHR
+);
+
+2919 
+SFR_8BIT
+(
+RTCAMINHR_L
+);
+
+2920 
+SFR_8BIT
+(
+RTCAMINHR_H
+);
+
+2921 
+SFR_16BIT
+(
+RTCADOWDAY
+);
+
+2922 
+SFR_8BIT
+(
+RTCADOWDAY_L
+);
+
+2923 
+SFR_8BIT
+(
+RTCADOWDAY_H
+);
+
+2924 
+SFR_16BIT
+(
+BIN2BCD
+);
+
+2925 
+SFR_16BIT
+(
+BCD2BIN
+);
+
+2927 
+	#RTCCTL0
+ 
+RTCCTL01_L
+
+
+	)
+
+2928 
+	#RTCCTL1
+ 
+RTCCTL01_H
+
+
+	)
+
+2929 
+	#RTCCTL2
+ 
+RTCCTL23_L
+
+
+	)
+
+2930 
+	#RTCCTL3
+ 
+RTCCTL23_H
+
+
+	)
+
+2931 
+	#RTCNT12
+ 
+RTCTIM0
+
+
+	)
+
+2932 
+	#RTCNT34
+ 
+RTCTIM1
+
+
+	)
+
+2933 
+	#RTCNT1
+ 
+RTCTIM0_L
+
+
+	)
+
+2934 
+	#RTCNT2
+ 
+RTCTIM0_H
+
+
+	)
+
+2935 
+	#RTCNT3
+ 
+RTCTIM1_L
+
+
+	)
+
+2936 
+	#RTCNT4
+ 
+RTCTIM1_H
+
+
+	)
+
+2937 
+	#RTCSEC
+ 
+RTCTIM0_L
+
+
+	)
+
+2938 
+	#RTCMIN
+ 
+RTCTIM0_H
+
+
+	)
+
+2939 
+	#RTCHOUR
+ 
+RTCTIM1_L
+
+
+	)
+
+2940 
+	#RTCDOW
+ 
+RTCTIM1_H
+
+
+	)
+
+2941 
+	#RTCDAY
+ 
+RTCDATE_L
+
+
+	)
+
+2942 
+	#RTCMON
+ 
+RTCDATE_H
+
+
+	)
+
+2943 
+	#RTCYEARL
+ 
+RTCYEAR_L
+
+
+	)
+
+2944 
+	#RTCYEARH
+ 
+RTCYEAR_H
+
+
+	)
+
+2945 
+	#RT0PS
+ 
+RTCPS_L
+
+
+	)
+
+2946 
+	#RT1PS
+ 
+RTCPS_H
+
+
+	)
+
+2947 
+	#RTCAMIN
+ 
+RTCAMINHR_L
+
+
+	)
+
+2948 
+	#RTCAHOUR
+ 
+RTCAMINHR_H
+
+
+	)
+
+2949 
+	#RTCADOW
+ 
+RTCADOWDAY_L
+
+
+	)
+
+2950 
+	#RTCADAY
+ 
+RTCADOWDAY_H
+
+
+	)
+
+2953 
+	#RTCBCD
+ (0x8000Ë
+
+	)
+
+2954 
+	#RTCHOLD
+ (0x4000Ë
+
+	)
+
+2955 
+	#RTCMODE
+ (0x2000Ë
+
+	)
+
+2956 
+	#RTCRDY
+ (0x1000Ë
+
+	)
+
+2957 
+	#RTCSSEL1
+ (0x0800Ë
+
+	)
+
+2958 
+	#RTCSSEL0
+ (0x0400Ë
+
+	)
+
+2959 
+	#RTCTEV1
+ (0x0200Ë
+
+	)
+
+2960 
+	#RTCTEV0
+ (0x0100Ë
+
+	)
+
+2961 
+	#RTCOFIE
+ (0x0080Ë
+
+	)
+
+2962 
+	#RTCTEVIE
+ (0x0040Ë
+
+	)
+
+2963 
+	#RTCAIE
+ (0x0020Ë
+
+	)
+
+2964 
+	#RTCRDYIE
+ (0x0010Ë
+
+	)
+
+2965 
+	#RTCOFIFG
+ (0x0008Ë
+
+	)
+
+2966 
+	#RTCTEVIFG
+ (0x0004Ë
+
+	)
+
+2967 
+	#RTCAIFG
+ (0x0002Ë
+
+	)
+
+2968 
+	#RTCRDYIFG
+ (0x0001Ë
+
+	)
+
+2971 
+	#RTCOFIE_L
+ (0x0080Ë
+
+	)
+
+2972 
+	#RTCTEVIE_L
+ (0x0040Ë
+
+	)
+
+2973 
+	#RTCAIE_L
+ (0x0020Ë
+
+	)
+
+2974 
+	#RTCRDYIE_L
+ (0x0010Ë
+
+	)
+
+2975 
+	#RTCOFIFG_L
+ (0x0008Ë
+
+	)
+
+2976 
+	#RTCTEVIFG_L
+ (0x0004Ë
+
+	)
+
+2977 
+	#RTCAIFG_L
+ (0x0002Ë
+
+	)
+
+2978 
+	#RTCRDYIFG_L
+ (0x0001Ë
+
+	)
+
+2981 
+	#RTCBCD_H
+ (0x0080Ë
+
+	)
+
+2982 
+	#RTCHOLD_H
+ (0x0040Ë
+
+	)
+
+2983 
+	#RTCMODE_H
+ (0x0020Ë
+
+	)
+
+2984 
+	#RTCRDY_H
+ (0x0010Ë
+
+	)
+
+2985 
+	#RTCSSEL1_H
+ (0x0008Ë
+
+	)
+
+2986 
+	#RTCSSEL0_H
+ (0x0004Ë
+
+	)
+
+2987 
+	#RTCTEV1_H
+ (0x0002Ë
+
+	)
+
+2988 
+	#RTCTEV0_H
+ (0x0001Ë
+
+	)
+
+2990 
+	#RTCSSEL_0
+ (0x0000Ë
+
+	)
+
+2991 
+	#RTCSSEL_1
+ (0x0400Ë
+
+	)
+
+2992 
+	#RTCSSEL_2
+ (0x0800Ë
+
+	)
+
+2993 
+	#RTCSSEL_3
+ (0x0C00Ë
+
+	)
+
+2994 
+	#RTCSSEL__ACLK
+ (0x0000Ë
+
+	)
+
+2995 
+	#RTCSSEL__SMCLK
+ (0x0400Ë
+
+	)
+
+2996 
+	#RTCSSEL__RT1PS
+ (0x0800Ë
+
+	)
+
+2997 
+	#RTCTEV_0
+ (0x0000Ë
+
+	)
+
+2998 
+	#RTCTEV_1
+ (0x0100Ë
+
+	)
+
+2999 
+	#RTCTEV_2
+ (0x0200Ë
+
+	)
+
+3000 
+	#RTCTEV_3
+ (0x0300Ë
+
+	)
+
+3001 
+	#RTCTEV__MIN
+ (0x0000Ë
+
+	)
+
+3002 
+	#RTCTEV__HOUR
+ (0x0100Ë
+
+	)
+
+3003 
+	#RTCTEV__0000
+ (0x0200Ë
+
+	)
+
+3004 
+	#RTCTEV__1200
+ (0x0300Ë
+
+	)
+
+3007 
+	#RTCCALF1
+ (0x0200Ë
+
+	)
+
+3008 
+	#RTCCALF0
+ (0x0100Ë
+
+	)
+
+3009 
+	#RTCCALS
+ (0x0080Ë
+
+	)
+
+3011 
+	#RTCCAL5
+ (0x0020Ë
+
+	)
+
+3012 
+	#RTCCAL4
+ (0x0010Ë
+
+	)
+
+3013 
+	#RTCCAL3
+ (0x0008Ë
+
+	)
+
+3014 
+	#RTCCAL2
+ (0x0004Ë
+
+	)
+
+3015 
+	#RTCCAL1
+ (0x0002Ë
+
+	)
+
+3016 
+	#RTCCAL0
+ (0x0001Ë
+
+	)
+
+3019 
+	#RTCCALS_L
+ (0x0080Ë
+
+	)
+
+3021 
+	#RTCCAL5_L
+ (0x0020Ë
+
+	)
+
+3022 
+	#RTCCAL4_L
+ (0x0010Ë
+
+	)
+
+3023 
+	#RTCCAL3_L
+ (0x0008Ë
+
+	)
+
+3024 
+	#RTCCAL2_L
+ (0x0004Ë
+
+	)
+
+3025 
+	#RTCCAL1_L
+ (0x0002Ë
+
+	)
+
+3026 
+	#RTCCAL0_L
+ (0x0001Ë
+
+	)
+
+3029 
+	#RTCCALF1_H
+ (0x0002Ë
+
+	)
+
+3030 
+	#RTCCALF0_H
+ (0x0001Ë
+
+	)
+
+3033 
+	#RTCCALF_0
+ (0x0000Ë
+
+	)
+
+3034 
+	#RTCCALF_1
+ (0x0100Ë
+
+	)
+
+3035 
+	#RTCCALF_2
+ (0x0200Ë
+
+	)
+
+3036 
+	#RTCCALF_3
+ (0x0300Ë
+
+	)
+
+3041 
+	#RT0PSDIV2
+ (0x2000Ë
+
+	)
+
+3042 
+	#RT0PSDIV1
+ (0x1000Ë
+
+	)
+
+3043 
+	#RT0PSDIV0
+ (0x0800Ë
+
+	)
+
+3046 
+	#RT0PSHOLD
+ (0x0100Ë
+
+	)
+
+3050 
+	#RT0IP2
+ (0x0010Ë
+
+	)
+
+3051 
+	#RT0IP1
+ (0x0008Ë
+
+	)
+
+3052 
+	#RT0IP0
+ (0x0004Ë
+
+	)
+
+3053 
+	#RT0PSIE
+ (0x0002Ë
+
+	)
+
+3054 
+	#RT0PSIFG
+ (0x0001Ë
+
+	)
+
+3064 
+	#RT0IP2_L
+ (0x0010Ë
+
+	)
+
+3065 
+	#RT0IP1_L
+ (0x0008Ë
+
+	)
+
+3066 
+	#RT0IP0_L
+ (0x0004Ë
+
+	)
+
+3067 
+	#RT0PSIE_L
+ (0x0002Ë
+
+	)
+
+3068 
+	#RT0PSIFG_L
+ (0x0001Ë
+
+	)
+
+3073 
+	#RT0PSDIV2_H
+ (0x0020Ë
+
+	)
+
+3074 
+	#RT0PSDIV1_H
+ (0x0010Ë
+
+	)
+
+3075 
+	#RT0PSDIV0_H
+ (0x0008Ë
+
+	)
+
+3078 
+	#RT0PSHOLD_H
+ (0x0001Ë
+
+	)
+
+3083 
+	#RT0IP_0
+ (0x0000Ë
+
+	)
+
+3084 
+	#RT0IP_1
+ (0x0004Ë
+
+	)
+
+3085 
+	#RT0IP_2
+ (0x0008Ë
+
+	)
+
+3086 
+	#RT0IP_3
+ (0x000CË
+
+	)
+
+3087 
+	#RT0IP_4
+ (0x0010Ë
+
+	)
+
+3088 
+	#RT0IP_5
+ (0x0014Ë
+
+	)
+
+3089 
+	#RT0IP_6
+ (0x0018Ë
+
+	)
+
+3090 
+	#RT0IP_7
+ (0x001CË
+
+	)
+
+3092 
+	#RT0PSDIV_0
+ (0x0000Ë
+
+	)
+
+3093 
+	#RT0PSDIV_1
+ (0x0800Ë
+
+	)
+
+3094 
+	#RT0PSDIV_2
+ (0x1000Ë
+
+	)
+
+3095 
+	#RT0PSDIV_3
+ (0x1800Ë
+
+	)
+
+3096 
+	#RT0PSDIV_4
+ (0x2000Ë
+
+	)
+
+3097 
+	#RT0PSDIV_5
+ (0x2800Ë
+
+	)
+
+3098 
+	#RT0PSDIV_6
+ (0x3000Ë
+
+	)
+
+3099 
+	#RT0PSDIV_7
+ (0x3800Ë
+
+	)
+
+3102 
+	#RT1SSEL1
+ (0x8000Ë
+
+	)
+
+3103 
+	#RT1SSEL0
+ (0x4000Ë
+
+	)
+
+3104 
+	#RT1PSDIV2
+ (0x2000Ë
+
+	)
+
+3105 
+	#RT1PSDIV1
+ (0x1000Ë
+
+	)
+
+3106 
+	#RT1PSDIV0
+ (0x0800Ë
+
+	)
+
+3109 
+	#RT1PSHOLD
+ (0x0100Ë
+
+	)
+
+3113 
+	#RT1IP2
+ (0x0010Ë
+
+	)
+
+3114 
+	#RT1IP1
+ (0x0008Ë
+
+	)
+
+3115 
+	#RT1IP0
+ (0x0004Ë
+
+	)
+
+3116 
+	#RT1PSIE
+ (0x0002Ë
+
+	)
+
+3117 
+	#RT1PSIFG
+ (0x0001Ë
+
+	)
+
+3125 
+	#RT1IP2_L
+ (0x0010Ë
+
+	)
+
+3126 
+	#RT1IP1_L
+ (0x0008Ë
+
+	)
+
+3127 
+	#RT1IP0_L
+ (0x0004Ë
+
+	)
+
+3128 
+	#RT1PSIE_L
+ (0x0002Ë
+
+	)
+
+3129 
+	#RT1PSIFG_L
+ (0x0001Ë
+
+	)
+
+3132 
+	#RT1SSEL1_H
+ (0x0080Ë
+
+	)
+
+3133 
+	#RT1SSEL0_H
+ (0x0040Ë
+
+	)
+
+3134 
+	#RT1PSDIV2_H
+ (0x0020Ë
+
+	)
+
+3135 
+	#RT1PSDIV1_H
+ (0x0010Ë
+
+	)
+
+3136 
+	#RT1PSDIV0_H
+ (0x0008Ë
+
+	)
+
+3139 
+	#RT1PSHOLD_H
+ (0x0001Ë
+
+	)
+
+3144 
+	#RT1IP_0
+ (0x0000Ë
+
+	)
+
+3145 
+	#RT1IP_1
+ (0x0004Ë
+
+	)
+
+3146 
+	#RT1IP_2
+ (0x0008Ë
+
+	)
+
+3147 
+	#RT1IP_3
+ (0x000CË
+
+	)
+
+3148 
+	#RT1IP_4
+ (0x0010Ë
+
+	)
+
+3149 
+	#RT1IP_5
+ (0x0014Ë
+
+	)
+
+3150 
+	#RT1IP_6
+ (0x0018Ë
+
+	)
+
+3151 
+	#RT1IP_7
+ (0x001CË
+
+	)
+
+3153 
+	#RT1PSDIV_0
+ (0x0000Ë
+
+	)
+
+3154 
+	#RT1PSDIV_1
+ (0x0800Ë
+
+	)
+
+3155 
+	#RT1PSDIV_2
+ (0x1000Ë
+
+	)
+
+3156 
+	#RT1PSDIV_3
+ (0x1800Ë
+
+	)
+
+3157 
+	#RT1PSDIV_4
+ (0x2000Ë
+
+	)
+
+3158 
+	#RT1PSDIV_5
+ (0x2800Ë
+
+	)
+
+3159 
+	#RT1PSDIV_6
+ (0x3000Ë
+
+	)
+
+3160 
+	#RT1PSDIV_7
+ (0x3800Ë
+
+	)
+
+3162 
+	#RT1SSEL_0
+ (0x0000Ë
+
+	)
+
+3163 
+	#RT1SSEL_1
+ (0x4000Ë
+
+	)
+
+3164 
+	#RT1SSEL_2
+ (0x8000Ë
+
+	)
+
+3165 
+	#RT1SSEL_3
+ (0xC000Ë
+
+	)
+
+3166 
+	#RT1SSEL__ACLK
+ (0x0000Ë
+
+	)
+
+3167 
+	#RT1SSEL__SMCLK
+ (0x4000Ë
+
+	)
+
+3168 
+	#RT1SSEL__RT0PS
+ (0x8000Ë
+
+	)
+
+3171 
+	#RTCIV_NONE
+ (0x0000Ë
+
+	)
+
+3172 
+	#RTCIV_RTCRDYIFG
+ (0x0002Ë
+
+	)
+
+3173 
+	#RTCIV_RTCTEVIFG
+ (0x0004Ë
+
+	)
+
+3174 
+	#RTCIV_RTCAIFG
+ (0x0006Ë
+
+	)
+
+3175 
+	#RTCIV_RT0PSIFG
+ (0x0008Ë
+
+	)
+
+3176 
+	#RTCIV_RT1PSIFG
+ (0x000AË
+
+	)
+
+3177 
+	#RTCIV_RTCOFIFG
+ (0x000CË
+
+	)
+
+3180 
+	#RTC_NONE
+ (0x0000Ë
+
+	)
+
+3181 
+	#RTC_RTCRDYIFG
+ (0x0002Ë
+
+	)
+
+3182 
+	#RTC_RTCTEVIFG
+ (0x0004Ë
+
+	)
+
+3183 
+	#RTC_RTCAIFG
+ (0x0006Ë
+
+	)
+
+3184 
+	#RTC_RT0PSIFG
+ (0x0008Ë
+
+	)
+
+3185 
+	#RTC_RT1PSIFG
+ (0x000AË
+
+	)
+
+3186 
+	#RTC_RTCOFIFG
+ (0x000CË
+
+	)
+
+3192 
+	#__MSP430_HAS_SFR__
+
+
+	)
+
+3193 
+	#__MSP430_BASEADDRESS_SFR__
+ 0x0100
+
+	)
+
+3195 
+SFR_16BIT
+(
+SFRIE1
+);
+
+3196 
+SFR_8BIT
+(
+SFRIE1_L
+);
+
+3197 
+SFR_8BIT
+(
+SFRIE1_H
+);
+
+3200 
+	#WDTIE
+ (0x0001Ë
+
+	)
+
+3201 
+	#OFIE
+ (0x0002Ë
+
+	)
+
+3203 
+	#VMAIE
+ (0x0008Ë
+
+	)
+
+3204 
+	#NMIIE
+ (0x0010Ë
+
+	)
+
+3205 
+	#ACCVIE
+ (0x0020Ë
+
+	)
+
+3206 
+	#JMBINIE
+ (0x0040Ë
+
+	)
+
+3207 
+	#JMBOUTIE
+ (0x0080Ë
+
+	)
+
+3209 
+	#WDTIE_L
+ (0x0001Ë
+
+	)
+
+3210 
+	#OFIE_L
+ (0x0002Ë
+
+	)
+
+3212 
+	#VMAIE_L
+ (0x0008Ë
+
+	)
+
+3213 
+	#NMIIE_L
+ (0x0010Ë
+
+	)
+
+3214 
+	#ACCVIE_L
+ (0x0020Ë
+
+	)
+
+3215 
+	#JMBINIE_L
+ (0x0040Ë
+
+	)
+
+3216 
+	#JMBOUTIE_L
+ (0x0080Ë
+
+	)
+
+3220 
+SFR_16BIT
+(
+SFRIFG1
+);
+
+3221 
+SFR_8BIT
+(
+SFRIFG1_L
+);
+
+3222 
+SFR_8BIT
+(
+SFRIFG1_H
+);
+
+3224 
+	#WDTIFG
+ (0x0001Ë
+
+	)
+
+3225 
+	#OFIFG
+ (0x0002Ë
+
+	)
+
+3227 
+	#VMAIFG
+ (0x0008Ë
+
+	)
+
+3228 
+	#NMIIFG
+ (0x0010Ë
+
+	)
+
+3230 
+	#JMBINIFG
+ (0x0040Ë
+
+	)
+
+3231 
+	#JMBOUTIFG
+ (0x0080Ë
+
+	)
+
+3233 
+	#WDTIFG_L
+ (0x0001Ë
+
+	)
+
+3234 
+	#OFIFG_L
+ (0x0002Ë
+
+	)
+
+3236 
+	#VMAIFG_L
+ (0x0008Ë
+
+	)
+
+3237 
+	#NMIIFG_L
+ (0x0010Ë
+
+	)
+
+3239 
+	#JMBINIFG_L
+ (0x0040Ë
+
+	)
+
+3240 
+	#JMBOUTIFG_L
+ (0x0080Ë
+
+	)
+
+3245 
+SFR_16BIT
+(
+SFRRPCR
+);
+
+3246 
+SFR_8BIT
+(
+SFRRPCR_L
+);
+
+3247 
+SFR_8BIT
+(
+SFRRPCR_H
+);
+
+3249 
+	#SYSNMI
+ (0x0001Ë
+
+	)
+
+3250 
+	#SYSNMIIES
+ (0x0002Ë
+
+	)
+
+3251 
+	#SYSRSTUP
+ (0x0004Ë
+
+	)
+
+3252 
+	#SYSRSTRE
+ (0x0008Ë
+
+	)
+
+3254 
+	#SYSNMI_L
+ (0x0001Ë
+
+	)
+
+3255 
+	#SYSNMIIES_L
+ (0x0002Ë
+
+	)
+
+3256 
+	#SYSRSTUP_L
+ (0x0004Ë
+
+	)
+
+3257 
+	#SYSRSTRE_L
+ (0x0008Ë
+
+	)
+
+3262 
+	#__MSP430_HAS_SYS__
+
+
+	)
+
+3263 
+	#__MSP430_BASEADDRESS_SYS__
+ 0x0180
+
+	)
+
+3265 
+SFR_16BIT
+(
+SYSCTL
+);
+
+3266 
+SFR_8BIT
+(
+SYSCTL_L
+);
+
+3267 
+SFR_8BIT
+(
+SYSCTL_H
+);
+
+3268 
+SFR_16BIT
+(
+SYSBSLC
+);
+
+3269 
+SFR_8BIT
+(
+SYSBSLC_L
+);
+
+3270 
+SFR_8BIT
+(
+SYSBSLC_H
+);
+
+3271 
+SFR_16BIT
+(
+SYSJMBC
+);
+
+3272 
+SFR_8BIT
+(
+SYSJMBC_L
+);
+
+3273 
+SFR_8BIT
+(
+SYSJMBC_H
+);
+
+3274 
+SFR_16BIT
+(
+SYSJMBI0
+);
+
+3275 
+SFR_8BIT
+(
+SYSJMBI0_L
+);
+
+3276 
+SFR_8BIT
+(
+SYSJMBI0_H
+);
+
+3277 
+SFR_16BIT
+(
+SYSJMBI1
+);
+
+3278 
+SFR_8BIT
+(
+SYSJMBI1_L
+);
+
+3279 
+SFR_8BIT
+(
+SYSJMBI1_H
+);
+
+3280 
+SFR_16BIT
+(
+SYSJMBO0
+);
+
+3281 
+SFR_8BIT
+(
+SYSJMBO0_L
+);
+
+3282 
+SFR_8BIT
+(
+SYSJMBO0_H
+);
+
+3283 
+SFR_16BIT
+(
+SYSJMBO1
+);
+
+3284 
+SFR_8BIT
+(
+SYSJMBO1_L
+);
+
+3285 
+SFR_8BIT
+(
+SYSJMBO1_H
+);
+
+3287 
+SFR_16BIT
+(
+SYSBERRIV
+);
+
+3288 
+SFR_8BIT
+(
+SYSBERRIV_L
+);
+
+3289 
+SFR_8BIT
+(
+SYSBERRIV_H
+);
+
+3290 
+SFR_16BIT
+(
+SYSUNIV
+);
+
+3291 
+SFR_8BIT
+(
+SYSUNIV_L
+);
+
+3292 
+SFR_8BIT
+(
+SYSUNIV_H
+);
+
+3293 
+SFR_16BIT
+(
+SYSSNIV
+);
+
+3294 
+SFR_8BIT
+(
+SYSSNIV_L
+);
+
+3295 
+SFR_8BIT
+(
+SYSSNIV_H
+);
+
+3296 
+SFR_16BIT
+(
+SYSRSTIV
+);
+
+3297 
+SFR_8BIT
+(
+SYSRSTIV_L
+);
+
+3298 
+SFR_8BIT
+(
+SYSRSTIV_H
+);
+
+3301 
+	#SYSRIVECT
+ (0x0001Ë
+
+	)
+
+3303 
+	#SYSPMMPE
+ (0x0004Ë
+
+	)
+
+3305 
+	#SYSBSLIND
+ (0x0010Ë
+
+	)
+
+3306 
+	#SYSJTAGPIN
+ (0x0020Ë
+
+	)
+
+3319 
+	#SYSRIVECT_L
+ (0x0001Ë
+
+	)
+
+3321 
+	#SYSPMMPE_L
+ (0x0004Ë
+
+	)
+
+3323 
+	#SYSBSLIND_L
+ (0x0010Ë
+
+	)
+
+3324 
+	#SYSJTAGPIN_L
+ (0x0020Ë
+
+	)
+
+3351 
+	#SYSBSLSIZE0
+ (0x0001Ë
+
+	)
+
+3352 
+	#SYSBSLSIZE1
+ (0x0002Ë
+
+	)
+
+3353 
+	#SYSBSLR
+ (0x0004Ë
+
+	)
+
+3365 
+	#SYSBSLOFF
+ (0x4000Ë
+
+	)
+
+3366 
+	#SYSBSLPE
+ (0x8000Ë
+
+	)
+
+3369 
+	#SYSBSLSIZE0_L
+ (0x0001Ë
+
+	)
+
+3370 
+	#SYSBSLSIZE1_L
+ (0x0002Ë
+
+	)
+
+3371 
+	#SYSBSLR_L
+ (0x0004Ë
+
+	)
+
+3396 
+	#SYSBSLOFF_H
+ (0x0040Ë
+
+	)
+
+3397 
+	#SYSBSLPE_H
+ (0x0080Ë
+
+	)
+
+3400 
+	#JMBIN0FG
+ (0x0001Ë
+
+	)
+
+3401 
+	#JMBIN1FG
+ (0x0002Ë
+
+	)
+
+3402 
+	#JMBOUT0FG
+ (0x0004Ë
+
+	)
+
+3403 
+	#JMBOUT1FG
+ (0x0008Ë
+
+	)
+
+3404 
+	#JMBMODE
+ (0x0010Ë
+
+	)
+
+3406 
+	#JMBCLR0OFF
+ (0x0040Ë
+
+	)
+
+3407 
+	#JMBCLR1OFF
+ (0x0080Ë
+
+	)
+
+3418 
+	#JMBIN0FG_L
+ (0x0001Ë
+
+	)
+
+3419 
+	#JMBIN1FG_L
+ (0x0002Ë
+
+	)
+
+3420 
+	#JMBOUT0FG_L
+ (0x0004Ë
+
+	)
+
+3421 
+	#JMBOUT1FG_L
+ (0x0008Ë
+
+	)
+
+3422 
+	#JMBMODE_L
+ (0x0010Ë
+
+	)
+
+3424 
+	#JMBCLR0OFF_L
+ (0x0040Ë
+
+	)
+
+3425 
+	#JMBCLR1OFF_L
+ (0x0080Ë
+
+	)
+
+3447 
+	#SYSUNIV_NONE
+ (0x0000Ë
+
+	)
+
+3448 
+	#SYSUNIV_NMIIFG
+ (0x0002Ë
+
+	)
+
+3449 
+	#SYSUNIV_OFIFG
+ (0x0004Ë
+
+	)
+
+3450 
+	#SYSUNIV_ACCVIFG
+ (0x0006Ë
+
+	)
+
+3451 
+	#SYSUNIV_SYSBERRIV
+ (0x0008Ë
+
+	)
+
+3454 
+	#SYSSNIV_NONE
+ (0x0000Ë
+
+	)
+
+3455 
+	#SYSSNIV_SVMLIFG
+ (0x0002Ë
+
+	)
+
+3456 
+	#SYSSNIV_SVMHIFG
+ (0x0004Ë
+
+	)
+
+3457 
+	#SYSSNIV_DLYLIFG
+ (0x0006Ë
+
+	)
+
+3458 
+	#SYSSNIV_DLYHIFG
+ (0x0008Ë
+
+	)
+
+3459 
+	#SYSSNIV_VMAIFG
+ (0x000AË
+
+	)
+
+3460 
+	#SYSSNIV_JMBINIFG
+ (0x000CË
+
+	)
+
+3461 
+	#SYSSNIV_JMBOUTIFG
+ (0x000EË
+
+	)
+
+3462 
+	#SYSSNIV_VLRLIFG
+ (0x0010Ë
+
+	)
+
+3463 
+	#SYSSNIV_VLRHIFG
+ (0x0012Ë
+
+	)
+
+3466 
+	#SYSRSTIV_NONE
+ (0x0000Ë
+
+	)
+
+3467 
+	#SYSRSTIV_BOR
+ (0x0002Ë
+
+	)
+
+3468 
+	#SYSRSTIV_RSTNMI
+ (0x0004Ë
+
+	)
+
+3469 
+	#SYSRSTIV_DOBOR
+ (0x0006Ë
+
+	)
+
+3470 
+	#SYSRSTIV_LPM5WU
+ (0x0008Ë
+
+	)
+
+3471 
+	#SYSRSTIV_SECYV
+ (0x000AË
+
+	)
+
+3472 
+	#SYSRSTIV_SVSL
+ (0x000CË
+
+	)
+
+3473 
+	#SYSRSTIV_SVSH
+ (0x000EË
+
+	)
+
+3474 
+	#SYSRSTIV_SVML_OVP
+ (0x0010Ë
+
+	)
+
+3475 
+	#SYSRSTIV_SVMH_OVP
+ (0x0012Ë
+
+	)
+
+3476 
+	#SYSRSTIV_DOPOR
+ (0x0014Ë
+
+	)
+
+3477 
+	#SYSRSTIV_WDTTO
+ (0x0016Ë
+
+	)
+
+3478 
+	#SYSRSTIV_WDTKEY
+ (0x0018Ë
+
+	)
+
+3479 
+	#SYSRSTIV_KEYV
+ (0x001AË
+
+	)
+
+3480 
+	#SYSRSTIV_PLLUL
+ (0x001CË
+
+	)
+
+3481 
+	#SYSRSTIV_PERF
+ (0x001EË
+
+	)
+
+3482 
+	#SYSRSTIV_PMMKEY
+ (0x0020Ë
+
+	)
+
+3484 
+	#SYSRSTIV_PSSKEY
+ (0x0020Ë
+
+	)
+
+3489 
+	#__MSP430_HAS_T0A5__
+
+
+	)
+
+3490 
+	#__MSP430_BASEADDRESS_T0A5__
+ 0x0340
+
+	)
+
+3492 
+SFR_16BIT
+(
+TA0CTL
+);
+
+3493 
+SFR_16BIT
+(
+TA0CCTL0
+);
+
+3494 
+SFR_16BIT
+(
+TA0CCTL1
+);
+
+3495 
+SFR_16BIT
+(
+TA0CCTL2
+);
+
+3496 
+SFR_16BIT
+(
+TA0CCTL3
+);
+
+3497 
+SFR_16BIT
+(
+TA0CCTL4
+);
+
+3498 
+SFR_16BIT
+(
+TA0R
+);
+
+3499 
+SFR_16BIT
+(
+TA0CCR0
+);
+
+3500 
+SFR_16BIT
+(
+TA0CCR1
+);
+
+3501 
+SFR_16BIT
+(
+TA0CCR2
+);
+
+3502 
+SFR_16BIT
+(
+TA0CCR3
+);
+
+3503 
+SFR_16BIT
+(
+TA0CCR4
+);
+
+3504 
+SFR_16BIT
+(
+TA0IV
+);
+
+3505 
+SFR_16BIT
+(
+TA0EX0
+);
+
+3508 
+	#TASSEL1
+ (0x0200Ë
+
+	)
+
+3509 
+	#TASSEL0
+ (0x0100Ë
+
+	)
+
+3510 
+	#ID1
+ (0x0080Ë
+
+	)
+
+3511 
+	#ID0
+ (0x0040Ë
+
+	)
+
+3512 
+	#MC1
+ (0x0020Ë
+
+	)
+
+3513 
+	#MC0
+ (0x0010Ë
+
+	)
+
+3514 
+	#TACLR
+ (0x0004Ë
+
+	)
+
+3515 
+	#TAIE
+ (0x0002Ë
+
+	)
+
+3516 
+	#TAIFG
+ (0x0001Ë
+
+	)
+
+3518 
+	#MC_0
+ (0*0x10uË
+
+	)
+
+3519 
+	#MC_1
+ (1*0x10uË
+
+	)
+
+3520 
+	#MC_2
+ (2*0x10uË
+
+	)
+
+3521 
+	#MC_3
+ (3*0x10uË
+
+	)
+
+3522 
+	#ID_0
+ (0*0x40uË
+
+	)
+
+3523 
+	#ID_1
+ (1*0x40uË
+
+	)
+
+3524 
+	#ID_2
+ (2*0x40uË
+
+	)
+
+3525 
+	#ID_3
+ (3*0x40uË
+
+	)
+
+3526 
+	#TASSEL_0
+ (0*0x100uË
+
+	)
+
+3527 
+	#TASSEL_1
+ (1*0x100uË
+
+	)
+
+3528 
+	#TASSEL_2
+ (2*0x100uË
+
+	)
+
+3529 
+	#TASSEL_3
+ (3*0x100uË
+
+	)
+
+3530 
+	#MC__STOP
+ (0*0x10uË
+
+	)
+
+3531 
+	#MC__UP
+ (1*0x10uË
+
+	)
+
+3532 
+	#MC__CONTINOUS
+ (2*0x10uË
+
+	)
+
+3533 
+	#MC__UPDOWN
+ (3*0x10uË
+
+	)
+
+3534 
+	#ID__1
+ (0*0x40uË
+
+	)
+
+3535 
+	#ID__2
+ (1*0x40uË
+
+	)
+
+3536 
+	#ID__4
+ (2*0x40uË
+
+	)
+
+3537 
+	#ID__8
+ (3*0x40uË
+
+	)
+
+3538 
+	#TASSEL__TACLK
+ (0*0x100uË
+
+	)
+
+3539 
+	#TASSEL__ACLK
+ (1*0x100uË
+
+	)
+
+3540 
+	#TASSEL__SMCLK
+ (2*0x100uË
+
+	)
+
+3541 
+	#TASSEL__INCLK
+ (3*0x100uË
+
+	)
+
+3544 
+	#CM1
+ (0x8000Ë
+
+	)
+
+3545 
+	#CM0
+ (0x4000Ë
+
+	)
+
+3546 
+	#CCIS1
+ (0x2000Ë
+
+	)
+
+3547 
+	#CCIS0
+ (0x1000Ë
+
+	)
+
+3548 
+	#SCS
+ (0x0800Ë
+
+	)
+
+3549 
+	#SCCI
+ (0x0400Ë
+
+	)
+
+3550 
+	#CAP
+ (0x0100Ë
+
+	)
+
+3551 
+	#OUTMOD2
+ (0x0080Ë
+
+	)
+
+3552 
+	#OUTMOD1
+ (0x0040Ë
+
+	)
+
+3553 
+	#OUTMOD0
+ (0x0020Ë
+
+	)
+
+3554 
+	#CCIE
+ (0x0010Ë
+
+	)
+
+3555 
+	#CCI
+ (0x0008Ë
+
+	)
+
+3556 
+	#OUT
+ (0x0004Ë
+
+	)
+
+3557 
+	#COV
+ (0x0002Ë
+
+	)
+
+3558 
+	#CCIFG
+ (0x0001Ë
+
+	)
+
+3560 
+	#OUTMOD_0
+ (0*0x20uË
+
+	)
+
+3561 
+	#OUTMOD_1
+ (1*0x20uË
+
+	)
+
+3562 
+	#OUTMOD_2
+ (2*0x20uË
+
+	)
+
+3563 
+	#OUTMOD_3
+ (3*0x20uË
+
+	)
+
+3564 
+	#OUTMOD_4
+ (4*0x20uË
+
+	)
+
+3565 
+	#OUTMOD_5
+ (5*0x20uË
+
+	)
+
+3566 
+	#OUTMOD_6
+ (6*0x20uË
+
+	)
+
+3567 
+	#OUTMOD_7
+ (7*0x20uË
+
+	)
+
+3568 
+	#CCIS_0
+ (0*0x1000uË
+
+	)
+
+3569 
+	#CCIS_1
+ (1*0x1000uË
+
+	)
+
+3570 
+	#CCIS_2
+ (2*0x1000uË
+
+	)
+
+3571 
+	#CCIS_3
+ (3*0x1000uË
+
+	)
+
+3572 
+	#CM_0
+ (0*0x4000uË
+
+	)
+
+3573 
+	#CM_1
+ (1*0x4000uË
+
+	)
+
+3574 
+	#CM_2
+ (2*0x4000uË
+
+	)
+
+3575 
+	#CM_3
+ (3*0x4000uË
+
+	)
+
+3578 
+	#TAIDEX0
+ (0x0001Ë
+
+	)
+
+3579 
+	#TAIDEX1
+ (0x0002Ë
+
+	)
+
+3580 
+	#TAIDEX2
+ (0x0004Ë
+
+	)
+
+3582 
+	#TAIDEX_0
+ (0*0x0001uË
+
+	)
+
+3583 
+	#TAIDEX_1
+ (1*0x0001uË
+
+	)
+
+3584 
+	#TAIDEX_2
+ (2*0x0001uË
+
+	)
+
+3585 
+	#TAIDEX_3
+ (3*0x0001uË
+
+	)
+
+3586 
+	#TAIDEX_4
+ (4*0x0001uË
+
+	)
+
+3587 
+	#TAIDEX_5
+ (5*0x0001uË
+
+	)
+
+3588 
+	#TAIDEX_6
+ (6*0x0001uË
+
+	)
+
+3589 
+	#TAIDEX_7
+ (7*0x0001uË
+
+	)
+
+3592 
+	#TA0IV_NONE
+ (0x0000Ë
+
+	)
+
+3593 
+	#TA0IV_TA0CCR1
+ (0x0002Ë
+
+	)
+
+3594 
+	#TA0IV_TA0CCR2
+ (0x0004Ë
+
+	)
+
+3595 
+	#TA0IV_TA0CCR3
+ (0x0006Ë
+
+	)
+
+3596 
+	#TA0IV_TA0CCR4
+ (0x0008Ë
+
+	)
+
+3597 
+	#TA0IV_5
+ (0x000AË
+
+	)
+
+3598 
+	#TA0IV_6
+ (0x000CË
+
+	)
+
+3599 
+	#TA0IV_TA0IFG
+ (0x000EË
+
+	)
+
+3604 
+	#__MSP430_HAS_T1A3__
+
+
+	)
+
+3605 
+	#__MSP430_BASEADDRESS_T1A3__
+ 0x0380
+
+	)
+
+3607 
+SFR_16BIT
+(
+TA1CTL
+);
+
+3608 
+SFR_16BIT
+(
+TA1CCTL0
+);
+
+3609 
+SFR_16BIT
+(
+TA1CCTL1
+);
+
+3610 
+SFR_16BIT
+(
+TA1CCTL2
+);
+
+3611 
+SFR_16BIT
+(
+TA1R
+);
+
+3612 
+SFR_16BIT
+(
+TA1CCR0
+);
+
+3613 
+SFR_16BIT
+(
+TA1CCR1
+);
+
+3614 
+SFR_16BIT
+(
+TA1CCR2
+);
+
+3615 
+SFR_16BIT
+(
+TA1IV
+);
+
+3616 
+SFR_16BIT
+(
+TA1EX0
+);
+
+3621 
+	#TA1IV_NONE
+ (0x0000Ë
+
+	)
+
+3622 
+	#TA1IV_TA1CCR1
+ (0x0002Ë
+
+	)
+
+3623 
+	#TA1IV_TA1CCR2
+ (0x0004Ë
+
+	)
+
+3624 
+	#TA1IV_3
+ (0x0006Ë
+
+	)
+
+3625 
+	#TA1IV_4
+ (0x0008Ë
+
+	)
+
+3626 
+	#TA1IV_5
+ (0x000AË
+
+	)
+
+3627 
+	#TA1IV_6
+ (0x000CË
+
+	)
+
+3628 
+	#TA1IV_TA1IFG
+ (0x000EË
+
+	)
+
+3633 
+	#__MSP430_HAS_UCS_RF__
+
+
+	)
+
+3634 
+	#__MSP430_BASEADDRESS_UCS_RF__
+ 0x0160
+
+	)
+
+3636 
+SFR_16BIT
+(
+UCSCTL0
+);
+
+3637 
+SFR_8BIT
+(
+UCSCTL0_L
+);
+
+3638 
+SFR_8BIT
+(
+UCSCTL0_H
+);
+
+3639 
+SFR_16BIT
+(
+UCSCTL1
+);
+
+3640 
+SFR_8BIT
+(
+UCSCTL1_L
+);
+
+3641 
+SFR_8BIT
+(
+UCSCTL1_H
+);
+
+3642 
+SFR_16BIT
+(
+UCSCTL2
+);
+
+3643 
+SFR_8BIT
+(
+UCSCTL2_L
+);
+
+3644 
+SFR_8BIT
+(
+UCSCTL2_H
+);
+
+3645 
+SFR_16BIT
+(
+UCSCTL3
+);
+
+3646 
+SFR_8BIT
+(
+UCSCTL3_L
+);
+
+3647 
+SFR_8BIT
+(
+UCSCTL3_H
+);
+
+3648 
+SFR_16BIT
+(
+UCSCTL4
+);
+
+3649 
+SFR_8BIT
+(
+UCSCTL4_L
+);
+
+3650 
+SFR_8BIT
+(
+UCSCTL4_H
+);
+
+3651 
+SFR_16BIT
+(
+UCSCTL5
+);
+
+3652 
+SFR_8BIT
+(
+UCSCTL5_L
+);
+
+3653 
+SFR_8BIT
+(
+UCSCTL5_H
+);
+
+3654 
+SFR_16BIT
+(
+UCSCTL6
+);
+
+3655 
+SFR_8BIT
+(
+UCSCTL6_L
+);
+
+3656 
+SFR_8BIT
+(
+UCSCTL6_H
+);
+
+3657 
+SFR_16BIT
+(
+UCSCTL7
+);
+
+3658 
+SFR_8BIT
+(
+UCSCTL7_L
+);
+
+3659 
+SFR_8BIT
+(
+UCSCTL7_H
+);
+
+3660 
+SFR_16BIT
+(
+UCSCTL8
+);
+
+3661 
+SFR_8BIT
+(
+UCSCTL8_L
+);
+
+3662 
+SFR_8BIT
+(
+UCSCTL8_H
+);
+
+3668 
+	#MOD0
+ (0x0008Ë
+
+	)
+
+3669 
+	#MOD1
+ (0x0010Ë
+
+	)
+
+3670 
+	#MOD2
+ (0x0020Ë
+
+	)
+
+3671 
+	#MOD3
+ (0x0040Ë
+
+	)
+
+3672 
+	#MOD4
+ (0x0080Ë
+
+	)
+
+3673 
+	#DCO0
+ (0x0100Ë
+
+	)
+
+3674 
+	#DCO1
+ (0x0200Ë
+
+	)
+
+3675 
+	#DCO2
+ (0x0400Ë
+
+	)
+
+3676 
+	#DCO3
+ (0x0800Ë
+
+	)
+
+3677 
+	#DCO4
+ (0x1000Ë
+
+	)
+
+3686 
+	#MOD0_L
+ (0x0008Ë
+
+	)
+
+3687 
+	#MOD1_L
+ (0x0010Ë
+
+	)
+
+3688 
+	#MOD2_L
+ (0x0020Ë
+
+	)
+
+3689 
+	#MOD3_L
+ (0x0040Ë
+
+	)
+
+3690 
+	#MOD4_L
+ (0x0080Ë
+
+	)
+
+3699 
+	#DCO0_H
+ (0x0001Ë
+
+	)
+
+3700 
+	#DCO1_H
+ (0x0002Ë
+
+	)
+
+3701 
+	#DCO2_H
+ (0x0004Ë
+
+	)
+
+3702 
+	#DCO3_H
+ (0x0008Ë
+
+	)
+
+3703 
+	#DCO4_H
+ (0x0010Ë
+
+	)
+
+3709 
+	#DISMOD
+ (0x0001Ë
+
+	)
+
+3713 
+	#DCORSEL0
+ (0x0010Ë
+
+	)
+
+3714 
+	#DCORSEL1
+ (0x0020Ë
+
+	)
+
+3715 
+	#DCORSEL2
+ (0x0040Ë
+
+	)
+
+3727 
+	#DISMOD_L
+ (0x0001Ë
+
+	)
+
+3731 
+	#DCORSEL0_L
+ (0x0010Ë
+
+	)
+
+3732 
+	#DCORSEL1_L
+ (0x0020Ë
+
+	)
+
+3733 
+	#DCORSEL2_L
+ (0x0040Ë
+
+	)
+
+3758 
+	#DCORSEL_0
+ (0x0000Ë
+
+	)
+
+3759 
+	#DCORSEL_1
+ (0x0010Ë
+
+	)
+
+3760 
+	#DCORSEL_2
+ (0x0020Ë
+
+	)
+
+3761 
+	#DCORSEL_3
+ (0x0030Ë
+
+	)
+
+3762 
+	#DCORSEL_4
+ (0x0040Ë
+
+	)
+
+3763 
+	#DCORSEL_5
+ (0x0050Ë
+
+	)
+
+3764 
+	#DCORSEL_6
+ (0x0060Ë
+
+	)
+
+3765 
+	#DCORSEL_7
+ (0x0070Ë
+
+	)
+
+3768 
+	#FLLN0
+ (0x0001Ë
+
+	)
+
+3769 
+	#FLLN1
+ (0x0002Ë
+
+	)
+
+3770 
+	#FLLN2
+ (0x0004Ë
+
+	)
+
+3771 
+	#FLLN3
+ (0x0008Ë
+
+	)
+
+3772 
+	#FLLN4
+ (0x0010Ë
+
+	)
+
+3773 
+	#FLLN5
+ (0x0020Ë
+
+	)
+
+3774 
+	#FLLN6
+ (0x0040Ë
+
+	)
+
+3775 
+	#FLLN7
+ (0x0080Ë
+
+	)
+
+3776 
+	#FLLN8
+ (0x0100Ë
+
+	)
+
+3777 
+	#FLLN9
+ (0x0200Ë
+
+	)
+
+3780 
+	#FLLD0
+ (0x1000Ë
+
+	)
+
+3781 
+	#FLLD1
+ (0x2000Ë
+
+	)
+
+3782 
+	#FLLD2
+ (0x4000Ë
+
+	)
+
+3786 
+	#FLLN0_L
+ (0x0001Ë
+
+	)
+
+3787 
+	#FLLN1_L
+ (0x0002Ë
+
+	)
+
+3788 
+	#FLLN2_L
+ (0x0004Ë
+
+	)
+
+3789 
+	#FLLN3_L
+ (0x0008Ë
+
+	)
+
+3790 
+	#FLLN4_L
+ (0x0010Ë
+
+	)
+
+3791 
+	#FLLN5_L
+ (0x0020Ë
+
+	)
+
+3792 
+	#FLLN6_L
+ (0x0040Ë
+
+	)
+
+3793 
+	#FLLN7_L
+ (0x0080Ë
+
+	)
+
+3799 
+	#FLLN8_H
+ (0x0001Ë
+
+	)
+
+3800 
+	#FLLN9_H
+ (0x0002Ë
+
+	)
+
+3803 
+	#FLLD0_H
+ (0x0010Ë
+
+	)
+
+3804 
+	#FLLD1_H
+ (0x0020Ë
+
+	)
+
+3805 
+	#FLLD2_H
+ (0x0040Ë
+
+	)
+
+3808 
+	#FLLD_0
+ (0x0000Ë
+
+	)
+
+3809 
+	#FLLD_1
+ (0x1000Ë
+
+	)
+
+3810 
+	#FLLD_2
+ (0x2000Ë
+
+	)
+
+3811 
+	#FLLD_3
+ (0x3000Ë
+
+	)
+
+3812 
+	#FLLD_4
+ (0x4000Ë
+
+	)
+
+3813 
+	#FLLD_5
+ (0x5000Ë
+
+	)
+
+3814 
+	#FLLD_6
+ (0x6000Ë
+
+	)
+
+3815 
+	#FLLD_7
+ (0x7000Ë
+
+	)
+
+3816 
+	#FLLD__1
+ (0x0000Ë
+
+	)
+
+3817 
+	#FLLD__2
+ (0x1000Ë
+
+	)
+
+3818 
+	#FLLD__4
+ (0x2000Ë
+
+	)
+
+3819 
+	#FLLD__8
+ (0x3000Ë
+
+	)
+
+3820 
+	#FLLD__16
+ (0x4000Ë
+
+	)
+
+3821 
+	#FLLD__32
+ (0x5000Ë
+
+	)
+
+3824 
+	#FLLREFDIV0
+ (0x0001Ë
+
+	)
+
+3825 
+	#FLLREFDIV1
+ (0x0002Ë
+
+	)
+
+3826 
+	#FLLREFDIV2
+ (0x0004Ë
+
+	)
+
+3828 
+	#SELREF0
+ (0x0010Ë
+
+	)
+
+3829 
+	#SELREF1
+ (0x0020Ë
+
+	)
+
+3830 
+	#SELREF2
+ (0x0040Ë
+
+	)
+
+3842 
+	#FLLREFDIV0_L
+ (0x0001Ë
+
+	)
+
+3843 
+	#FLLREFDIV1_L
+ (0x0002Ë
+
+	)
+
+3844 
+	#FLLREFDIV2_L
+ (0x0004Ë
+
+	)
+
+3846 
+	#SELREF0_L
+ (0x0010Ë
+
+	)
+
+3847 
+	#SELREF1_L
+ (0x0020Ë
+
+	)
+
+3848 
+	#SELREF2_L
+ (0x0040Ë
+
+	)
+
+3871 
+	#FLLREFDIV_0
+ (0x0000Ë
+
+	)
+
+3872 
+	#FLLREFDIV_1
+ (0x0001Ë
+
+	)
+
+3873 
+	#FLLREFDIV_2
+ (0x0002Ë
+
+	)
+
+3874 
+	#FLLREFDIV_3
+ (0x0003Ë
+
+	)
+
+3875 
+	#FLLREFDIV_4
+ (0x0004Ë
+
+	)
+
+3876 
+	#FLLREFDIV_5
+ (0x0005Ë
+
+	)
+
+3877 
+	#FLLREFDIV_6
+ (0x0006Ë
+
+	)
+
+3878 
+	#FLLREFDIV_7
+ (0x0007Ë
+
+	)
+
+3879 
+	#FLLREFDIV__1
+ (0x0000Ë
+
+	)
+
+3880 
+	#FLLREFDIV__2
+ (0x0001Ë
+
+	)
+
+3881 
+	#FLLREFDIV__4
+ (0x0002Ë
+
+	)
+
+3882 
+	#FLLREFDIV__8
+ (0x0003Ë
+
+	)
+
+3883 
+	#FLLREFDIV__12
+ (0x0004Ë
+
+	)
+
+3884 
+	#FLLREFDIV__16
+ (0x0005Ë
+
+	)
+
+3885 
+	#SELREF_0
+ (0x0000Ë
+
+	)
+
+3886 
+	#SELREF_1
+ (0x0010Ë
+
+	)
+
+3887 
+	#SELREF_2
+ (0x0020Ë
+
+	)
+
+3888 
+	#SELREF_3
+ (0x0030Ë
+
+	)
+
+3889 
+	#SELREF_4
+ (0x0040Ë
+
+	)
+
+3890 
+	#SELREF_5
+ (0x0050Ë
+
+	)
+
+3891 
+	#SELREF_6
+ (0x0060Ë
+
+	)
+
+3892 
+	#SELREF_7
+ (0x0070Ë
+
+	)
+
+3893 
+	#SELREF__XT1CLK
+ (0x0000Ë
+
+	)
+
+3894 
+	#SELREF__REFOCLK
+ (0x0020Ë
+
+	)
+
+3895 
+	#SELREF__XT2CLK
+ (0x0050Ë
+
+	)
+
+3898 
+	#SELM0
+ (0x0001Ë
+
+	)
+
+3899 
+	#SELM1
+ (0x0002Ë
+
+	)
+
+3900 
+	#SELM2
+ (0x0004Ë
+
+	)
+
+3902 
+	#SELS0
+ (0x0010Ë
+
+	)
+
+3903 
+	#SELS1
+ (0x0020Ë
+
+	)
+
+3904 
+	#SELS2
+ (0x0040Ë
+
+	)
+
+3906 
+	#SELA0
+ (0x0100Ë
+
+	)
+
+3907 
+	#SELA1
+ (0x0200Ë
+
+	)
+
+3908 
+	#SELA2
+ (0x0400Ë
+
+	)
+
+3916 
+	#SELM0_L
+ (0x0001Ë
+
+	)
+
+3917 
+	#SELM1_L
+ (0x0002Ë
+
+	)
+
+3918 
+	#SELM2_L
+ (0x0004Ë
+
+	)
+
+3920 
+	#SELS0_L
+ (0x0010Ë
+
+	)
+
+3921 
+	#SELS1_L
+ (0x0020Ë
+
+	)
+
+3922 
+	#SELS2_L
+ (0x0040Ë
+
+	)
+
+3933 
+	#SELA0_H
+ (0x0001Ë
+
+	)
+
+3934 
+	#SELA1_H
+ (0x0002Ë
+
+	)
+
+3935 
+	#SELA2_H
+ (0x0004Ë
+
+	)
+
+3942 
+	#SELM_0
+ (0x0000Ë
+
+	)
+
+3943 
+	#SELM_1
+ (0x0001Ë
+
+	)
+
+3944 
+	#SELM_2
+ (0x0002Ë
+
+	)
+
+3945 
+	#SELM_3
+ (0x0003Ë
+
+	)
+
+3946 
+	#SELM_4
+ (0x0004Ë
+
+	)
+
+3947 
+	#SELM_5
+ (0x0005Ë
+
+	)
+
+3948 
+	#SELM_6
+ (0x0006Ë
+
+	)
+
+3949 
+	#SELM_7
+ (0x0007Ë
+
+	)
+
+3950 
+	#SELM__XT1CLK
+ (0x0000Ë
+
+	)
+
+3951 
+	#SELM__VLOCLK
+ (0x0001Ë
+
+	)
+
+3952 
+	#SELM__REFOCLK
+ (0x0002Ë
+
+	)
+
+3953 
+	#SELM__DCOCLK
+ (0x0003Ë
+
+	)
+
+3954 
+	#SELM__DCOCLKDIV
+ (0x0004Ë
+
+	)
+
+3955 
+	#SELM__XT2CLK
+ (0x0005Ë
+
+	)
+
+3957 
+	#SELS_0
+ (0x0000Ë
+
+	)
+
+3958 
+	#SELS_1
+ (0x0010Ë
+
+	)
+
+3959 
+	#SELS_2
+ (0x0020Ë
+
+	)
+
+3960 
+	#SELS_3
+ (0x0030Ë
+
+	)
+
+3961 
+	#SELS_4
+ (0x0040Ë
+
+	)
+
+3962 
+	#SELS_5
+ (0x0050Ë
+
+	)
+
+3963 
+	#SELS_6
+ (0x0060Ë
+
+	)
+
+3964 
+	#SELS_7
+ (0x0070Ë
+
+	)
+
+3965 
+	#SELS__XT1CLK
+ (0x0000Ë
+
+	)
+
+3966 
+	#SELS__VLOCLK
+ (0x0010Ë
+
+	)
+
+3967 
+	#SELS__REFOCLK
+ (0x0020Ë
+
+	)
+
+3968 
+	#SELS__DCOCLK
+ (0x0030Ë
+
+	)
+
+3969 
+	#SELS__DCOCLKDIV
+ (0x0040Ë
+
+	)
+
+3970 
+	#SELS__XT2CLK
+ (0x0050Ë
+
+	)
+
+3972 
+	#SELA_0
+ (0x0000Ë
+
+	)
+
+3973 
+	#SELA_1
+ (0x0100Ë
+
+	)
+
+3974 
+	#SELA_2
+ (0x0200Ë
+
+	)
+
+3975 
+	#SELA_3
+ (0x0300Ë
+
+	)
+
+3976 
+	#SELA_4
+ (0x0400Ë
+
+	)
+
+3977 
+	#SELA_5
+ (0x0500Ë
+
+	)
+
+3978 
+	#SELA_6
+ (0x0600Ë
+
+	)
+
+3979 
+	#SELA_7
+ (0x0700Ë
+
+	)
+
+3980 
+	#SELA__XT1CLK
+ (0x0000Ë
+
+	)
+
+3981 
+	#SELA__VLOCLK
+ (0x0100Ë
+
+	)
+
+3982 
+	#SELA__REFOCLK
+ (0x0200Ë
+
+	)
+
+3983 
+	#SELA__DCOCLK
+ (0x0300Ë
+
+	)
+
+3984 
+	#SELA__DCOCLKDIV
+ (0x0400Ë
+
+	)
+
+3985 
+	#SELA__XT2CLK
+ (0x0500Ë
+
+	)
+
+3988 
+	#DIVM0
+ (0x0001Ë
+
+	)
+
+3989 
+	#DIVM1
+ (0x0002Ë
+
+	)
+
+3990 
+	#DIVM2
+ (0x0004Ë
+
+	)
+
+3992 
+	#DIVS0
+ (0x0010Ë
+
+	)
+
+3993 
+	#DIVS1
+ (0x0020Ë
+
+	)
+
+3994 
+	#DIVS2
+ (0x0040Ë
+
+	)
+
+3996 
+	#DIVA0
+ (0x0100Ë
+
+	)
+
+3997 
+	#DIVA1
+ (0x0200Ë
+
+	)
+
+3998 
+	#DIVA2
+ (0x0400Ë
+
+	)
+
+4000 
+	#DIVPA0
+ (0x1000Ë
+
+	)
+
+4001 
+	#DIVPA1
+ (0x2000Ë
+
+	)
+
+4002 
+	#DIVPA2
+ (0x4000Ë
+
+	)
+
+4006 
+	#DIVM0_L
+ (0x0001Ë
+
+	)
+
+4007 
+	#DIVM1_L
+ (0x0002Ë
+
+	)
+
+4008 
+	#DIVM2_L
+ (0x0004Ë
+
+	)
+
+4010 
+	#DIVS0_L
+ (0x0010Ë
+
+	)
+
+4011 
+	#DIVS1_L
+ (0x0020Ë
+
+	)
+
+4012 
+	#DIVS2_L
+ (0x0040Ë
+
+	)
+
+4020 
+	#DIVA0_H
+ (0x0001Ë
+
+	)
+
+4021 
+	#DIVA1_H
+ (0x0002Ë
+
+	)
+
+4022 
+	#DIVA2_H
+ (0x0004Ë
+
+	)
+
+4024 
+	#DIVPA0_H
+ (0x0010Ë
+
+	)
+
+4025 
+	#DIVPA1_H
+ (0x0020Ë
+
+	)
+
+4026 
+	#DIVPA2_H
+ (0x0040Ë
+
+	)
+
+4029 
+	#DIVM_0
+ (0x0000Ë
+
+	)
+
+4030 
+	#DIVM_1
+ (0x0001Ë
+
+	)
+
+4031 
+	#DIVM_2
+ (0x0002Ë
+
+	)
+
+4032 
+	#DIVM_3
+ (0x0003Ë
+
+	)
+
+4033 
+	#DIVM_4
+ (0x0004Ë
+
+	)
+
+4034 
+	#DIVM_5
+ (0x0005Ë
+
+	)
+
+4035 
+	#DIVM_6
+ (0x0006Ë
+
+	)
+
+4036 
+	#DIVM_7
+ (0x0007Ë
+
+	)
+
+4037 
+	#DIVM__1
+ (0x0000Ë
+
+	)
+
+4038 
+	#DIVM__2
+ (0x0001Ë
+
+	)
+
+4039 
+	#DIVM__4
+ (0x0002Ë
+
+	)
+
+4040 
+	#DIVM__8
+ (0x0003Ë
+
+	)
+
+4041 
+	#DIVM__16
+ (0x0004Ë
+
+	)
+
+4042 
+	#DIVM__32
+ (0x0005Ë
+
+	)
+
+4044 
+	#DIVS_0
+ (0x0000Ë
+
+	)
+
+4045 
+	#DIVS_1
+ (0x0010Ë
+
+	)
+
+4046 
+	#DIVS_2
+ (0x0020Ë
+
+	)
+
+4047 
+	#DIVS_3
+ (0x0030Ë
+
+	)
+
+4048 
+	#DIVS_4
+ (0x0040Ë
+
+	)
+
+4049 
+	#DIVS_5
+ (0x0050Ë
+
+	)
+
+4050 
+	#DIVS_6
+ (0x0060Ë
+
+	)
+
+4051 
+	#DIVS_7
+ (0x0070Ë
+
+	)
+
+4052 
+	#DIVS__1
+ (0x0000Ë
+
+	)
+
+4053 
+	#DIVS__2
+ (0x0010Ë
+
+	)
+
+4054 
+	#DIVS__4
+ (0x0020Ë
+
+	)
+
+4055 
+	#DIVS__8
+ (0x0030Ë
+
+	)
+
+4056 
+	#DIVS__16
+ (0x0040Ë
+
+	)
+
+4057 
+	#DIVS__32
+ (0x0050Ë
+
+	)
+
+4059 
+	#DIVA_0
+ (0x0000Ë
+
+	)
+
+4060 
+	#DIVA_1
+ (0x0100Ë
+
+	)
+
+4061 
+	#DIVA_2
+ (0x0200Ë
+
+	)
+
+4062 
+	#DIVA_3
+ (0x0300Ë
+
+	)
+
+4063 
+	#DIVA_4
+ (0x0400Ë
+
+	)
+
+4064 
+	#DIVA_5
+ (0x0500Ë
+
+	)
+
+4065 
+	#DIVA_6
+ (0x0600Ë
+
+	)
+
+4066 
+	#DIVA_7
+ (0x0700Ë
+
+	)
+
+4067 
+	#DIVA__1
+ (0x0000Ë
+
+	)
+
+4068 
+	#DIVA__2
+ (0x0100Ë
+
+	)
+
+4069 
+	#DIVA__4
+ (0x0200Ë
+
+	)
+
+4070 
+	#DIVA__8
+ (0x0300Ë
+
+	)
+
+4071 
+	#DIVA__16
+ (0x0400Ë
+
+	)
+
+4072 
+	#DIVA__32
+ (0x0500Ë
+
+	)
+
+4074 
+	#DIVPA_0
+ (0x0000Ë
+
+	)
+
+4075 
+	#DIVPA_1
+ (0x1000Ë
+
+	)
+
+4076 
+	#DIVPA_2
+ (0x2000Ë
+
+	)
+
+4077 
+	#DIVPA_3
+ (0x3000Ë
+
+	)
+
+4078 
+	#DIVPA_4
+ (0x4000Ë
+
+	)
+
+4079 
+	#DIVPA_5
+ (0x5000Ë
+
+	)
+
+4080 
+	#DIVPA_6
+ (0x6000Ë
+
+	)
+
+4081 
+	#DIVPA_7
+ (0x7000Ë
+
+	)
+
+4082 
+	#DIVPA__1
+ (0x0000Ë
+
+	)
+
+4083 
+	#DIVPA__2
+ (0x1000Ë
+
+	)
+
+4084 
+	#DIVPA__4
+ (0x2000Ë
+
+	)
+
+4085 
+	#DIVPA__8
+ (0x3000Ë
+
+	)
+
+4086 
+	#DIVPA__16
+ (0x4000Ë
+
+	)
+
+4087 
+	#DIVPA__32
+ (0x5000Ë
+
+	)
+
+4090 
+	#XT1OFF
+ (0x0001Ë
+
+	)
+
+4091 
+	#SMCLKOFF
+ (0x0002Ë
+
+	)
+
+4092 
+	#XCAP0
+ (0x0004Ë
+
+	)
+
+4093 
+	#XCAP1
+ (0x0008Ë
+
+	)
+
+4094 
+	#XT1BYPASS
+ (0x0010Ë
+
+	)
+
+4095 
+	#XTS
+ (0x0020Ë
+
+	)
+
+4096 
+	#XT1DRIVE0
+ (0x0040Ë
+
+	)
+
+4097 
+	#XT1DRIVE1
+ (0x0080Ë
+
+	)
+
+4098 
+	#XT2OFF
+ (0x0100Ë
+
+	)
+
+4108 
+	#XT1OFF_L
+ (0x0001Ë
+
+	)
+
+4109 
+	#SMCLKOFF_L
+ (0x0002Ë
+
+	)
+
+4110 
+	#XCAP0_L
+ (0x0004Ë
+
+	)
+
+4111 
+	#XCAP1_L
+ (0x0008Ë
+
+	)
+
+4112 
+	#XT1BYPASS_L
+ (0x0010Ë
+
+	)
+
+4113 
+	#XTS_L
+ (0x0020Ë
+
+	)
+
+4114 
+	#XT1DRIVE0_L
+ (0x0040Ë
+
+	)
+
+4115 
+	#XT1DRIVE1_L
+ (0x0080Ë
+
+	)
+
+4125 
+	#XT2OFF_H
+ (0x0001Ë
+
+	)
+
+4134 
+	#XCAP_0
+ (0x0000Ë
+
+	)
+
+4135 
+	#XCAP_1
+ (0x0004Ë
+
+	)
+
+4136 
+	#XCAP_2
+ (0x0008Ë
+
+	)
+
+4137 
+	#XCAP_3
+ (0x000CË
+
+	)
+
+4138 
+	#XT1DRIVE_0
+ (0x0000Ë
+
+	)
+
+4139 
+	#XT1DRIVE_1
+ (0x0040Ë
+
+	)
+
+4140 
+	#XT1DRIVE_2
+ (0x0080Ë
+
+	)
+
+4141 
+	#XT1DRIVE_3
+ (0x00C0Ë
+
+	)
+
+4144 
+	#DCOFFG
+ (0x0001Ë
+
+	)
+
+4145 
+	#XT1LFOFFG
+ (0x0002Ë
+
+	)
+
+4146 
+	#XT1HFOFFG
+ (0x0004Ë
+
+	)
+
+4147 
+	#XT2OFFG
+ (0x0008Ë
+
+	)
+
+4162 
+	#DCOFFG_L
+ (0x0001Ë
+
+	)
+
+4163 
+	#XT1LFOFFG_L
+ (0x0002Ë
+
+	)
+
+4164 
+	#XT1HFOFFG_L
+ (0x0004Ë
+
+	)
+
+4165 
+	#XT2OFFG_L
+ (0x0008Ë
+
+	)
+
+4194 
+	#ACLKREQEN
+ (0x0001Ë
+
+	)
+
+4195 
+	#MCLKREQEN
+ (0x0002Ë
+
+	)
+
+4196 
+	#SMCLKREQEN
+ (0x0004Ë
+
+	)
+
+4197 
+	#MODOSCREQEN
+ (0x0008Ë
+
+	)
+
+4212 
+	#ACLKREQEN_L
+ (0x0001Ë
+
+	)
+
+4213 
+	#MCLKREQEN_L
+ (0x0002Ë
+
+	)
+
+4214 
+	#SMCLKREQEN_L
+ (0x0004Ë
+
+	)
+
+4215 
+	#MODOSCREQEN_L
+ (0x0008Ë
+
+	)
+
+4246 
+	#__MSP430_HAS_USCI_A0__
+
+
+	)
+
+4247 
+	#__MSP430_BASEADDRESS_USCI_A0__
+ 0x05C0
+
+	)
+
+4249 
+SFR_16BIT
+(
+UCA0CTLW0
+);
+
+4250 
+SFR_8BIT
+(
+UCA0CTLW0_L
+);
+
+4251 
+SFR_8BIT
+(
+UCA0CTLW0_H
+);
+
+4252 
+	#UCA0CTL1
+ 
+UCA0CTLW0_L
+
+
+	)
+
+4253 
+	#UCA0CTL0
+ 
+UCA0CTLW0_H
+
+
+	)
+
+4254 
+SFR_16BIT
+(
+UCA0BRW
+);
+
+4255 
+SFR_8BIT
+(
+UCA0BRW_L
+);
+
+4256 
+SFR_8BIT
+(
+UCA0BRW_H
+);
+
+4257 
+	#UCA0BR0
+ 
+UCA0BRW_L
+
+
+	)
+
+4258 
+	#UCA0BR1
+ 
+UCA0BRW_H
+
+
+	)
+
+4259 
+SFR_8BIT
+(
+UCA0MCTL
+);
+
+4260 
+SFR_8BIT
+(
+UCA0STAT
+);
+
+4261 
+SFR_8BIT
+(
+UCA0RXBUF
+);
+
+4262 
+SFR_8BIT
+(
+UCA0TXBUF
+);
+
+4263 
+SFR_8BIT
+(
+UCA0ABCTL
+);
+
+4264 
+SFR_16BIT
+(
+UCA0IRCTL
+);
+
+4265 
+SFR_8BIT
+(
+UCA0IRCTL_L
+);
+
+4266 
+SFR_8BIT
+(
+UCA0IRCTL_H
+);
+
+4267 
+	#UCA0IRTCTL
+ 
+UCA0IRCTL_L
+
+
+	)
+
+4268 
+	#UCA0IRRCTL
+ 
+UCA0IRCTL_H
+
+
+	)
+
+4269 
+SFR_16BIT
+(
+UCA0ICTL
+);
+
+4270 
+SFR_8BIT
+(
+UCA0ICTL_L
+);
+
+4271 
+SFR_8BIT
+(
+UCA0ICTL_H
+);
+
+4272 
+	#UCA0IE
+ 
+UCA0ICTL_L
+
+
+	)
+
+4273 
+	#UCA0IFG
+ 
+UCA0ICTL_H
+
+
+	)
+
+4274 
+SFR_16BIT
+(
+UCA0IV
+);
+
+4280 
+	#__MSP430_HAS_USCI_B0__
+
+
+	)
+
+4281 
+	#__MSP430_BASEADDRESS_USCI_B0__
+ 0x05E0
+
+	)
+
+4284 
+SFR_16BIT
+(
+UCB0CTLW0
+);
+
+4285 
+SFR_8BIT
+(
+UCB0CTLW0_L
+);
+
+4286 
+SFR_8BIT
+(
+UCB0CTLW0_H
+);
+
+4287 
+	#UCB0CTL1
+ 
+UCB0CTLW0_L
+
+
+	)
+
+4288 
+	#UCB0CTL0
+ 
+UCB0CTLW0_H
+
+
+	)
+
+4289 
+SFR_16BIT
+(
+UCB0BRW
+);
+
+4290 
+SFR_8BIT
+(
+UCB0BRW_L
+);
+
+4291 
+SFR_8BIT
+(
+UCB0BRW_H
+);
+
+4292 
+	#UCB0BR0
+ 
+UCB0BRW_L
+
+
+	)
+
+4293 
+	#UCB0BR1
+ 
+UCB0BRW_H
+
+
+	)
+
+4294 
+SFR_8BIT
+(
+UCB0STAT
+);
+
+4295 
+SFR_8BIT
+(
+UCB0RXBUF
+);
+
+4296 
+SFR_8BIT
+(
+UCB0TXBUF
+);
+
+4297 
+SFR_16BIT
+(
+UCB0I2COA
+);
+
+4298 
+SFR_8BIT
+(
+UCB0I2COA_L
+);
+
+4299 
+SFR_8BIT
+(
+UCB0I2COA_H
+);
+
+4300 
+SFR_16BIT
+(
+UCB0I2CSA
+);
+
+4301 
+SFR_8BIT
+(
+UCB0I2CSA_L
+);
+
+4302 
+SFR_8BIT
+(
+UCB0I2CSA_H
+);
+
+4303 
+SFR_16BIT
+(
+UCB0ICTL
+);
+
+4304 
+SFR_8BIT
+(
+UCB0ICTL_L
+);
+
+4305 
+SFR_8BIT
+(
+UCB0ICTL_H
+);
+
+4306 
+	#UCB0IE
+ 
+UCB0ICTL_L
+
+
+	)
+
+4307 
+	#UCB0IFG
+ 
+UCB0ICTL_H
+
+
+	)
+
+4308 
+SFR_16BIT
+(
+UCB0IV
+);
+
+4311 
+	#UCPEN
+ (0x80Ë
+
+	)
+
+4312 
+	#UCPAR
+ (0x40Ë
+
+	)
+
+4313 
+	#UCMSB
+ (0x20Ë
+
+	)
+
+4314 
+	#UC7BIT
+ (0x10Ë
+
+	)
+
+4315 
+	#UCSPB
+ (0x08Ë
+
+	)
+
+4316 
+	#UCMODE1
+ (0x04Ë
+
+	)
+
+4317 
+	#UCMODE0
+ (0x02Ë
+
+	)
+
+4318 
+	#UCSYNC
+ (0x01Ë
+
+	)
+
+4321 
+	#UCCKPH
+ (0x80Ë
+
+	)
+
+4322 
+	#UCCKPL
+ (0x40Ë
+
+	)
+
+4323 
+	#UCMST
+ (0x08Ë
+
+	)
+
+4326 
+	#UCA10
+ (0x80Ë
+
+	)
+
+4327 
+	#UCSLA10
+ (0x40Ë
+
+	)
+
+4328 
+	#UCMM
+ (0x20Ë
+
+	)
+
+4330 
+	#UCMODE_0
+ (0x00Ë
+
+	)
+
+4331 
+	#UCMODE_1
+ (0x02Ë
+
+	)
+
+4332 
+	#UCMODE_2
+ (0x04Ë
+
+	)
+
+4333 
+	#UCMODE_3
+ (0x06Ë
+
+	)
+
+4336 
+	#UCSSEL1
+ (0x80Ë
+
+	)
+
+4337 
+	#UCSSEL0
+ (0x40Ë
+
+	)
+
+4338 
+	#UCRXEIE
+ (0x20Ë
+
+	)
+
+4339 
+	#UCBRKIE
+ (0x10Ë
+
+	)
+
+4340 
+	#UCDORM
+ (0x08Ë
+
+	)
+
+4341 
+	#UCTXADDR
+ (0x04Ë
+
+	)
+
+4342 
+	#UCTXBRK
+ (0x02Ë
+
+	)
+
+4343 
+	#UCSWRST
+ (0x01Ë
+
+	)
+
+4354 
+	#UCTR
+ (0x10Ë
+
+	)
+
+4355 
+	#UCTXNACK
+ (0x08Ë
+
+	)
+
+4356 
+	#UCTXSTP
+ (0x04Ë
+
+	)
+
+4357 
+	#UCTXSTT
+ (0x02Ë
+
+	)
+
+4358 
+	#UCSSEL_0
+ (0x00Ë
+
+	)
+
+4359 
+	#UCSSEL_1
+ (0x40Ë
+
+	)
+
+4360 
+	#UCSSEL_2
+ (0x80Ë
+
+	)
+
+4361 
+	#UCSSEL_3
+ (0xC0Ë
+
+	)
+
+4362 
+	#UCSSEL__UCLK
+ (0x00Ë
+
+	)
+
+4363 
+	#UCSSEL__ACLK
+ (0x40Ë
+
+	)
+
+4364 
+	#UCSSEL__SMCLK
+ (0x80Ë
+
+	)
+
+4367 
+	#UCBRF3
+ (0x80Ë
+
+	)
+
+4368 
+	#UCBRF2
+ (0x40Ë
+
+	)
+
+4369 
+	#UCBRF1
+ (0x20Ë
+
+	)
+
+4370 
+	#UCBRF0
+ (0x10Ë
+
+	)
+
+4371 
+	#UCBRS2
+ (0x08Ë
+
+	)
+
+4372 
+	#UCBRS1
+ (0x04Ë
+
+	)
+
+4373 
+	#UCBRS0
+ (0x02Ë
+
+	)
+
+4374 
+	#UCOS16
+ (0x01Ë
+
+	)
+
+4376 
+	#UCBRF_0
+ (0x00Ë
+
+	)
+
+4377 
+	#UCBRF_1
+ (0x10Ë
+
+	)
+
+4378 
+	#UCBRF_2
+ (0x20Ë
+
+	)
+
+4379 
+	#UCBRF_3
+ (0x30Ë
+
+	)
+
+4380 
+	#UCBRF_4
+ (0x40Ë
+
+	)
+
+4381 
+	#UCBRF_5
+ (0x50Ë
+
+	)
+
+4382 
+	#UCBRF_6
+ (0x60Ë
+
+	)
+
+4383 
+	#UCBRF_7
+ (0x70Ë
+
+	)
+
+4384 
+	#UCBRF_8
+ (0x80Ë
+
+	)
+
+4385 
+	#UCBRF_9
+ (0x90Ë
+
+	)
+
+4386 
+	#UCBRF_10
+ (0xA0Ë
+
+	)
+
+4387 
+	#UCBRF_11
+ (0xB0Ë
+
+	)
+
+4388 
+	#UCBRF_12
+ (0xC0Ë
+
+	)
+
+4389 
+	#UCBRF_13
+ (0xD0Ë
+
+	)
+
+4390 
+	#UCBRF_14
+ (0xE0Ë
+
+	)
+
+4391 
+	#UCBRF_15
+ (0xF0Ë
+
+	)
+
+4393 
+	#UCBRS_0
+ (0x00Ë
+
+	)
+
+4394 
+	#UCBRS_1
+ (0x02Ë
+
+	)
+
+4395 
+	#UCBRS_2
+ (0x04Ë
+
+	)
+
+4396 
+	#UCBRS_3
+ (0x06Ë
+
+	)
+
+4397 
+	#UCBRS_4
+ (0x08Ë
+
+	)
+
+4398 
+	#UCBRS_5
+ (0x0AË
+
+	)
+
+4399 
+	#UCBRS_6
+ (0x0CË
+
+	)
+
+4400 
+	#UCBRS_7
+ (0x0EË
+
+	)
+
+4403 
+	#UCLISTEN
+ (0x80Ë
+
+	)
+
+4404 
+	#UCFE
+ (0x40Ë
+
+	)
+
+4405 
+	#UCOE
+ (0x20Ë
+
+	)
+
+4406 
+	#UCPE
+ (0x10Ë
+
+	)
+
+4407 
+	#UCBRK
+ (0x08Ë
+
+	)
+
+4408 
+	#UCRXERR
+ (0x04Ë
+
+	)
+
+4409 
+	#UCADDR
+ (0x02Ë
+
+	)
+
+4410 
+	#UCBUSY
+ (0x01Ë
+
+	)
+
+4411 
+	#UCIDLE
+ (0x02Ë
+
+	)
+
+4414 
+	#UCSCLLOW
+ (0x40Ë
+
+	)
+
+4415 
+	#UCGC
+ (0x20Ë
+
+	)
+
+4416 
+	#UCBBUSY
+ (0x10Ë
+
+	)
+
+4419 
+	#UCIRTXPL5
+ (0x80Ë
+
+	)
+
+4420 
+	#UCIRTXPL4
+ (0x40Ë
+
+	)
+
+4421 
+	#UCIRTXPL3
+ (0x20Ë
+
+	)
+
+4422 
+	#UCIRTXPL2
+ (0x10Ë
+
+	)
+
+4423 
+	#UCIRTXPL1
+ (0x08Ë
+
+	)
+
+4424 
+	#UCIRTXPL0
+ (0x04Ë
+
+	)
+
+4425 
+	#UCIRTXCLK
+ (0x02Ë
+
+	)
+
+4426 
+	#UCIREN
+ (0x01Ë
+
+	)
+
+4429 
+	#UCIRRXFL5
+ (0x80Ë
+
+	)
+
+4430 
+	#UCIRRXFL4
+ (0x40Ë
+
+	)
+
+4431 
+	#UCIRRXFL3
+ (0x20Ë
+
+	)
+
+4432 
+	#UCIRRXFL2
+ (0x10Ë
+
+	)
+
+4433 
+	#UCIRRXFL1
+ (0x08Ë
+
+	)
+
+4434 
+	#UCIRRXFL0
+ (0x04Ë
+
+	)
+
+4435 
+	#UCIRRXPL
+ (0x02Ë
+
+	)
+
+4436 
+	#UCIRRXFE
+ (0x01Ë
+
+	)
+
+4441 
+	#UCDELIM1
+ (0x20Ë
+
+	)
+
+4442 
+	#UCDELIM0
+ (0x10Ë
+
+	)
+
+4443 
+	#UCSTOE
+ (0x08Ë
+
+	)
+
+4444 
+	#UCBTOE
+ (0x04Ë
+
+	)
+
+4446 
+	#UCABDEN
+ (0x01Ë
+
+	)
+
+4449 
+	#UCGCEN
+ (0x8000Ë
+
+	)
+
+4450 
+	#UCOA9
+ (0x0200Ë
+
+	)
+
+4451 
+	#UCOA8
+ (0x0100Ë
+
+	)
+
+4452 
+	#UCOA7
+ (0x0080Ë
+
+	)
+
+4453 
+	#UCOA6
+ (0x0040Ë
+
+	)
+
+4454 
+	#UCOA5
+ (0x0020Ë
+
+	)
+
+4455 
+	#UCOA4
+ (0x0010Ë
+
+	)
+
+4456 
+	#UCOA3
+ (0x0008Ë
+
+	)
+
+4457 
+	#UCOA2
+ (0x0004Ë
+
+	)
+
+4458 
+	#UCOA1
+ (0x0002Ë
+
+	)
+
+4459 
+	#UCOA0
+ (0x0001Ë
+
+	)
+
+4462 
+	#UCOA7_L
+ (0x0080Ë
+
+	)
+
+4463 
+	#UCOA6_L
+ (0x0040Ë
+
+	)
+
+4464 
+	#UCOA5_L
+ (0x0020Ë
+
+	)
+
+4465 
+	#UCOA4_L
+ (0x0010Ë
+
+	)
+
+4466 
+	#UCOA3_L
+ (0x0008Ë
+
+	)
+
+4467 
+	#UCOA2_L
+ (0x0004Ë
+
+	)
+
+4468 
+	#UCOA1_L
+ (0x0002Ë
+
+	)
+
+4469 
+	#UCOA0_L
+ (0x0001Ë
+
+	)
+
+4472 
+	#UCGCEN_H
+ (0x0080Ë
+
+	)
+
+4473 
+	#UCOA9_H
+ (0x0002Ë
+
+	)
+
+4474 
+	#UCOA8_H
+ (0x0001Ë
+
+	)
+
+4477 
+	#UCSA9
+ (0x0200Ë
+
+	)
+
+4478 
+	#UCSA8
+ (0x0100Ë
+
+	)
+
+4479 
+	#UCSA7
+ (0x0080Ë
+
+	)
+
+4480 
+	#UCSA6
+ (0x0040Ë
+
+	)
+
+4481 
+	#UCSA5
+ (0x0020Ë
+
+	)
+
+4482 
+	#UCSA4
+ (0x0010Ë
+
+	)
+
+4483 
+	#UCSA3
+ (0x0008Ë
+
+	)
+
+4484 
+	#UCSA2
+ (0x0004Ë
+
+	)
+
+4485 
+	#UCSA1
+ (0x0002Ë
+
+	)
+
+4486 
+	#UCSA0
+ (0x0001Ë
+
+	)
+
+4489 
+	#UCSA7_L
+ (0x0080Ë
+
+	)
+
+4490 
+	#UCSA6_L
+ (0x0040Ë
+
+	)
+
+4491 
+	#UCSA5_L
+ (0x0020Ë
+
+	)
+
+4492 
+	#UCSA4_L
+ (0x0010Ë
+
+	)
+
+4493 
+	#UCSA3_L
+ (0x0008Ë
+
+	)
+
+4494 
+	#UCSA2_L
+ (0x0004Ë
+
+	)
+
+4495 
+	#UCSA1_L
+ (0x0002Ë
+
+	)
+
+4496 
+	#UCSA0_L
+ (0x0001Ë
+
+	)
+
+4499 
+	#UCSA9_H
+ (0x0002Ë
+
+	)
+
+4500 
+	#UCSA8_H
+ (0x0001Ë
+
+	)
+
+4503 
+	#UCTXIE
+ (0x0002Ë
+
+	)
+
+4504 
+	#UCRXIE
+ (0x0001Ë
+
+	)
+
+4507 
+	#UCNACKIE
+ (0x0020Ë
+
+	)
+
+4508 
+	#UCALIE
+ (0x0010Ë
+
+	)
+
+4509 
+	#UCSTPIE
+ (0x0008Ë
+
+	)
+
+4510 
+	#UCSTTIE
+ (0x0004Ë
+
+	)
+
+4511 
+	#UCTXIE
+ (0x0002Ë
+
+	)
+
+4512 
+	#UCRXIE
+ (0x0001Ë
+
+	)
+
+4515 
+	#UCTXIFG
+ (0x0002Ë
+
+	)
+
+4516 
+	#UCRXIFG
+ (0x0001Ë
+
+	)
+
+4519 
+	#UCNACKIFG
+ (0x0020Ë
+
+	)
+
+4520 
+	#UCALIFG
+ (0x0010Ë
+
+	)
+
+4521 
+	#UCSTPIFG
+ (0x0008Ë
+
+	)
+
+4522 
+	#UCSTTIFG
+ (0x0004Ë
+
+	)
+
+4523 
+	#UCTXIFG
+ (0x0002Ë
+
+	)
+
+4524 
+	#UCRXIFG
+ (0x0001Ë
+
+	)
+
+4527 
+	#USCI_NONE
+ (0x0000Ë
+
+	)
+
+4528 
+	#USCI_UCRXIFG
+ (0x0002Ë
+
+	)
+
+4529 
+	#USCI_UCTXIFG
+ (0x0004Ë
+
+	)
+
+4530 
+	#USCI_I2C_UCALIFG
+ (0x0002Ë
+
+	)
+
+4531 
+	#USCI_I2C_UCNACKIFG
+ (0x0004Ë
+
+	)
+
+4532 
+	#USCI_I2C_UCSTTIFG
+ (0x0006Ë
+
+	)
+
+4533 
+	#USCI_I2C_UCSTPIFG
+ (0x0008Ë
+
+	)
+
+4534 
+	#USCI_I2C_UCRXIFG
+ (0x000AË
+
+	)
+
+4535 
+	#USCI_I2C_UCTXIFG
+ (0x000CË
+
+	)
+
+4540 
+	#__MSP430_HAS_WDT_A__
+
+
+	)
+
+4541 
+	#__MSP430_BASEADDRESS_WDT_A__
+ 0x0150
+
+	)
+
+4543 
+SFR_16BIT
+(
+WDTCTL
+);
+
+4544 
+SFR_8BIT
+(
+WDTCTL_L
+);
+
+4545 
+SFR_8BIT
+(
+WDTCTL_H
+);
+
+4548 
+	#WDTIS0
+ (0x0001Ë
+
+	)
+
+4549 
+	#WDTIS1
+ (0x0002Ë
+
+	)
+
+4550 
+	#WDTIS2
+ (0x0004Ë
+
+	)
+
+4551 
+	#WDTCNTCL
+ (0x0008Ë
+
+	)
+
+4552 
+	#WDTTMSEL
+ (0x0010Ë
+
+	)
+
+4553 
+	#WDTSSEL0
+ (0x0020Ë
+
+	)
+
+4554 
+	#WDTSSEL1
+ (0x0040Ë
+
+	)
+
+4555 
+	#WDTHOLD
+ (0x0080Ë
+
+	)
+
+4558 
+	#WDTIS0_L
+ (0x0001Ë
+
+	)
+
+4559 
+	#WDTIS1_L
+ (0x0002Ë
+
+	)
+
+4560 
+	#WDTIS2_L
+ (0x0004Ë
+
+	)
+
+4561 
+	#WDTCNTCL_L
+ (0x0008Ë
+
+	)
+
+4562 
+	#WDTTMSEL_L
+ (0x0010Ë
+
+	)
+
+4563 
+	#WDTSSEL0_L
+ (0x0020Ë
+
+	)
+
+4564 
+	#WDTSSEL1_L
+ (0x0040Ë
+
+	)
+
+4565 
+	#WDTHOLD_L
+ (0x0080Ë
+
+	)
+
+4569 
+	#WDTPW
+ (0x5A00)
+
+	)
+
+4571 
+	#WDTIS_0
+ (0*0x0001uË
+
+	)
+
+4572 
+	#WDTIS_1
+ (1*0x0001uË
+
+	)
+
+4573 
+	#WDTIS_2
+ (2*0x0001uË
+
+	)
+
+4574 
+	#WDTIS_3
+ (3*0x0001uË
+
+	)
+
+4575 
+	#WDTIS_4
+ (4*0x0001uË
+
+	)
+
+4576 
+	#WDTIS_5
+ (5*0x0001uË
+
+	)
+
+4577 
+	#WDTIS_6
+ (6*0x0001uË
+
+	)
+
+4578 
+	#WDTIS_7
+ (7*0x0001uË
+
+	)
+
+4579 
+	#WDTIS__2G
+ (0*0x0001uË
+
+	)
+
+4580 
+	#WDTIS__128M
+ (1*0x0001uË
+
+	)
+
+4581 
+	#WDTIS__8192K
+ (2*0x0001uË
+
+	)
+
+4582 
+	#WDTIS__512K
+ (3*0x0001uË
+
+	)
+
+4583 
+	#WDTIS__32K
+ (4*0x0001uË
+
+	)
+
+4584 
+	#WDTIS__8192
+ (5*0x0001uË
+
+	)
+
+4585 
+	#WDTIS__512
+ (6*0x0001uË
+
+	)
+
+4586 
+	#WDTIS__64
+ (7*0x0001uË
+
+	)
+
+4588 
+	#WDTSSEL_0
+ (0*0x0020uË
+
+	)
+
+4589 
+	#WDTSSEL_1
+ (1*0x0020uË
+
+	)
+
+4590 
+	#WDTSSEL_2
+ (2*0x0020uË
+
+	)
+
+4591 
+	#WDTSSEL_3
+ (3*0x0020uË
+
+	)
+
+4592 
+	#WDTSSEL__SMCLK
+ (0*0x0020uË
+
+	)
+
+4593 
+	#WDTSSEL__ACLK
+ (1*0x0020uË
+
+	)
+
+4594 
+	#WDTSSEL__VLO
+ (2*0x0020uË
+
+	)
+
+4598 
+	#WDT_MDLY_32
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
+Ë
+
+	)
+
+4599 
+	#WDT_MDLY_8
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTIS0
+Ë
+
+	)
+
+4600 
+	#WDT_MDLY_0_5
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTIS1
+Ë
+
+	)
+
+4601 
+	#WDT_MDLY_0_064
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTIS1
++
+WDTIS0
+Ë
+
+	)
+
+4603 
+	#WDT_ADLY_1000
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTSSEL0
+Ë
+
+	)
+
+4604 
+	#WDT_ADLY_250
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTSSEL0
++
+WDTIS0
+Ë
+
+	)
+
+4605 
+	#WDT_ADLY_16
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTSSEL0
++
+WDTIS1
+Ë
+
+	)
+
+4606 
+	#WDT_ADLY_1_9
+ (
+WDTPW
++
+WDTTMSEL
++
+WDTCNTCL
++
+WDTIS2
++
+WDTSSEL0
++
+WDTIS1
++
+WDTIS0
+Ë
+
+	)
+
+4609 
+	#WDT_MRST_32
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTIS2
+Ë
+
+	)
+
+4610 
+	#WDT_MRST_8
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTIS2
++
+WDTIS0
+Ë
+
+	)
+
+4611 
+	#WDT_MRST_0_5
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTIS2
++
+WDTIS1
+Ë
+
+	)
+
+4612 
+	#WDT_MRST_0_064
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTIS2
++
+WDTIS1
++
+WDTIS0
+Ë
+
+	)
+
+4614 
+	#WDT_ARST_1000
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTSSEL0
++
+WDTIS2
+Ë
+
+	)
+
+4615 
+	#WDT_ARST_250
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTSSEL0
++
+WDTIS2
++
+WDTIS0
+Ë
+
+	)
+
+4616 
+	#WDT_ARST_16
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTSSEL0
++
+WDTIS2
++
+WDTIS1
+Ë
+
+	)
+
+4617 
+	#WDT_ARST_1_9
+ (
+WDTPW
++
+WDTCNTCL
++
+WDTSSEL0
++
+WDTIS2
++
+WDTIS1
++
+WDTIS0
+Ë
+
+	)
+
+4623 
+	#__MSP430_HAS_TLV__
+
+
+	)
+
+4625 
+	#TLV_START
+ (0x1A08Ë
+
+	)
+
+4626 
+	#TLV_END
+ (0x1AFFË
+
+	)
+
+4628 
+	#TLV_LDTAG
+ (0x01Ë
+
+	)
+
+4629 
+	#TLV_PDTAG
+ (0x02Ë
+
+	)
+
+4630 
+	#TLV_Re£rved3
+ (0x03Ë
+
+	)
+
+4631 
+	#TLV_Re£rved4
+ (0x04Ë
+
+	)
+
+4632 
+	#TLV_BLANK
+ (0x05Ë
+
+	)
+
+4633 
+	#TLV_Re£rved6
+ (0x06Ë
+
+	)
+
+4634 
+	#TLV_Re£rved7
+ (0x07Ë
+
+	)
+
+4635 
+	#TLV_DIERECORD
+ (0x08Ë
+
+	)
+
+4636 
+	#TLV_ADCCAL
+ (0x11Ë
+
+	)
+
+4637 
+	#TLV_ADC12CAL
+ (0x11Ë
+
+	)
+
+4638 
+	#TLV_ADC10CAL
+ (0x13Ë
+
+	)
+
+4639 
+	#TLV_REFCAL
+ (0x12Ë
+
+	)
+
+4640 
+	#TLV_TAGEXT
+ (0xFEË
+
+	)
+
+4641 
+	#TLV_TAGEND
+ (0xFF)
+
+4642 
+
+	)
+
+4647 #¥agm®
+düg_suµªss
+ 1107
+
+4648 
+	#VECTOR_NAME
+(
+«me
+Ë«me##
+_±r
+
+
+	)
+
+4649 
+	#EMIT_PRAGMA
+(
+x
+Ë
+	`_Pøgma
+(#x)
+
+	)
+
+4650 
+	#CREATE_VECTOR
+(
+«me
+Ë* c⁄° 
+	`VECTOR_NAME
+“ameË(*)()&
+	)
+name
+
+4651 
+	#PLACE_VECTOR
+(
+ve˘‹
+,
+£˘i⁄
+Ë
+	`EMIT_PRAGMA
+(
+	`DATA_SECTION
+(ve˘‹,£˘i⁄))
+
+	)
+
+4652 
+	#PLACE_INTERRUPT
+(
+func
+Ë
+	`EMIT_PRAGMA
+(
+	`CODE_SECTION
+(func,".ãxt:_i§"))
+
+	)
+
+4653 
+	#ISR_VECTOR
+(
+func
+,
+off£t
+Ë
+	`CREATE_VECTOR
+(func); \
+
+	)
+
+4654 
+PLACE_VECTOR
+(
+VECTOR_NAME
+(
+func
+), 
+off£t
+) \
+
+4655 
+PLACE_INTERRUPT
+(
+func
+)
+
+4658 #ifde‡
+__ASM_HEADER__
+
+
+4659 
+	#AES_VECTOR
+ ".öt45"
+
+	)
+
+4661 
+	#AES_VECTOR
+ (45 * 1uË
+
+	)
+
+4664 #ifde‡
+__ASM_HEADER__
+
+
+4665 
+	#RTC_VECTOR
+ ".öt46"
+
+	)
+
+4667 
+	#RTC_VECTOR
+ (46 * 1uË
+
+	)
+
+4670 #ifde‡
+__ASM_HEADER__
+
+
+4671 
+	#LCD_B_VECTOR
+ ".öt47"
+
+	)
+
+4673 
+	#LCD_B_VECTOR
+ (47 * 1uË
+
+	)
+
+4676 #ifde‡
+__ASM_HEADER__
+
+
+4677 
+	#PORT2_VECTOR
+ ".öt48"
+
+	)
+
+4679 
+	#PORT2_VECTOR
+ (48 * 1uË
+
+	)
+
+4682 #ifde‡
+__ASM_HEADER__
+
+
+4683 
+	#PORT1_VECTOR
+ ".öt49"
+
+	)
+
+4685 
+	#PORT1_VECTOR
+ (49 * 1uË
+
+	)
+
+4688 #ifde‡
+__ASM_HEADER__
+
+
+4689 
+	#TIMER1_A1_VECTOR
+ ".öt50"
+
+	)
+
+4691 
+	#TIMER1_A1_VECTOR
+ (50 * 1uË
+
+	)
+
+4694 #ifde‡
+__ASM_HEADER__
+
+
+4695 
+	#TIMER1_A0_VECTOR
+ ".öt51"
+
+	)
+
+4697 
+	#TIMER1_A0_VECTOR
+ (51 * 1uË
+
+	)
+
+4700 #ifde‡
+__ASM_HEADER__
+
+
+4701 
+	#DMA_VECTOR
+ ".öt52"
+
+	)
+
+4703 
+	#DMA_VECTOR
+ (52 * 1uË
+
+	)
+
+4706 #ifde‡
+__ASM_HEADER__
+
+
+4707 
+	#CC1101_VECTOR
+ ".öt53"
+
+	)
+
+4709 
+	#CC1101_VECTOR
+ (53 * 1uË
+
+	)
+
+4712 #ifde‡
+__ASM_HEADER__
+
+
+4713 
+	#TIMER0_A1_VECTOR
+ ".öt54"
+
+	)
+
+4715 
+	#TIMER0_A1_VECTOR
+ (54 * 1uË
+
+	)
+
+4718 #ifde‡
+__ASM_HEADER__
+
+
+4719 
+	#TIMER0_A0_VECTOR
+ ".öt55"
+
+	)
+
+4721 
+	#TIMER0_A0_VECTOR
+ (55 * 1uË
+
+	)
+
+4724 #ifde‡
+__ASM_HEADER__
+
+
+4725 
+	#ADC10_VECTOR
+ ".öt56"
+
+	)
+
+4727 
+	#ADC10_VECTOR
+ (56 * 1uË
+
+	)
+
+4730 #ifde‡
+__ASM_HEADER__
+
+
+4731 
+	#USCI_B0_VECTOR
+ ".öt57"
+
+	)
+
+4733 
+	#USCI_B0_VECTOR
+ (57 * 1uË
+
+	)
+
+4736 #ifde‡
+__ASM_HEADER__
+
+
+4737 
+	#USCI_A0_VECTOR
+ ".öt58"
+
+	)
+
+4739 
+	#USCI_A0_VECTOR
+ (58 * 1uË
+
+	)
+
+4742 #ifde‡
+__ASM_HEADER__
+
+
+4743 
+	#WDT_VECTOR
+ ".öt59"
+
+	)
+
+4745 
+	#WDT_VECTOR
+ (59 * 1uË
+
+	)
+
+4748 #ifde‡
+__ASM_HEADER__
+
+
+4749 
+	#COMP_B_VECTOR
+ ".öt60"
+
+	)
+
+4751 
+	#COMP_B_VECTOR
+ (60 * 1uË
+
+	)
+
+4754 #ifde‡
+__ASM_HEADER__
+
+
+4755 
+	#UNMI_VECTOR
+ ".öt61"
+
+	)
+
+4757 
+	#UNMI_VECTOR
+ (61 * 1uË
+
+	)
+
+4760 #ifde‡
+__ASM_HEADER__
+
+
+4761 
+	#SYSNMI_VECTOR
+ ".öt62"
+
+	)
+
+4763 
+	#SYSNMI_VECTOR
+ (62 * 1uË
+
+	)
+
+4766 #ifde‡
+__ASM_HEADER__
+
+
+4767 
+	#RESET_VECTOR
+ ".ª£t"
+
+	)
+
+4769 
+	#RESET_VECTOR
+ (63 * 1uË
+
+	)
+
+4777 #ifde‡
+__˝lu•lus
+
 
 	@/usr/include/stdint.h
 
@@ -76468,8 +98038,8 @@ __END_DECLS
 .
 1
 /usr/include
-105
-2527
+109
+2644
 apps/lowpan.h
 apps/main.c
 apps/mrfi_uip_if.c
@@ -76551,6 +98121,9 @@ platform/cc430/bsp/bsp_leds.c
 platform/cc430/bsp/bsp_leds.h
 platform/cc430/bsp/bsp_macros.h
 platform/cc430/bsp/bsp_msp430_defs.h
+platform/cc430/bsp/bsp_uart.c
+platform/cc430/bsp/bsp_uart.h
+platform/cc430/bsp/bsp_uart_defs.h
 platform/cc430/bsp/mrfi_board_defs.h
 platform/cc430/contiki-conf.h
 platform/cc430/radio/mrfi.c
@@ -76560,6 +98133,7 @@ platform/cc430/radio/mrfi_radio.c
 platform/cc430/radio/mrfi_radio_interface.c
 platform/cc430/radio/mrfi_radio_interface.h
 platform/cc430/radio/smartrf_CC430.h
+platform/cc430f6147.h
 /usr/include/stdint.h
 /usr/include/stdio.h
 /usr/include/stdlib.h

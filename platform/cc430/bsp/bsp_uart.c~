@@ -26,13 +26,12 @@
   THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
 
   Should you have any questions regarding your right to use this Software,
-  contact Texas Instruments Incorporated at www.TI.com.
+  contact Texas Instruments Incorporated at www.TI.com. 
 **************************************************************************************************/
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  *   BSP (Board Support Package)
- *   Target : Texas Instruments CC430EM
- *   Top-level driver file.
+ *   Generic button driver code file.
  * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  */
 
@@ -40,57 +39,59 @@
  *                                            Includes
  * ------------------------------------------------------------------------------------------------
  */
-#include "bsp_driver_defs.h"
-#include "bsp_leds.h"
 #include "bsp_buttons.h"
-#include "bsp_config.h"
-#include "bsp_uart.h"
+#include "bsp_button_defs.h"
+
+
+/* ------------------------------------------------------------------------------------------------
+ *                                             Macros
+ * ------------------------------------------------------------------------------------------------
+ */
+#define BSP_CONFIG_BUTTON1()    __bsp_BUTTON1_CONFIG__()
+#define BSP_CONFIG_BUTTON2()    __bsp_BUTTON2_CONFIG__()
+#define BSP_CONFIG_BUTTON3()    __bsp_BUTTON3_CONFIG__()
+#define BSP_CONFIG_BUTTON4()    __bsp_BUTTON4_CONFIG__()
+#define BSP_CONFIG_BUTTON5()    __bsp_BUTTON5_CONFIG__()
+#define BSP_CONFIG_BUTTON6()    __bsp_BUTTON6_CONFIG__()
+#define BSP_CONFIG_BUTTON7()    __bsp_BUTTON7_CONFIG__()
+#define BSP_CONFIG_BUTTON8()    __bsp_BUTTON8_CONFIG__()
+
+#ifdef __bsp_BUTTON_EXTENDED_CONFIG__
+#define BSP_BUTTON_EXTENDED_CONFIG()  __bsp_BUTTON_EXTENDED_CONFIG__()
+#else
+#define BSP_BUTTON_EXTENDED_CONFIG()
+#endif
+
 
 /**************************************************************************************************
- * @fn          BSP_InitDrivers
+ * @fn          BSP_InitButtons
  *
- * @brief       Initialize all enabled BSP drivers.
+ * @brief       Initialize button hardware and driver code.
  *
  * @param       none
  *
  * @return      none
  **************************************************************************************************
  */
-void BSP_InitDrivers(void)
+void BSP_InitButtons(void)
 {
-#if (!defined BSP_NO_LEDS)
-  BSP_InitLeds();
-#endif
+  /* configure LEDs */
+  BSP_CONFIG_BUTTON1();
+  BSP_CONFIG_BUTTON2();
+  BSP_CONFIG_BUTTON3();
+  BSP_CONFIG_BUTTON4();
+  BSP_CONFIG_BUTTON5();
+  BSP_CONFIG_BUTTON6();
+  BSP_CONFIG_BUTTON7();
+  BSP_CONFIG_BUTTON8();
 
-#if (!defined BSP_NO_BUTTONS)
-  BSP_InitButtons();
-#endif
-
-#if (!defined BSP_NO_UART)
-  BSP_InitUART();
-#endif
+  /* peform extended configuration if needed */
+  BSP_BUTTON_EXTENDED_CONFIG();
 }
-
-
-/* ================================================================================================
- *                                        C Code Includes
- * ================================================================================================
- */
-#ifndef BSP_NO_LEDS
-#include "bsp_leds.c"
-#endif
-
-#ifndef BSP_NO_BUTTONS
-#include "bsp_buttons.c"
-#endif
-
-#ifndef BSP_NO_UART
-#include "bsp_uart.c"
-#endif
 
 
 /**************************************************************************************************
 */
 
-
-
+   
+   

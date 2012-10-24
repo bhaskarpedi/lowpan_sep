@@ -237,12 +237,17 @@ void BSP_InitBoard(void)
 
   /* Reset the timer */
   TA0CTL |= TACLR; /* Set the TACLR  */
+  
+  /*BSKR: reset Timer A 1 also */
+  TA1CTL |= TACLR; /* Set the TACLR  */
 
   /* Clear all settings */
   TA0CTL = 0x0;
+  TA1CTL = 0x0;
 
   /* Select the clk source to be - SMCLK (Sub-Main CLK)*/
   TA0CTL |= TASSEL_2;
+  TA1CTL |= TASSEL_2;
 }
 
 /**************************************************************************************************

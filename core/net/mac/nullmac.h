@@ -52,7 +52,7 @@ typedef enum
 	MAC_INIT = 0,
 	MAC_BEACON_RCVD,
    MAC_ASSOC_REQ_SENT,
-   MAC_CONNECTED,
+   MAC_CONNECTED
 }mac_state_t;
 
 // This structure is kind of also defined in frame802154.h	
@@ -80,5 +80,10 @@ typedef enum
 }mac_cmd_frame_t;
 
 extern const struct mac_driver nullmac_driver;
+extern uint8_t mac_beacon_flag;  /* Indicates if a beacon should be tranmsitted */
+
+#ifdef LOWPAN_COORDINATOR
+extern void mac_send_beacon();
+#endif
 
 #endif /* __NULLMAC_H__ */

@@ -51,6 +51,7 @@
  *                                          Defines
  * ------------------------------------------------------------------------------------------------
  */
+
 #define MRFI_NUM_LOGICAL_CHANS           __mrfi_NUM_LOGICAL_CHANS__
 
 #define MRFI_NUM_POWER_SETTINGS          __mrfi_NUM_POWER_SETTINGS__

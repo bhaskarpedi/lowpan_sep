@@ -48,12 +48,15 @@ mac_state_t mac_state;
 extern uint8_t mac_dsn;
 extern uint16_t mac_dst_pan_id;
 
+uint8_t mac_beacon_flag;  /* Indicates if a beacon should be tranmsitted */
+
 /* Forward declaration*/
 static void send_packet(mac_callback_t sent, void *ptr);
-
+static void mac_start_timer(uint16_t beacon_interval_msec);
+static void mac_stop_timer(void);
 #ifdef LOWPAN_COORDINATOR
 /* Function to send beacon */
-static void mac_send_beacon()
+extern void mac_send_beacon()
 {
    static uint16_t macBSN = 0x00;
    uint8_t payload[10] = {0,0,0,0,0,0,0,0,0,0};
@@ -114,6 +117,7 @@ static void mac_send_beacon()
 
    beaconData.pendAddrInfo.pendAddrSpec = 0; /* If 0, no list present*/
 
+   packetbuf_clear();
    len = frame802154_packBeacon((uint8_t*)packetbuf_dataptr(),&beaconData);
    packetbuf_set_datalen(len);
    params.payload = packetbuf_dataptr();
@@ -123,8 +127,50 @@ static void mac_send_beacon()
    return;
 }
 
-void mac_send_assoc_rsp()
+/* Function to process received assoc req*/
+static int mac_proc_assoc_req(frame802154_t *frame)
 {
+   /* We implement the case when nothing is to be done for association */
+   if(frame->payload[1] == 0x00)
+   {
+      return(0);
+   }
+   else
+   {
+      /* TODO: 16 bit short addr might be allocated here */
+      return(-1);
+   }
+}
+
+/* Function to send assoc rsp*/
+static void mac_send_assoc_rsp(rimeaddr_t * nodeAddr)
+{
+   uint8_t * rime_ptr;
+   uint8_t assoc_rsp_pkt[4];
+   // 4 is the size of assoc rsp pkt
+   // not using macro to save memory 
+
+   /* Actual Assoc_Rsp packet */
+   assoc_rsp_pkt[0] = MAC_ASSOC_RSP; 
+  
+   /* Address to indicate successful association without short
+    * address allocation */
+   assoc_rsp_pkt[1] = 0xFF;
+   assoc_rsp_pkt[2] = 0xFE;
+
+   /* 0x00 indicates successful transmission */
+   assoc_rsp_pkt[3] = 0x00; 
+
+   /* Now put that into packet buf format and send */
+   packetbuf_copyfrom((const void *)&assoc_rsp_pkt[0], 4);
+
+   /*Set the attributes and addresses*/
+   packetbuf_set_attr(PACKETBUF_ATTR_RELIABLE,1);
+   packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, nodeAddr);
+
+   /* Copy payload into rime_ptr */
+
+   send_packet((mac_callback_t)0,(void *)0);
 }
 
 #else /* Not Coordinator, regular node */
@@ -146,7 +192,7 @@ static int mac_send_assoc_req()
 
    /* Actual Assoc_REQ packet */
    assoc_req_pkt[0] = MAC_ASSOC_REQ; 
-   assoc_req_pkt[1] = 0x00;
+   assoc_req_pkt[1] = 0x00; /* All bits are zero in capabilities field byte */
 
    /* Now put that into packet buf format and send */
    packetbuf_copyfrom((const void *)&assoc_req_pkt[0], 2);
@@ -166,7 +212,7 @@ static int mac_send_assoc_req()
  * 2 bytes - short address
  * 1 byte - association status
  * (0XFFFF, 0XFFFE in short address for failed and no short address
- * cases)  */
+ * cases respectively)  */
 
 static int mac_proc_assoc_rsp(frame802154_t *frame)
 {
@@ -185,8 +231,23 @@ static int mac_proc_assoc_rsp(frame802154_t *frame)
 #endif
 
 #ifdef LOWPAN_COORDINATOR
-/* Implement state machine for co-ordinator */
-
+/* State machine for co-ordinator is not relevant
+ * The coordinator replies all requests */
+static void mac_proc_pkt(frame802154_t *frame)
+{
+   if((frame->fcf.frame_type == MAC_CMD) && 
+         (frame->payload[0] == MAC_ASSOC_REQ))
+   {
+      bspIState_t x;
+      BSP_ENTER_CRITICAL_SECTION(x);
+      mac_send_assoc_rsp(&frame->dest_addr);
+      BSP_EXIT_CRITICAL_SECTION(x);
+   }
+   else if(frame->fcf.frame_type == MAC_DATA)
+   {
+      //route it appropriately
+   }
+}
 #else
 /* State machine for regular node */
 
@@ -284,7 +345,11 @@ lowpan_packet_input(void)
    frame802154_t frame;
    // TODO: BSKR is this buflen and not len??
    frame802154_parse(packetbuf_dataptr(), packetbuf_datalen(), &frame);
+#ifdef LOWPAN_COORDINATOR
+   mac_proc_pkt(&frame);
+#else
    mac_proc_state(&frame);
+#endif
 }
 
 static int
@@ -311,6 +376,12 @@ init(void)
 {
    int retVal = MAC_TX_ERR;
    mac_state = MAC_INIT;
+#ifdef LOWPAN_COORDINATOR
+   /* Start Beacon Timer
+    * Note: input is dummy for now*/
+   mac_start_timer(10);
+#endif
+
 #if RIMEADDR_SIZE == 2
    rimeaddr_t addr_temp = { { 1, 2 } };
 #elif (RIMEADDR_SIZE == 8)
@@ -340,6 +411,67 @@ const struct mac_driver nullmac_802154_driver = {
   off,
   channel_check_interval,
 };
+
+#ifdef LOWPAN_COORDINATOR
+
+/* Stop the beacon timer */
+static void mac_stop_timer()
+{
+   /* Set Timer 1 mode to stop */
+   TA1CTL |= MC_0;
+}
+
+/* Start the beacon timer */
+static void mac_start_timer(uint16_t beacon_interval_msec)
+{
+   /* Set clock divider as 8 */
+   TA1CTL |= ID_3;
+   
+   TA1EX0 |= 0x7;
+
+   /* Clearing Timer A1 to ensure proper functioning of divide logic */
+   TA1CTL |= TACLR;
+   
+   TA1R = 0; /* initial count  */
+
+   /* Capture/ Control mode configuration */
+   TA1CCTL0 |= CM1; /* Caputure mode rising edge */
+   TA1CCTL0 |= CAP; /* Capture mode instead of compare mode */
+   TA1CCTL0 |= CCIE; /* Enabling interrupts */
+
+   /* compare count. (delay in ticks) */
+   //TODO: TA1CCR0 = BSP_TIMER_CLK_MHZ*beacon_interval_msec;
+
+   /* Start the timer in continous UP mode */
+   /* It goes from 0 to 0xFFFF */
+   TA1CTL |= MC_2;
+   /* Enable interrupts */
+   TA1CTL |= TAIE;
+}
+
+/**************************************************************************************************
+ * @fn          mac_timer
+ *
+ * @brief       mac timer
+ *
+ * @param       -
+ *
+ * @return      -
+ **************************************************************************************************
+ */
+BSP_ISR_FUNCTION(mac_timer_ISR, TIMER0_A1_VECTOR)
+{
+   /* Do I even need to have a comparision? As I am using only one CCR */
+   if(TA1IV == TA1IV_TA1IFG)
+   {
+      mac_send_beacon();
+   }
+
+   TA1IV &= ~TA1IV_TA1IFG;
+}
+
+
+#endif
 /*---------------------------------------------------------------------------*/
 #if 0 /*scrap code for reference */
    frame802154_t params;

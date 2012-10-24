@@ -51,15 +51,13 @@ void main(void)
    netstack_init();
    void **pPacket = NULL;
    uint16_t pktLen;
-   uip_ipaddr_t dest = {0xFE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,\
+   uip_ipaddr_t dest = {0XFE, 0X80, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,\
       0x12, 0x23, 0x34, 0x00, 0x00, 0x00, 0x00, 0x01}; 
-#if ((1 == MODE_PING_TEST) && ((1 == MODE_TX)||(1 == MODE_TX)))
-      #error PING and UDP cannot be enabled simultaneously
-#endif
-#if (1 == MODE_PING_TEST)
+#if ((1 == MODE_PING_TEST) || (1 == MODE_TX) || (1 == MODE_RX))
    while(1)
    {
-      /* Ping the specified destination 10 times every time the button
+#if (1 == MODE_PING_TEST)
+      /* ping the specified destination 10 times every time the button
        * is pressed */
       
       /* Turn on LED1 to indicate that node is ready for button press */
@@ -78,6 +76,20 @@ void main(void)
       /* Turn off LED1 to indicate that node is operating on Rx chain*/
       BSP_TURN_OFF_LED1();
       
+
+#ifdef LOWPAN_COORDINATOR
+#else
+#endif
+
+#endif
+
+#if (1 == MODE_TX)
+   /*todo: udp send comes here */
+#elif (1 == MODE_RX)
+   /* todo: udp receive comes here and packet processing happens from here */
+#endif
+
+      /* rx packet processing */
       if(1 == NETSTACK_RADIO.pending_packet())
       {
          pktLen = NETSTACK_RADIO.read((void*)pPacket, pktLen);
@@ -86,23 +98,26 @@ void main(void)
          mrfi_uip_pkt_proc_done();
       }
 
-#ifdef LOWPAN_COORDINATOR
-      /* Do nothing here. Initialize data structures */
-#else
-#endif
 
       if(1 == mrfi_pkt_tx_pend)
       {
-         // The response packet, if any, should be prepared in the RX chain
+         bspIState_t x;
+         BSP_ENTER_CRITICAL_SECTION(x);
+         // the response packet, if any, should be prepared in the rx chain
          //tcpip_ipv6_output();
+         BSP_EXIT_CRITICAL_SECTION(x);
+      }
+   
+      if(1 == mac_beacon_flag)
+      {
+         bspIState_t x;
+         BSP_ENTER_CRITICAL_SECTION(x);
+
+         mac_beacon_flag = 0;
+         BSP_EXIT_CRITICAL_SECTION(x);
       }
    }
+#else
+      #error "no mode enabled"
 #endif
-
-#if (1 == MODE_TX)
-   /*TODO: UDP send comes here */
-#elif (1 == MODE_RX)
-   /* TODO: UDP Receive comes here and packet processing happens from here */
-#endif
-
 }

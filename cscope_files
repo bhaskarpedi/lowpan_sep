@@ -79,6 +79,9 @@
 ./platform/cc430/bsp/bsp_led_defs.h
 ./platform/cc430/bsp/bsp_macros.h
 ./platform/cc430/bsp/bsp_msp430_defs.h
+./platform/cc430/bsp/bsp_uart.c
+./platform/cc430/bsp/bsp_uart.h
+./platform/cc430/bsp/bsp_uart_defs.h
 ./platform/cc430/bsp/mrfi_board_defs.h
 ./platform/cc430/contiki-conf.h
 ./platform/cc430/radio/mrfi.c
@@ -88,3 +91,4 @@
 ./platform/cc430/radio/mrfi_radio_interface.c
 ./platform/cc430/radio/mrfi_radio_interface.h
 ./platform/cc430/radio/smartrf_CC430.h
+./platform/cc430f6147.h
