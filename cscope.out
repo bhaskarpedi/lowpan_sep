@@ -1,4 +1,4 @@
-cscope 15 /media/sf_lowpan_sep               0000572232
+cscope 15 /media/sf_lowpan_sep               0000571231
 	@apps/lowpan.h
 
 1 
@@ -189,25 +189,19 @@ MAX_PING_CNT
 	`√t°ack_öô
 ();
 
-52 **
-pPackë
- = 
-NULL
-;
-
-53 
+52 
 uöt16_t
  
 pktLí
 ;
 
-54 
+53 
 uù_ùaddr_t
  
 de°
  = {0XFE, 0X80, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,\
 
-56 #i‡((1 =
+55 #i‡((1 =
 MODE_PING_TEST
 Ë|| (1 =
 MODE_TX
@@ -215,59 +209,63 @@ MODE_TX
 MODE_RX
 ))
 
-59 #i‡(1 =
+58 #i‡(1 =
 MODE_PING_TEST
 )
 
-64 
+63 
 	`BSP_TURN_ON_LED1
 ();
 
-66 if(
+65 if(
 	`BSP_BUTTON1
 ())
 
-68 
+67 
 pögC¡
 ;
 
-69 
+68 
 pögC¡
 =0;ÖögC¡<
 MAX_PING_CNT
 ;ÖingCnt++)
 
-71 
+70 
 	`uù_pög6
 (&
 de°
 );
 
-72 
+71 
 	`DELAY_IN_MSECS
 (1000);
 
-77 
+76 
 	`BSP_TURN_OFF_LED1
 ();
 
-80 #ifde‡
+79 #ifde‡
 LOWPAN_COORDINATOR
 
 
-86 #i‡(1 =
+85 #i‡(1 =
 MODE_TX
 )
 
-88 #ñi‡(1 =
+87 #ñi‡(1 =
 MODE_RX
 )
 
-93 if(1 =
+92 if(1 =
 NETSTACK_RADIO
 .
 	`≥ndög_∑ckë
 ())
+
+94 
+	`∑ckëbuf_˛ór
+();
 
 95 
 pktLí
@@ -275,77 +273,67 @@ pktLí
 NETSTACK_RADIO
 .
 	`ªad
-((*)
-pPackë
-,ÖktLen);
+();
 
 96 
-	`mrfi_uù_pkt_c⁄vît
-(*
-pPackë
-, 
-pktLí
-);
-
-97 
 NETSTACK_RDC
 .
 	`öput
 ();
 
-98 
+97 
 	`mrfi_uù_pkt_¥oc_d⁄e
 ();
 
-102 if(1 =
+101 if(1 =
 mrfi_pkt_tx_≥nd
 )
 
-104 
+103 
 b•ISèã_t
  
 x
 ;
 
-105 
+104 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 x
 );
 
-108 
+107 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 x
 );
 
-111 if(1 =
+110 if(1 =
 mac_bóc⁄_Êag
 )
 
-113 
+112 
 b•ISèã_t
  
 x
 ;
 
-114 
+113 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 x
 );
 
-116 
+115 
 mac_bóc⁄_Êag
  = 0;
 
-117 
+116 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 x
 );
 
-123 
+122 
 	}
 }
 
@@ -363,7 +351,7 @@ x
 	~"∑ckëbuf.h
 "
 
-5 
+6 
 	$mrfi_uù_pkt_c⁄vît
 (*
 pPackë
@@ -373,7 +361,7 @@ uöt16_t
 pktLí
 )
 
-7 
+8 
 	`∑ckëbuf_c›y‰om
 ((c⁄° *)
 pPackë
@@ -381,19 +369,19 @@ pPackë
 pktLí
 );
 
-8 
+9 
 	}
 }
 
-10 
+12 
 	$mrfi_uù_pkt_¥oc_d⁄e
 ()
 
-12 
+14 
 mrfiPktRe˚iveFœg
  = 0;
 
-13 
+15 
 	}
 }
 
@@ -406,16 +394,6 @@ mrfiPktRe˚iveFœg
 11 
 	~"mrfi.h
 "
-
-15 
-mrfi_uù_pkt_c⁄vît
-(*
-pPackë
-, 
-uöt16_t
- 
-pktLí
-);
 
 17 
 mrfi_uù_pkt_¥oc_d⁄e
@@ -657,7 +635,9 @@ __RADIO_H__
 
 72 (* 
 	m£nd
-)(c⁄° *
+)(
+uöt8_t
+ *
 	m∑ylﬂd
 , 
 	m∑ylﬂd_Àn
@@ -46777,6 +46757,14 @@ BSP_NO_BUTTONS
 	~"b•_buâ⁄s.c
 "
 
+87 #i‚de‡
+BSP_NO_UART
+
+
+88 
+	~"b•_u¨t.c
+"
+
 	@platform/cc430/bsp/bsp_generic_buttons.h
 
 38 #i‚de‡
@@ -49589,141 +49577,31 @@ NULL
 
 	@platform/cc430/bsp/bsp_uart.c
 
-42 
-	~"b•_buâ⁄s.h
+1 
+	~"b•_u¨t.h
 "
 
-43 
-	~"b•_buâ⁄_defs.h
-"
-
-50 
-	#BSP_CONFIG_BUTTON1
-(Ë
-	`__b•_BUTTON1_CONFIG__
-()
-
-	)
-
-51 
-	#BSP_CONFIG_BUTTON2
-(Ë
-	`__b•_BUTTON2_CONFIG__
-()
-
-	)
-
-52 
-	#BSP_CONFIG_BUTTON3
-(Ë
-	`__b•_BUTTON3_CONFIG__
-()
-
-	)
-
-53 
-	#BSP_CONFIG_BUTTON4
-(Ë
-	`__b•_BUTTON4_CONFIG__
-()
-
-	)
-
-54 
-	#BSP_CONFIG_BUTTON5
-(Ë
-	`__b•_BUTTON5_CONFIG__
-()
-
-	)
-
-55 
-	#BSP_CONFIG_BUTTON6
-(Ë
-	`__b•_BUTTON6_CONFIG__
-()
-
-	)
-
-56 
-	#BSP_CONFIG_BUTTON7
-(Ë
-	`__b•_BUTTON7_CONFIG__
-()
-
-	)
-
-57 
-	#BSP_CONFIG_BUTTON8
-(Ë
-	`__b•_BUTTON8_CONFIG__
-()
-
-	)
-
-59 #ifde‡
-__b•_BUTTON_EXTENDED_CONFIG__
-
-
-60 
-	#BSP_BUTTON_EXTENDED_CONFIG
-(Ë
-	`__b•_BUTTON_EXTENDED_CONFIG__
-()
-
-	)
-
-62 
-	#BSP_BUTTON_EXTENDED_CONFIG
-()
-
-	)
-
-76 
+3 
 	$BSP_InôUART
 ()
 
-79 
-	`BSP_CONFIG_BUTTON1
-();
-
-80 
-	`BSP_CONFIG_BUTTON2
-();
-
-81 
-	`BSP_CONFIG_BUTTON3
-();
-
-82 
-	`BSP_CONFIG_BUTTON4
-();
-
-83 
-	`BSP_CONFIG_BUTTON5
-();
-
-84 
-	`BSP_CONFIG_BUTTON6
-();
-
-85 
-	`BSP_CONFIG_BUTTON7
-();
-
-86 
-	`BSP_CONFIG_BUTTON8
-();
-
-89 
-	`BSP_BUTTON_EXTENDED_CONFIG
-();
-
-90 
+6 
 	}
 }
 
 	@platform/cc430/bsp/bsp_uart.h
+
+1 
+	~"b•_ma¸os.h
+"
+
+2 
+	~"b•_u¨t_defs.h
+"
+
+8 
+BSP_InôUART
+();
 
 	@platform/cc430/bsp/bsp_uart_defs.h
 
@@ -50633,7 +50511,9 @@ MRFI_√wTønsmô
 
 168 
 MRFI_£nd
-(const *, );
+(
+uöt8_t
+*, );
 
 169 
 MRFI_ªad
@@ -51528,16 +51408,20 @@ deföed
 "
 
 51 
+	~"mrfi_uù_if.h
+"
+
+52 
 	~"ødio.h
 "
 
-57 c⁄° 
+58 c⁄° 
 uöt8_t
  
 	gmrfiBrﬂdˇ°Addr
 [] = { 0xFF, 0xFF, 0xFF, 0xFF };
 
-60 
+61 
 BSP_STATIC_ASSERT
 (
 MRFI_ADDR_SIZE
@@ -51545,19 +51429,19 @@ MRFI_ADDR_SIZE
 mrfiBrﬂdˇ°Addr
 )/(mrfiBroadcastAddr[0])) * (mrfiBroadcastAddr[0])));
 
-66 #i‡(
+67 #i‡(
 deföed
  
 MRFI_CC430
 )
 
-67 
+68 
 	#MRFI_RSSI_OFFSET
  74
 
 	)
 
-72 
+73 
 	#MRFI_LENGTH_FIELD_OFS
  
 __mrfi_LENGTH_FIELD_OFS__
@@ -51565,7 +51449,7 @@ __mrfi_LENGTH_FIELD_OFS__
 
 	)
 
-73 
+74 
 	#MRFI_LENGTH_FIELD_SIZE
  
 __mrfi_LENGTH_FIELD_SIZE__
@@ -51573,7 +51457,7 @@ __mrfi_LENGTH_FIELD_SIZE__
 
 	)
 
-74 
+75 
 	#MRFI_HEADER_SIZE
  
 __mrfi_HEADER_SIZE__
@@ -51581,7 +51465,7 @@ __mrfi_HEADER_SIZE__
 
 	)
 
-75 
+76 
 	#MRFI_FRAME_BODY_OFS
  
 __mrfi_DST_ADDR_OFS__
@@ -51589,7 +51473,7 @@ __mrfi_DST_ADDR_OFS__
 
 	)
 
-76 
+77 
 	#MRFI_BACKOFF_PERIOD_USECS
  
 __mrfi_BACKOFF_PERIOD_USECS__
@@ -51597,19 +51481,19 @@ __mrfi_BACKOFF_PERIOD_USECS__
 
 	)
 
-78 
+79 
 	#MRFI_RANDOM_OFFSET
  67
 
 	)
 
-79 
+80 
 	#MRFI_RANDOM_MULTIPLIER
  109
 
 	)
 
-80 
+81 
 	#MRFI_MIN_SMPL_FRAME_SIZE
  (
 MRFI_HEADER_SIZE
@@ -51619,7 +51503,7 @@ NWK_HDR_SIZE
 
 	)
 
-82 
+83 
 	#MRFI_RADIO_INST_WRITE_WAIT
 (Ë !(
 RF1AIFCTL1
@@ -51629,7 +51513,7 @@ RFINSTRIFG
 
 	)
 
-85 
+86 
 	#MRFI_RX_METRICS_CRC_OK_MASK
  
 __mrfi_RX_METRICS_CRC_OK_MASK__
@@ -51637,7 +51521,7 @@ __mrfi_RX_METRICS_CRC_OK_MASK__
 
 	)
 
-86 
+87 
 	#MRFI_RX_METRICS_LQI_MASK
  
 __mrfi_RX_METRICS_LQI_MASK__
@@ -51645,43 +51529,43 @@ __mrfi_RX_METRICS_LQI_MASK__
 
 	)
 
-91 
+92 
 	#MRFI_RADIO_PARTNUM
  0x00
 
 	)
 
-92 
+93 
 	#MRFI_RADIO_VERSION
  0x06
 
 	)
 
-95 
+96 
 	#MRFI_SETTING_IOCFG0
  27
 
 	)
 
-98 
+99 
 	#MRFI_SETTING_IOCFG1
  30
 
 	)
 
-104 
+105 
 	#MRFI_SETTING_MCSM0
  (0x10)
 
 	)
 
-111 
+112 
 	#MRFI_SETTING_MCSM1
  0x3C
 
 	)
 
-118 
+119 
 	#MRFI_SETTING_PKTLEN
  (
 MRFI_MAX_FRAME_SIZE
@@ -51691,7 +51575,7 @@ MRFI_LENGTH_FIELD_SIZE
 
 	)
 
-121 
+122 
 	#MRFI_SETTING_PKTCTRL0
  (0x05 | (
 SMARTRF_SETTING_PKTCTRL0
@@ -51701,7 +51585,7 @@ SMARTRF_SETTING_PKTCTRL0
 
 	)
 
-124 
+125 
 	#MRFI_SETTING_FIFOTHR
  (0x07 | (
 SMARTRF_SETTING_FIFOTHR
@@ -51711,13 +51595,13 @@ SMARTRF_SETTING_FIFOTHR
 
 	)
 
-130 
+131 
 	#MRFI_MAX_DELAY_US
  16
 
 	)
 
-133 
+134 
 	#PKTCTRL1_BASE_VALUE
  
 	`BV
@@ -51725,7 +51609,7 @@ SMARTRF_SETTING_FIFOTHR
 
 	)
 
-134 
+135 
 	#PKTCTRL1_ADDR_FILTER_OFF
  
 PKTCTRL1_BASE_VALUE
@@ -51733,7 +51617,7 @@ PKTCTRL1_BASE_VALUE
 
 	)
 
-135 
+136 
 	#PKTCTRL1_ADDR_FILTER_ON
  (
 PKTCTRL1_BASE_VALUE
@@ -51743,35 +51627,35 @@ PKTCTRL1_BASE_VALUE
 
 	)
 
-137 #ifde‡
+138 #ifde‡
 MRFI_ASSERTS_ARE_ON
 
 
-138 
+139 
 	#RX_FILTER_ADDR_INITIAL_VALUE
  0xFF
 
 	)
 
-146 #i‡
+147 #i‡
 deföed
 (
 SW_TIMER
 )
 
-147 
+148 
 	#APP_USEC_VALUE
  1000
 
 	)
 
-149 
+150 
 	#APP_USEC_VALUE
  1000
 
 	)
 
-156 
+157 
 	#MRFI_ENABLE_SYNC_PIN_INT
 (Ë(
 RF1AIE
@@ -51781,7 +51665,7 @@ RF1AIE
 
 	)
 
-157 
+158 
 	#MRFI_DISABLE_SYNC_PIN_INT
 (Ë(
 RF1AIE
@@ -51791,7 +51675,7 @@ RF1AIE
 
 	)
 
-158 
+159 
 	#MRFI_CLEAR_SYNC_PIN_INT_FLAG
 (Ë(
 RF1AIFG
@@ -51801,7 +51685,7 @@ RF1AIFG
 
 	)
 
-159 
+160 
 	#MRFI_SYNC_PIN_INT_IS_ENABLED
 (Ë(
 RF1AIE
@@ -51811,7 +51695,7 @@ RF1AIE
 
 	)
 
-160 
+161 
 	#MRFI_SYNC_PIN_IS_HIGH
 (Ë(
 RF1AIN
@@ -51821,7 +51705,7 @@ RF1AIN
 
 	)
 
-161 
+162 
 	#MRFI_SYNC_PIN_INT_FLAG_IS_SET
 (Ë(
 RF1AIFG
@@ -51831,7 +51715,7 @@ RF1AIFG
 
 	)
 
-164 
+165 
 	#MRFI_CLEAR_PAPD_PIN_INT_FLAG
 (Ë(
 RF1AIFG
@@ -51841,7 +51725,7 @@ RF1AIFG
 
 	)
 
-165 
+166 
 	#MRFI_PAPD_PIN_IS_HIGH
 (Ë(
 RF1AIN
@@ -51851,7 +51735,7 @@ RF1AIN
 
 	)
 
-166 
+167 
 	#MRFI_PAPD_INT_FLAG_IS_SET
 (Ë(
 RF1AIFG
@@ -51861,7 +51745,7 @@ RF1AIFG
 
 	)
 
-170 
+171 
 	#MRFI_RSSI_VALID_WAIT
 (Ë!(
 RF1AIN
@@ -51871,7 +51755,7 @@ RF1AIN
 
 	)
 
-176 
+177 
 	#MRFI_STROBE
 (
 cmd
@@ -51881,7 +51765,7 @@ cmd
 
 	)
 
-177 
+178 
 	#MRFI_RADIO_REG_READ
 (
 ªg
@@ -51891,7 +51775,7 @@ cmd
 
 	)
 
-178 
+179 
 	#MRFI_RADIO_REG_WRITE
 (
 ªg
@@ -51903,7 +51787,7 @@ vÆue
 
 	)
 
-179 
+180 
 	#MRFI_RADIO_WRITE_TX_FIFO
 (
 pD©a
@@ -51915,7 +51799,7 @@ pD©a
 
 	)
 
-180 
+181 
 	#MRFI_NEW_RADIO_WRITE_TX_FIFO
 (
 pD©a
@@ -51929,7 +51813,7 @@ pos
 
 	)
 
-181 
+182 
 	#MRFI_RADIO_READ_RX_FIFO
 (
 pD©a
@@ -51941,233 +51825,233 @@ pD©a
 
 	)
 
-184 
+185 
 	#MRFI_STROBE_IDLE_AND_WAIT
 (Ë\
 
 	)
 
-186 
+187 
 MRFI_STROBE
 –
 SIDLE
  ); \
 
-188 
+189 
 MRFI_STROBE
 –
 SNOP
  ) & 0xF0) ; \
 
-196 c⁄° 
+197 c⁄° 
 uöt8_t
  
 	gmrfiRadioCfg
 [][2] =
 
-199 { 
+200 { 
 IOCFG0
 , 
 MRFI_SETTING_IOCFG0
  },
 
-200 { 
+201 { 
 IOCFG1
 , 
 MRFI_SETTING_IOCFG1
  },
 
-201 { 
+202 { 
 MCSM1
 , 
 MRFI_SETTING_MCSM1
  },
 
-202 { 
+203 { 
 MCSM0
 , 
 MRFI_SETTING_MCSM0
  },
 
-203 { 
+204 { 
 PKTLEN
 , 
 MRFI_SETTING_PKTLEN
  },
 
-204 { 
+205 { 
 PKTCTRL0
 , 
 MRFI_SETTING_PKTCTRL0
  },
 
-205 { 
+206 { 
 FIFOTHR
 , 
 MRFI_SETTING_FIFOTHR
  },
 
-209 { 
+210 { 
 FSCTRL1
 , 
 SMARTRF_SETTING_FSCTRL1
  },
 
-210 { 
+211 { 
 FSCTRL0
 , 
 SMARTRF_SETTING_FSCTRL0
  },
 
-211 { 
+212 { 
 FREQ2
 , 
 SMARTRF_SETTING_FREQ2
  },
 
-212 { 
+213 { 
 FREQ1
 , 
 SMARTRF_SETTING_FREQ1
  },
 
-213 { 
+214 { 
 FREQ0
 , 
 SMARTRF_SETTING_FREQ0
  },
 
-214 { 
+215 { 
 MDMCFG4
 , 
 SMARTRF_SETTING_MDMCFG4
  },
 
-215 { 
+216 { 
 MDMCFG3
 , 
 SMARTRF_SETTING_MDMCFG3
  },
 
-216 { 
+217 { 
 MDMCFG2
 , 
 SMARTRF_SETTING_MDMCFG2
  },
 
-217 { 
+218 { 
 MDMCFG1
 , 
 SMARTRF_SETTING_MDMCFG1
  },
 
-218 { 
+219 { 
 MDMCFG0
 , 
 SMARTRF_SETTING_MDMCFG0
  },
 
-219 { 
+220 { 
 DEVIATN
 , 
 SMARTRF_SETTING_DEVIATN
  },
 
-220 { 
+221 { 
 FOCCFG
 , 
 SMARTRF_SETTING_FOCCFG
  },
 
-221 { 
+222 { 
 BSCFG
 , 
 SMARTRF_SETTING_BSCFG
  },
 
-222 { 
+223 { 
 AGCCTRL2
 , 
 SMARTRF_SETTING_AGCCTRL2
  },
 
-223 { 
+224 { 
 AGCCTRL1
 , 
 SMARTRF_SETTING_AGCCTRL1
  },
 
-224 { 
+225 { 
 AGCCTRL0
 , 
 SMARTRF_SETTING_AGCCTRL0
  },
 
-225 { 
+226 { 
 FREND1
 , 
 SMARTRF_SETTING_FREND1
  },
 
-226 { 
+227 { 
 FREND0
 , 
 SMARTRF_SETTING_FREND0
  },
 
-227 { 
+228 { 
 FSCAL3
 , 
 SMARTRF_SETTING_FSCAL3
  },
 
-228 { 
+229 { 
 FSCAL2
 , 
 SMARTRF_SETTING_FSCAL2
  },
 
-229 { 
+230 { 
 FSCAL1
 , 
 SMARTRF_SETTING_FSCAL1
  },
 
-230 { 
+231 { 
 FSCAL0
 , 
 SMARTRF_SETTING_FSCAL0
  },
 
-231 { 
+232 { 
 TEST2
 , 
 SMARTRF_SETTING_TEST2
  },
 
-232 { 
+233 { 
 TEST1
 , 
 SMARTRF_SETTING_TEST1
  },
 
-233 { 
+234 { 
 TEST0
 , 
 SMARTRF_SETTING_TEST0
  },
 
-249 c⁄° 
+250 c⁄° 
 uöt8_t
  
 	gmrfiLogiˇlCh™TabÀ
 [] =
 
-251 
+252 
 SMARTRF_SETTING_CHANNR
 ,
 
-257 
+258 
 BSP_STATIC_ASSERT
 (
 __mrfi_NUM_LOGICAL_CHANS__
@@ -52175,13 +52059,13 @@ __mrfi_NUM_LOGICAL_CHANS__
 mrfiLogiˇlCh™TabÀ
 )/(mrfiLogicalChanTable[0])) * (mrfiLogicalChanTable[0])));
 
-275 c⁄° 
+276 c⁄° 
 uöt8_t
  
 	gmrfiRFPowîTabÀ
 [] =
 
-283 
+284 
 BSP_STATIC_ASSERT
 (
 __mrfi_NUM_POWER_SETTINGS__
@@ -52189,23 +52073,23 @@ __mrfi_NUM_POWER_SETTINGS__
 mrfiRFPowîTabÀ
 )/(mrfiRFPowerTable[0])) * (mrfiRFPowerTable[0])));
 
-289 
+290 
 Mrfi_SyncPöRxI§
 ();
 
-290 
+291 
 Mrfi_RxModeOn
 ();
 
-291 
+292 
 Mrfi_R™domBackoffDñay
 ();
 
-292 
+293 
 Mrfi_RxModeOff
 ();
 
-293 
+294 
 Mrfi_DñayU£c
 (
 uöt16_t
@@ -52213,7 +52097,7 @@ uöt16_t
 howL⁄g
 );
 
-294 
+295 
 Mrfi_DñayU£cSem
 (
 uöt16_t
@@ -52221,7 +52105,7 @@ uöt16_t
 howL⁄g
 );
 
-295 
+296 
 öt8_t
  
 Mrfi_CÆcuœãRssi
@@ -52231,7 +52115,7 @@ uöt8_t
 øwVÆue
 );
 
-296 
+297 
 uöt8_t
  
 Mrfi_RxAddrIsFûãªd
@@ -52239,7 +52123,7 @@ Mrfi_RxAddrIsFûãªd
 pAddr
 );
 
-303 
+304 
 uöt8_t
  
 	gmrfiRadioSèã
@@ -52247,49 +52131,49 @@ uöt8_t
 MRFI_RADIO_STATE_UNKNOWN
 ;
 
-304 
+305 
 mrfiPackë_t
  
 	gmrfiIncomögPackë
 ;
 
-305 
+306 
 uöt8_t
  
 	gmrfiRndSìd
  = 0;
 
-308 vﬁ©ûê
+309 vﬁ©ûê
 uöt8_t
  
 	gsKûlSem
  = 0;
 
-309 vﬁ©ûê
+310 vﬁ©ûê
 uöt8_t
  
 	gsRïlyDñayC⁄ãxt
  = 0;
 
-310 
+311 
 uöt16_t
  
 	gsRïlyDñaySˇœr
  = 0;
 
-311 
+312 
 uöt16_t
  
 	gsBackoffHñ≥r
  = 0;
 
-313 
+314 
 uöt8_t
  
 	gmrfiRxFûãrE«bÀd
  = 0;
 
-314 
+315 
 uöt8_t
  
 	gmrfiRxFûãrAddr
@@ -52299,57 +52183,57 @@ MRFI_ADDR_SIZE
 RX_FILTER_ADDR_INITIAL_VALUE
  };
 
-317 
+318 
 uöt32_t
  
 	g¸cFaû
  = 0;
 
-318 
+319 
 uöt32_t
  
 	g¸cPass
  = 0;
 
-319 
+320 
 uöt32_t
  
 	gnoFøme
  = 0;
 
-326 
+327 
 uöt8_t
  
 	gmrfiPktRe˚iveFœg
 ;
 
-327 
+328 
 uöt8_t
  
 	gmrfi_pkt_tx_≥nd
 ;
 
-340 
+341 
 	$MRFI_Inô
 ()
 
-346 
+347 
 	`mem£t
 (&
 mrfiIncomögPackë
 , 0x0, (mrfiIncomingPacket));
 
-349 
+350 
 	`mrfiRadioI¡îÁ˚Inô
 ();
 
-352 
+353 
 	`MRFI_STROBE
 –
 SRES
  );
 
-355 
+356 
 	`MRFI_ASSERT
 –
 	`MRFI_RADIO_REG_READ
@@ -52359,7 +52243,7 @@ PARTNUM
 MRFI_RADIO_PARTNUM
  );
 
-356 
+357 
 	`MRFI_ASSERT
 –
 	`MRFI_RADIO_REG_READ
@@ -52369,125 +52253,125 @@ VERSION
 MRFI_RADIO_VERSION
  );
 
-359 
+360 
 	`MRFI_STROBE_IDLE_AND_WAIT
 ();
 
-384 
+385 
 RF1AIES
  = 
 	`BV
 (0) | BV(9);
 
-388 
+389 
 uöt8_t
  
 ªadbackPATabÀVÆue
  = 0;
 
-389 
+390 
 b•ISèã_t
  
 s
 ;
 
-391 
+392 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-393  !(
+394  !(
 RF1AIFCTL1
  & 
 RFINSTRIFG
 ));
 
-394 
+395 
 RF1AINSTRW
  = 0x7E51;
 
-396  !(
+397  !(
 RF1AIFCTL1
  & 
 RFINSTRIFG
 ));
 
-397 
+398 
 RF1AINSTRB
  = 
 RF_SNOP
 ;
 
-399  !(
+400  !(
 RF1AIFCTL1
  & 
 RFINSTRIFG
 ));
 
-400 
+401 
 RF1AINSTRB
  = 0xFE;
 
-402  !(
+403  !(
 RF1AIFCTL1
  & 
 RFDINIFG
 ));
 
-403 
+404 
 RF1ADINB
  = 0x00;
 
-405  !(
+406  !(
 RF1AIFCTL1
  & 
 RFDOUTIFG
 ));
 
-406 
+407 
 ªadbackPATabÀVÆue
  = 
 RF1ADOUT0B
 ;
 
-408 
+409 
 	`MRFI_ASSERT
 (
 ªadbackPATabÀVÆue
  == 0x51);
 
-410  !(
+411  !(
 RF1AIFCTL1
  & 
 RFINSTRIFG
 ));
 
-411 
+412 
 RF1AINSTRB
  = 
 RF_SNOP
 ;
 
-413 
+414 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-419 
+420 
 uöt8_t
  
 i
 ;
 
-421 
+422 
 i
 =0; i<((
 mrfiRadioCfg
 )/(mrfiRadioCfg[0])); i++)
 
-423 
+424 
 	`MRFI_RADIO_REG_WRITE
 (
 mrfiRadioCfg
@@ -52495,19 +52379,19 @@ mrfiRadioCfg
 i
 ][0], mrfiRadioCfg[i][1]);
 
-430 
+431 
 uöt8_t
  
 i
 ;
 
-432 
+433 
 i
 =0; i<((
 mrfiRadioCfg
 )/(mrfiRadioCfg[0])); i++)
 
-434 
+435 
 	`MRFI_ASSERT
 –
 mrfiRadioCfg
@@ -52517,37 +52401,37 @@ i
 	`MRFI_RADIO_REG_READ
 (mrfiRadioCfg[i][0]) );
 
-439 
+440 
 	`MRFI_SëLogiˇlCh™√l
 ( 0 );
 
-442 
+443 
 	`MRFI_SëRFPwr
 (
 MRFI_NUM_POWER_SETTINGS
 - 1);
 
-449 
+450 
 	`MRFI_STROBE
 –
 SRX
  );
 
-452 
+453 
 	`MRFI_RSSI_VALID_WAIT
 ();
 
-455 
+456 
 uöt8_t
  
 i
 ;
 
-456 
+457 
 i
 =0; i<16; i++)
 
-459 
+460 
 mrfiRndSìd
  = (mrfiRndSìd << 1Ë| (
 	`MRFI_RADIO_REG_READ
@@ -52555,39 +52439,39 @@ mrfiRndSìd
 RSSI
 ) & 0x01);
 
-464 
+465 
 mrfiRndSìd
  |= 0x0080;
 
-467 
+468 
 	`Mrfi_RxModeOff
 ();
 
-474 
+475 
 	`MRFI_STROBE
 –
 SXOFF
  );
 
-477 
+478 
 mrfiRadioSèã
  = 
 MRFI_RADIO_STATE_OFF
 ;
 
-506 
+507 
 	#MRFI_RADIO_OSC_FREQ
  26000000
 
 	)
 
-507 
+508 
 	#PHY_PREAMBLE_SYNC_BYTES
  8
 
 	)
 
-510 
+511 
 uöt32_t
  
 d©aR©e
@@ -52595,7 +52479,7 @@ d©aR©e
 bôs
 ;
 
-511 
+512 
 uöt16_t
  
 exp⁄ít
@@ -52603,19 +52487,19 @@ exp⁄ít
 m™tisß
 ;
 
-514 
+515 
 m™tisß
  = 256 + 
 SMARTRF_SETTING_MDMCFG3
 ;
 
-517 
+518 
 exp⁄ít
  = 28 - (
 SMARTRF_SETTING_MDMCFG4
  & 0x0F);
 
-520 
+521 
 d©aR©e
  = 
 m™tisß
@@ -52625,7 +52509,7 @@ MRFI_RADIO_OSC_FREQ
 exp⁄ít
 );
 
-522 
+523 
 bôs
  = ((
 uöt32_t
@@ -52635,7 +52519,7 @@ PHY_PREAMBLE_SYNC_BYTES
 MRFI_MAX_FRAME_SIZE
 )*8))*10000;
 
-525 
+526 
 sRïlyDñaySˇœr
  = 
 PLATFORM_FACTOR_CONSTANT
@@ -52645,7 +52529,7 @@ bôs
 d©aR©e
 )+5)/10);
 
-535 
+536 
 sBackoffHñ≥r
  = 
 MRFI_BACKOFF_PERIOD_USECS
@@ -52653,7 +52537,7 @@ MRFI_BACKOFF_PERIOD_USECS
 sRïlyDñaySˇœr
 >>5)*1000;
 
-539 
+540 
 	`mem£t
 (
 mrfiIncomögPackë
@@ -52661,7 +52545,7 @@ mrfiIncomögPackë
 ‰ame
 , 0x00, (mrfiIncomingPacket.frame));
 
-540 
+541 
 	`mem£t
 (
 mrfiIncomögPackë
@@ -52669,15 +52553,15 @@ mrfiIncomögPackë
 rxMërics
 , 0x00, (mrfiIncomingPacket.rxMetrics));
 
-543 
+544 
 	`BSP_ENABLE_INTERRUPTS
 ();
 
-546 
+547 
 	}
 }
 
-562 
+563 
 	$MRFI_Pª∑ª
 (c⁄° *
 ∑ylﬂd
@@ -52685,7 +52569,7 @@ rxMërics
 Àn
 )
 
-564 
+565 
 uöt8_t
  
 ªtu∫VÆue
@@ -52693,7 +52577,7 @@ uöt8_t
 MRFI_TX_RESULT_FAILED
 ;
 
-566 
+567 
 mrfiPackë_t
  *
 pPackë
@@ -52701,7 +52585,7 @@ pPackë
 ∑ylﬂd
 ;
 
-571 
+572 
 	`MRFI_ASSERT
 –
 mrfiRadioSèã
@@ -52709,11 +52593,11 @@ mrfiRadioSèã
 MRFI_RADIO_STATE_OFF
  );
 
-574 
+575 
 	`Mrfi_RxModeOff
 ();
 
-580 
+581 
 	`MRFI_RADIO_WRITE_TX_FIFO
 (&(
 pPackë
@@ -52723,62 +52607,56 @@ pPackë
 Àn
 );
 
-582 (
+583 (
 ªtu∫VÆue
 );
 
-583 
+584 
 	}
 }
 
-598 
+599 
 	$MRFI_√wTønsmô
 (
 Àn
 )
 
-601 
+602 
 	`MRFI_STROBE
 –
 STX
  );
 
-604 !
+605 !
 	`MRFI_SYNC_PIN_INT_FLAG_IS_SET
 ());
 
-607 
+608 
 	`MRFI_CLEAR_SYNC_PIN_INT_FLAG
 ();
 
-609  
+610  
 MRFI_TX_RESULT_SUCCESS
 ;
 
-610 
+611 
 	}
 }
 
-626 
+627 
 	$MRFI_£nd
-(c⁄° *
+(
+uöt8_t
+ *
 ∑ylﬂd
 , 
 ∑ylﬂd_Àn
 )
 
-628 
-uöt8_t
- 
-cˇRërõs
-;
-
 629 
 uöt8_t
  
-txBufLí
- = 
-∑ylﬂd_Àn
+cˇRërõs
 ;
 
 630 
@@ -52825,12 +52703,10 @@ MRFI_RADIO_STATE_OFF
 isTxRemFœg
  = 
 	`MRFI_NEW_RADIO_WRITE_TX_FIFO
-(&(
-pPackë
-->
-‰ame
-[0]), 
-txBufLí
+(
+∑ylﬂd
+, 
+∑ylﬂd_Àn
 , &
 txBufPos
 );
@@ -52871,11 +52747,9 @@ isTxRemFœg
 	`MRFI_NEW_RADIO_WRITE_TX_FIFO
 (
 
-694 &(
-pPackë
-->
-‰ame
-[0]), 
+694 
+∑ylﬂd
+, 
 txBufLí
 , &
 txBufPos
@@ -53141,29 +53015,37 @@ MRFI_RADIO_STATE_RX
 
 982 
 	$MRFI_ªad
-(*
-pPackë
-, 
-Àn
-)
+()
 
-986 
-MRFI_FRAME_BODY_OFS
-);
-
-987  
+984 
+	`∑ckëbuf_c›y‰om
+((c⁄° *)&
 mrfiIncomögPackë
-.
+.\
+
+985 
 ‰ame
 [
 MRFI_LENGTH_FIELD_OFS
-];
+], 
+mrfiIncomögPackë
+.\
 
-988 
+986 
+‰ame
+[
+MRFI_LENGTH_FIELD_OFS
+]);
+
+989 
+MRFI_FRAME_BODY_OFS
+);
+
+991 
 	}
 }
 
-990 
+993 
 	$MRFI_Re˚ive
 (
 mrfiPackë_t
@@ -53171,21 +53053,21 @@ mrfiPackë_t
 pPackë
 )
 
-992 *
+995 *
 pPackë
  = 
 mrfiIncomögPackë
 ;
 
-993 
+996 
 	}
 }
 
-1009 
+1012 
 	$MRFI_cˇ
 ()
 
-1011 
+1014 
 uöt8_t
  
 ªgVÆue
@@ -53193,23 +53075,23 @@ uöt8_t
 gdoSèã
 ;
 
-1012 
+1015 
 mrfiRIFISèã_t
  
 s
 ;
 
-1015 
+1018 
 	`MRFI_RIF_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1018 
+1021 
 	`MRFI_RADIO_INST_WRITE_WAIT
 ();
 
-1021 
+1024 
 gdoSèã
  = 
 	`MRFI_RADIO_REG_READ
@@ -53217,19 +53099,19 @@ gdoSèã
 IOCFG2
 );
 
-1024 
+1027 
 	`MRFI_RADIO_REG_WRITE
 (
 IOCFG2
 , 0x09);
 
-1027 
+1030 
 	`MRFI_RIF_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1029 
+1032 
 ªgVÆue
  = 
 	`MRFI_RADIO_REG_READ
@@ -53237,7 +53119,7 @@ s
 PKTSTATUS
 );
 
-1032 
+1035 
 	`MRFI_RADIO_REG_WRITE
 (
 IOCFG2
@@ -53245,73 +53127,73 @@ IOCFG2
 gdoSèã
 );
 
-1034  (
+1037  (
 ªgVÆue
  & 0x4);
 
-1036 
+1039 
 	}
 }
 
-1051 
+1054 
 	$MRFI_isRecvPkt
 ()
 
-1055 if(
+1058 if(
 mrfiRadioSèã
  =
 MRFI_RADIO_STATE_RX
 )
 
-1063 
+1066 
 	}
 }
 
-1078 
+1081 
 	$MRFI_isPktPíd
 ()
 
-1080 (
+1083 (
 mrfiPktRe˚iveFœg
 );
 
-1081 
+1084 
 	}
 }
 
-1097 
+1100 
 	$MRFI_ødioOff
 ()
 
-1099 
+1102 
 mrfiRIFISèã_t
  
 s
 ;
 
-1100 
+1103 
 uöt8_t
  
 °©usByã
  = 0x0;
 
-1101 
+1104 
 uöt8_t
  
 √wRadioSèã
  = 0xFF;
 
-1104 
+1107 
 	`MRFI_RIF_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1107 
+1110 
 	`MRFI_RADIO_INST_WRITE_WAIT
 ();
 
-1109 
+1112 
 °©usByã
  = 
 	`MRFI_STROBE
@@ -53319,53 +53201,53 @@ s
 SXOFF
 );
 
-1110 
+1113 
 √wRadioSèã
  = (0x70 & 
 °©usByã
 ) >> 4;
 
-1112 if(
+1115 if(
 √wRadioSèã
  == 0x0)
 
-1114 
+1117 
 mrfiRadioSèã
  = 
 MRFI_RADIO_STATE_OFF
 ;
 
-1118 
+1121 
 	`MRFI_RIF_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1120  
+1123  
 √wRadioSèã
 ;
 
-1121 
+1124 
 	}
 }
 
-1140 
+1143 
 	$Mrfi_SyncPöRxI§
 ()
 
-1142 
+1145 
 uöt8_t
  
 rxByãs
 ;
 
-1143 
+1146 
 uöt8_t
  
 ‰ameLí
 ;
 
-1144 
+1147 
 uöt16_t
  
 ªmPackëSize
@@ -53373,13 +53255,13 @@ uöt16_t
 ∑ckëOff£t
  = 0;
 
-1145 
+1148 
 uöt8_t
  
 rxRïót
  = 0;
 
-1152 
+1155 
 	`MRFI_ASSERT
 –
 mrfiRadioSèã
@@ -53387,13 +53269,13 @@ mrfiRadioSèã
 MRFI_RADIO_STATE_RX
  );
 
-1171 
+1174 
 uöt8_t
  
 rxByãsVîify
 ;
 
-1172 
+1175 
 rxByãsVîify
  = 
 	`MRFI_RADIO_REG_READ
@@ -53401,13 +53283,13 @@ rxByãsVîify
 RXBYTES
  );
 
-1176 
+1179 
 rxByãs
  = 
 rxByãsVîify
 ;
 
-1177 
+1180 
 rxByãsVîify
  = 
 	`MRFI_RADIO_REG_READ
@@ -53415,21 +53297,21 @@ rxByãsVîify
 RXBYTES
  );
 
-1179 
+1182 
 rxByãs
  !
 rxByãsVîify
 );
 
-1195 i‡(
+1198 i‡(
 rxByãs
  == 0)
 
-1208 if(0 =
+1211 if(0 =
 rxRïót
 )
 
-1211 
+1214 
 	`MRFI_RADIO_READ_RX_FIFO
 (&
 ‰ameLí
@@ -53437,21 +53319,21 @@ rxRïót
 MRFI_LENGTH_FIELD_SIZE
 );
 
-1212 
+1215 
 ªmPackëSize
  = 
 ‰ameLí
 ;
 
-1215 
+1218 
 	`mem£t
-(
+(&
 mrfiIncomögPackë
 .
 ‰ame
-, 0x00, (mrfiIncomingPacket.frame));
+[0], 0x00, (mrfiIncomingPacket.frame));
 
-1218 
+1221 
 mrfiIncomögPackë
 .
 ‰ame
@@ -53461,13 +53343,13 @@ MRFI_LENGTH_FIELD_OFS
 ‰ameLí
 ;
 
-1219 
+1223 
 ∑ckëOff£t
  = 
-MRFI_FRAME_BODY_OFS
+MRFI_LENGTH_FIELD_SIZE
 ;
 
-1220 if(
+1224 if(
 rxByãs
  =(
 ªmPackëSize
@@ -53477,7 +53359,7 @@ MRFI_LENGTH_FIELD_SIZE
 MRFI_RX_METRICS_SIZE
 ))
 
-1223 
+1227 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53489,11 +53371,11 @@ mrfiIncomögPackë
 ªmPackëSize
 );
 
-1224 
+1228 
 ªmPackëSize
  = 0;
 
-1226 
+1230 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53503,7 +53385,7 @@ rxMërics
 MRFI_RX_METRICS_SIZE
 );
 
-1240 if(
+1244 if(
 rxByãs
  < (
 ªmPackëSize
@@ -53511,13 +53393,13 @@ rxByãs
 MRFI_RX_METRICS_SIZE
 ))
 
-1242 if(
+1246 if(
 rxByãs
  !
 MRFI_RX_METRICS_SIZE
 )
 
-1244 
+1248 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53529,29 +53411,29 @@ mrfiIncomögPackë
 rxByãs
  - 2);
 
-1245 
+1249 
 ªmPackëSize
  -(
 rxByãs
  - 2);
 
-1246 
+1250 
 ∑ckëOff£t
  +(
 rxByãs
  - 2);
 
-1248 
+1252 
 rxRïót
  ++;
 
-1253 if(
+1257 if(
 rxByãs
  !
 MRFI_RX_METRICS_SIZE
 )
 
-1254 
+1258 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53563,7 +53445,7 @@ mrfiIncomögPackë
 rxByãs
  - 2);
 
-1256 
+1260 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53573,65 +53455,65 @@ rxMërics
 MRFI_RX_METRICS_SIZE
 );
 
-1257 
+1261 
 ªmPackëSize
  = 0;
 
-1259 
+1263 
 	`Mrfi_DñayU£c
 (1000);
 
-1262 }
+1266 }
 ªmPackëSize
  && (
 rxRïót
  < 5));
 
-1264 if((0 !
+1268 if((0 !
 rxRïót
  && 
 rxByãs
  == 0) || (rxRepeat >=5))
 
-1267 
+1271 
 b•ISèã_t
  
 s
 ;
 
-1268 
+1272 
 noFøme
 ++;
 
-1276 
+1280 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1277 
+1281 
 	`MRFI_STROBE_IDLE_AND_WAIT
 ();
 
-1278 
+1282 
 	`MRFI_STROBE
 –
 SFRX
  );
 
-1279 
+1283 
 	`MRFI_STROBE
 –
 SRX
  );
 
-1280 
+1284 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1302 i‡(!(
+1306 i‡(!(
 mrfiIncomögPackë
 .
 rxMërics
@@ -53641,23 +53523,15 @@ MRFI_RX_METRICS_CRC_LQI_OFS
 MRFI_RX_METRICS_CRC_OK_MASK
 ))
 
-1305 
+1309 
 ¸cFaû
 ++;
 
-1310 
+1314 
 ¸cPass
 ++;
 
-1318 i‡(!
-	`Mrfi_RxAddrIsFûãªd
-(
-	`MRFI_P_DST_ADDR
-(&
-mrfiIncomögPackë
-)))
-
-1327 
+1317 
 mrfiIncomögPackë
 .
 rxMërics
@@ -53665,7 +53539,7 @@ rxMërics
 MRFI_RX_METRICS_RSSI_OFS
 ] =
 
-1328 
+1318 
 	`Mrfi_CÆcuœãRssi
 (
 mrfiIncomögPackë
@@ -53675,7 +53549,7 @@ rxMërics
 MRFI_RX_METRICS_RSSI_OFS
 ]);
 
-1331 
+1321 
 mrfiIncomögPackë
 .
 rxMërics
@@ -53683,7 +53557,7 @@ rxMërics
 MRFI_RX_METRICS_CRC_LQI_OFS
 ] =
 
-1332 (
+1322 (
 mrfiIncomögPackë
 .
 rxMërics
@@ -53693,31 +53567,31 @@ MRFI_RX_METRICS_CRC_LQI_OFS
 MRFI_RX_METRICS_LQI_MASK
 );
 
-1339 
+1329 
 mrfiPktRe˚iveFœg
  = 1;
 
-1348 
+1336 
 	}
 }
 
-1365 
+1353 
 	$Mrfi_SyncPöRxI§
 ()
 
-1367 
+1355 
 uöt8_t
  
 ‰ameLí
  = 0x00;
 
-1368 
+1356 
 uöt8_t
  
 rxByãs
 ;
 
-1375 
+1363 
 	`MRFI_ASSERT
 –
 mrfiRadioSèã
@@ -53725,13 +53599,13 @@ mrfiRadioSèã
 MRFI_RADIO_STATE_RX
  );
 
-1392 
+1380 
 uöt8_t
  
 rxByãsVîify
 ;
 
-1394 
+1382 
 rxByãsVîify
  = 
 	`MRFI_RADIO_REG_READ
@@ -53739,13 +53613,13 @@ rxByãsVîify
 RXBYTES
  );
 
-1398 
+1386 
 rxByãs
  = 
 rxByãsVîify
 ;
 
-1399 
+1387 
 rxByãsVîify
  = 
 	`MRFI_RADIO_REG_READ
@@ -53753,17 +53627,17 @@ rxByãsVîify
 RXBYTES
  );
 
-1401 
+1389 
 rxByãs
  !
 rxByãsVîify
 );
 
-1417 i‡(
+1405 i‡(
 rxByãs
  == 0)
 
-1431 
+1419 
 	`MRFI_RADIO_READ_RX_FIFO
 (&
 ‰ameLí
@@ -53771,7 +53645,7 @@ rxByãs
 MRFI_LENGTH_FIELD_SIZE
 );
 
-1454 i‡((
+1442 i‡((
 rxByãs
  !(
 ‰ameLí
@@ -53781,7 +53655,7 @@ MRFI_LENGTH_FIELD_SIZE
 MRFI_RX_METRICS_SIZE
 )) ||
 
-1455 ((
+1443 ((
 ‰ameLí
  + 
 MRFI_LENGTH_FIELD_SIZE
@@ -53789,51 +53663,51 @@ MRFI_LENGTH_FIELD_SIZE
 MRFI_MAX_FRAME_SIZE
 ) ||
 
-1456 (
+1444 (
 ‰ameLí
  < 
 MRFI_MIN_SMPL_FRAME_SIZE
 )
 
-1459 
+1447 
 b•ISèã_t
  
 s
 ;
 
-1460 
+1448 
 noFøme
 ++;
 
-1468 
+1456 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1469 
+1457 
 	`MRFI_STROBE_IDLE_AND_WAIT
 ();
 
-1470 
+1458 
 	`MRFI_STROBE
 –
 SFRX
  );
 
-1471 
+1459 
 	`MRFI_STROBE
 –
 SRX
  );
 
-1472 
+1460 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1486 
+1474 
 	`mem£t
 (
 mrfiIncomögPackë
@@ -53841,7 +53715,7 @@ mrfiIncomögPackë
 ‰ame
 , 0x00, (mrfiIncomingPacket.frame));
 
-1489 
+1477 
 mrfiIncomögPackë
 .
 ‰ame
@@ -53851,7 +53725,7 @@ MRFI_LENGTH_FIELD_OFS
 ‰ameLí
 ;
 
-1492 
+1480 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53863,7 +53737,7 @@ MRFI_FRAME_BODY_OFS
 ‰ameLí
 );
 
-1495 
+1483 
 	`MRFI_RADIO_READ_RX_FIFO
 (&(
 mrfiIncomögPackë
@@ -53873,7 +53747,7 @@ rxMërics
 MRFI_RX_METRICS_SIZE
 );
 
-1513 i‡(!(
+1501 i‡(!(
 mrfiIncomögPackë
 .
 rxMërics
@@ -53883,15 +53757,15 @@ MRFI_RX_METRICS_CRC_LQI_OFS
 MRFI_RX_METRICS_CRC_OK_MASK
 ))
 
-1516 
+1504 
 ¸cFaû
 ++;
 
-1521 
+1509 
 ¸cPass
 ++;
 
-1529 i‡(!
+1517 i‡(!
 	`Mrfi_RxAddrIsFûãªd
 (
 	`MRFI_P_DST_ADDR
@@ -53899,7 +53773,7 @@ MRFI_RX_METRICS_CRC_OK_MASK
 mrfiIncomögPackë
 )))
 
-1538 
+1526 
 mrfiIncomögPackë
 .
 rxMërics
@@ -53907,7 +53781,7 @@ rxMërics
 MRFI_RX_METRICS_RSSI_OFS
 ] =
 
-1539 
+1527 
 	`Mrfi_CÆcuœãRssi
 (
 mrfiIncomögPackë
@@ -53917,7 +53791,7 @@ rxMërics
 MRFI_RX_METRICS_RSSI_OFS
 ]);
 
-1542 
+1530 
 mrfiIncomögPackë
 .
 rxMërics
@@ -53925,7 +53799,7 @@ rxMërics
 MRFI_RX_METRICS_CRC_LQI_OFS
 ] =
 
-1543 (
+1531 (
 mrfiIncomögPackë
 .
 rxMërics
@@ -53935,37 +53809,37 @@ MRFI_RX_METRICS_CRC_LQI_OFS
 MRFI_RX_METRICS_LQI_MASK
 );
 
-1559 
+1547 
 	}
 }
 
-1572 
+1560 
 	$Mrfi_RxModeOn
 ()
 
-1575 
+1563 
 	`MRFI_CLEAR_SYNC_PIN_INT_FLAG
 ();
 
-1578 
+1566 
 	`MRFI_STROBE
 –
 SRX
  );
 
-1581 
+1569 
 	`MRFI_ENABLE_SYNC_PIN_INT
 ();
 
-1582 
+1570 
 	}
 }
 
-1595 
+1583 
 	$MRFI_RxOn
 ()
 
-1598 
+1586 
 	`MRFI_ASSERT
 –
 mrfiRadioSèã
@@ -53973,57 +53847,57 @@ mrfiRadioSèã
 MRFI_RADIO_STATE_OFF
  );
 
-1601 if(
+1589 if(
 mrfiRadioSèã
  !
 MRFI_RADIO_STATE_RX
 )
 
-1603 
+1591 
 mrfiRadioSèã
  = 
 MRFI_RADIO_STATE_RX
 ;
 
-1604 
+1592 
 	`Mrfi_RxModeOn
 ();
 
-1606 
+1594 
 	}
 }
 
-1618 
+1606 
 	$Mrfi_RxModeOff
 ()
 
-1621 
+1609 
 	`MRFI_DISABLE_SYNC_PIN_INT
 ();
 
-1624 
+1612 
 	`MRFI_STROBE_IDLE_AND_WAIT
 ();
 
-1627 
+1615 
 	`MRFI_STROBE
 –
 SFRX
  );
 
-1630 
+1618 
 	`MRFI_CLEAR_SYNC_PIN_INT_FLAG
 ();
 
-1631 
+1619 
 	}
 }
 
-1645 
+1633 
 	$MRFI_RxIdÀ
 ()
 
-1648 
+1636 
 	`MRFI_ASSERT
 –
 mrfiRadioSèã
@@ -54031,99 +53905,99 @@ mrfiRadioSèã
 MRFI_RADIO_STATE_OFF
  );
 
-1651 if(
+1639 if(
 mrfiRadioSèã
  =
 MRFI_RADIO_STATE_RX
 )
 
-1653 
+1641 
 	`Mrfi_RxModeOff
 ();
 
-1654 
+1642 
 mrfiRadioSèã
  = 
 MRFI_RADIO_STATE_IDLE
 ;
 
-1656 
+1644 
 	}
 }
 
-1669 
+1657 
 	$MRFI_SÀï
 ()
 
-1671 
+1659 
 b•ISèã_t
  
 s
 ;
 
-1676 
+1664 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1679 if(
+1667 if(
 mrfiRadioSèã
  !
 MRFI_RADIO_STATE_OFF
 )
 
-1682 
+1670 
 	`MRFI_RxIdÀ
 ();
 
-1689 
+1677 
 	`MRFI_STROBE
 –
 SXOFF
  );
 
-1692 
+1680 
 mrfiRadioSèã
  = 
 MRFI_RADIO_STATE_OFF
 ;
 
-1695 
+1683 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1698 
+1686 
 	}
 }
 
-1711 
+1699 
 	$MRFI_WakeUp
 ()
 
-1714 if(
+1702 if(
 mrfiRadioSèã
  !
 MRFI_RADIO_STATE_OFF
 )
 
-1719 
+1707 
 	`MRFI_STROBE_IDLE_AND_WAIT
 ();
 
-1722 
+1710 
 mrfiRadioSèã
  = 
 MRFI_RADIO_STATE_IDLE
 ;
 
-1725 
+1713 
 	}
 }
 
-1739 
+1727 
 	$BSP_ISR_FUNCTION
 –
 MRFI_RadioI§
@@ -54131,7 +54005,7 @@ MRFI_RadioI§
 CC1101_VECTOR
  )
 
-1741 
+1729 
 uöt16_t
  
 c‹eI¡Sour˚
@@ -54139,7 +54013,7 @@ c‹eI¡Sour˚
 RF1AIV
 ;
 
-1742 
+1730 
 uöt16_t
  
 öãrÁ˚I¡Sour˚
@@ -54147,17 +54021,17 @@ uöt16_t
 RF1AIFIV
 ;
 
-1745 if(
+1733 if(
 öãrÁ˚I¡Sour˚
 )
 
-1747 if(
+1735 if(
 öãrÁ˚I¡Sour˚
  =
 RF1AIFIV_RFERRIFG
 )
 
-1749 
+1737 
 uöt16_t
  
 öãrÁ˚Eº‹
@@ -54165,89 +54039,89 @@ uöt16_t
 RF1AIFERRV
 ;
 
-1751 if(
+1739 if(
 öãrÁ˚Eº‹
  =
 RF1AIFERRV_LVERR
 )
 
-1755 if(
+1743 if(
 öãrÁ˚Eº‹
  =
 RF1AIFERRV_OPERR
 )
 
-1759 if(
+1747 if(
 öãrÁ˚Eº‹
  =
 RF1AIFERRV_OUTERR
 )
 
-1763 if(
+1751 if(
 öãrÁ˚Eº‹
  =
 RF1AIFERRV_OPOVERR
 )
 
-1772 
+1760 
 	`MRFI_FORCE_ASSERT
 ();
 
-1776 
+1764 
 	`MRFI_FORCE_ASSERT
 ();
 
-1781 
+1769 
 	`MRFI_FORCE_ASSERT
 ();
 
-1786 if(
+1774 if(
 c‹eI¡Sour˚
 )
 
-1789 if(
+1777 if(
 c‹eI¡Sour˚
  =
 RF1AIV_RFIFG9
 )
 
-1791 if(
+1779 if(
 	`MRFI_SYNC_PIN_INT_IS_ENABLED
 ())
 
-1801 
+1789 
 	`MRFI_CLEAR_SYNC_PIN_INT_FLAG
 ();
 
-1803 
+1791 
 	`Mrfi_SyncPöRxI§
 ();
 
-1808 
+1796 
 	`MRFI_FORCE_ASSERT
 ();
 
-1814 
+1802 
 	`MRFI_FORCE_ASSERT
 ();
 
-1817 
+1805 
 	}
 }
 
-1830 
+1818 
 öt8_t
  
 	$MRFI_Rssi
 ()
 
-1832 
+1820 
 uöt8_t
  
 ªgVÆue
 ;
 
-1835 
+1823 
 	`MRFI_ASSERT
 –
 mrfiRadioSèã
@@ -54255,11 +54129,11 @@ mrfiRadioSèã
 MRFI_RADIO_STATE_RX
  );
 
-1843 
+1831 
 	`MRFI_RSSI_VALID_WAIT
 ();
 
-1846 
+1834 
 ªgVÆue
  = 
 	`MRFI_RADIO_REG_READ
@@ -54267,17 +54141,17 @@ MRFI_RADIO_STATE_RX
 RSSI
  );
 
-1849 –
+1837 –
 	`Mrfi_CÆcuœãRssi
 (
 ªgVÆue
 ) );
 
-1850 
+1838 
 	}
 }
 
-1863 
+1851 
 öt8_t
  
 	$Mrfi_CÆcuœãRssi
@@ -54287,17 +54161,17 @@ uöt8_t
 øwVÆue
 )
 
-1865 
+1853 
 öt16_t
  
 rssi
 ;
 
-1870 if(
+1858 if(
 øwVÆue
  >= 128)
 
-1872 
+1860 
 rssi
  = (
 öt16_t
@@ -54307,7 +54181,7 @@ rssi
 MRFI_RSSI_OFFSET
 ;
 
-1876 
+1864 
 rssi
  = (
 øwVÆue
@@ -54315,29 +54189,29 @@ rssi
 MRFI_RSSI_OFFSET
 ;
 
-1880 if(
+1868 if(
 rssi
  < -128)
 
-1882 
+1870 
 rssi
  = -128;
 
-1885  
+1873  
 rssi
 ;
 
-1886 
+1874 
 	}
 }
 
-1900 
+1888 
 uöt8_t
  
 	$MRFI_R™domByã
 ()
 
-1902 
+1890 
 mrfiRndSìd
  = (mrfiRndSìd*
 MRFI_RANDOM_MULTIPLIER
@@ -54345,53 +54219,53 @@ MRFI_RANDOM_MULTIPLIER
 MRFI_RANDOM_OFFSET
 ;
 
-1904  
+1892  
 mrfiRndSìd
 ;
 
-1905 
+1893 
 	}
 }
 
-1917 
+1905 
 	$Mrfi_R™domBackoffDñay
 ()
 
-1919 
+1907 
 uöt8_t
  
 backoffs
 ;
 
-1920 
+1908 
 uöt8_t
  
 i
 ;
 
-1923 
+1911 
 backoffs
  = (
 	`MRFI_R™domByã
 () & 0x0F) + 1;
 
-1926 
+1914 
 i
 =0; i<
 backoffs
 ; i++)
 
-1928 
+1916 
 	`Mrfi_DñayU£c
 –
 sBackoffHñ≥r
  );
 
-1930 
+1918 
 	}
 }
 
-1948 
+1936 
 	$Mrfi_DñayU£c
 (
 uöt16_t
@@ -54399,13 +54273,13 @@ uöt16_t
 howL⁄g
 )
 
-1950 
+1938 
 b•ISèã_t
  
 s
 ;
 
-1951 
+1939 
 uöt16_t
  
 cou¡
@@ -54415,37 +54289,37 @@ howL⁄g
 MRFI_MAX_DELAY_US
 ;
 
-1953 i‡(
+1941 i‡(
 howL⁄g
 )
 
-1957 
+1945 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1958 
+1946 
 	`BSP_DELAY_USECS
 (
 MRFI_MAX_DELAY_US
 );
 
-1959 
+1947 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1960 } 
+1948 } 
 cou¡
 --);
 
-1964 
+1952 
 	}
 }
 
-1981 
+1969 
 	$Mrfi_DñayU£cSem
 (
 uöt16_t
@@ -54453,13 +54327,13 @@ uöt16_t
 howL⁄g
 )
 
-1983 
+1971 
 b•ISèã_t
  
 s
 ;
 
-1984 
+1972 
 uöt16_t
  
 cou¡
@@ -54469,41 +54343,41 @@ howL⁄g
 MRFI_MAX_DELAY_US
 ;
 
-1986 i‡(
+1974 i‡(
 howL⁄g
 )
 
-1990 
+1978 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-1991 
+1979 
 	`BSP_DELAY_USECS
 (
 MRFI_MAX_DELAY_US
 );
 
-1992 
+1980 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-1993 i‡(
+1981 i‡(
 sKûlSem
 )
 
-1997 } 
+1985 } 
 cou¡
 --);
 
-2001 
+1989 
 	}
 }
 
-2013 
+2001 
 	$MRFI_DñayMs
 (
 uöt16_t
@@ -54511,35 +54385,35 @@ uöt16_t
 mûli£c⁄ds
 )
 
-2015 
+2003 
 mûli£c⁄ds
 )
 
-2017 
+2005 
 	`Mrfi_DñayU£c
 –
 APP_USEC_VALUE
  );
 
-2018 
+2006 
 mûli£c⁄ds
 --;
 
-2020 
+2008 
 	}
 }
 
-2035 
+2023 
 	$MRFI_RïlyDñay
 ()
 
-2037 
+2025 
 b•ISèã_t
  
 s
 ;
 
-2038 
+2026 
 uöt16_t
  
 mûli£c⁄ds
@@ -54547,95 +54421,95 @@ mûli£c⁄ds
 sRïlyDñaySˇœr
 ;
 
-2040 
+2028 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-2041 
+2029 
 sRïlyDñayC⁄ãxt
  = 1;
 
-2042 
+2030 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-2044 
+2032 
 mûli£c⁄ds
 )
 
-2046 
+2034 
 	`Mrfi_DñayU£cSem
 –
 APP_USEC_VALUE
  );
 
-2047 i‡(
+2035 i‡(
 sKûlSem
 )
 
-2051 
+2039 
 mûli£c⁄ds
 --;
 
-2054 
+2042 
 	`BSP_ENTER_CRITICAL_SECTION
 (
 s
 );
 
-2055 
+2043 
 sKûlSem
  = 0;
 
-2056 
+2044 
 sRïlyDñayC⁄ãxt
  = 0;
 
-2057 
+2045 
 	`BSP_EXIT_CRITICAL_SECTION
 (
 s
 );
 
-2058 
+2046 
 	}
 }
 
-2071 
+2059 
 	$MRFI_Po°KûlSem
 ()
 
-2074 i‡(
+2062 i‡(
 sRïlyDñayC⁄ãxt
 )
 
-2076 
+2064 
 sKûlSem
  = 1;
 
-2080 
+2068 
 	}
 }
 
-2092 
+2080 
 uöt8_t
  
 	$MRFI_GëRadioSèã
 ()
 
-2094  
+2082  
 mrfiRadioSèã
 ;
 
-2095 
+2083 
 	}
 }
 
-2108 
+2096 
 	$MRFI_SëLogiˇlCh™√l
 (
 uöt8_t
@@ -54643,7 +54517,7 @@ uöt8_t
 ch™
 )
 
-2111 
+2099 
 	`MRFI_ASSERT
 –
 ch™
@@ -54651,11 +54525,11 @@ ch™
 MRFI_NUM_LOGICAL_CHANS
  );
 
-2114 
+2102 
 	`Mrfi_RxModeOff
 ();
 
-2116 
+2104 
 	`MRFI_RADIO_REG_WRITE
 –
 CHANNR
@@ -54665,21 +54539,21 @@ mrfiLogiˇlCh™TabÀ
 ch™
 ] );
 
-2119 if(
+2107 if(
 mrfiRadioSèã
  =
 MRFI_RADIO_STATE_RX
 )
 
-2121 
+2109 
 	`Mrfi_RxModeOn
 ();
 
-2123 
+2111 
 	}
 }
 
-2135 
+2123 
 	$MRFI_SëRFPwr
 (
 uöt8_t
@@ -54687,7 +54561,7 @@ uöt8_t
 Àvñ
 )
 
-2138 
+2126 
 	`MRFI_ASSERT
 –
 Àvñ
@@ -54695,7 +54569,7 @@ uöt8_t
 MRFI_NUM_POWER_SETTINGS
  );
 
-2140 
+2128 
 	`MRFI_RADIO_REG_WRITE
 (
 PATABLE
@@ -54705,11 +54579,11 @@ mrfiRFPowîTabÀ
 Àvñ
 ]);
 
-2143 
+2131 
 	}
 }
 
-2155 
+2143 
 uöt8_t
  
 	$MRFI_SëRxAddrFûãr
@@ -54719,13 +54593,13 @@ uöt8_t
 pAddr
 )
 
-2161 i‡(
+2149 i‡(
 pAddr
 [0] =
 mrfiBrﬂdˇ°Addr
 [0])
 
-2171 
+2159 
 	`MRFI_RADIO_REG_WRITE
 –
 ADDR
@@ -54733,19 +54607,19 @@ ADDR
 pAddr
 [0] );
 
-2175 
+2163 
 uöt8_t
  
 i
 ;
 
-2177 
+2165 
 i
 =0; i<
 MRFI_ADDR_SIZE
 ; i++)
 
-2179 
+2167 
 mrfiRxFûãrAddr
 [
 i
@@ -54753,15 +54627,15 @@ i
 pAddr
 [i];
 
-2185 
+2173 
 	}
 }
 
-2198 
+2186 
 	$MRFI_E«bÀRxAddrFûãr
 ()
 
-2200 
+2188 
 	`MRFI_ASSERT
 (
 mrfiRxFûãrAddr
@@ -54769,11 +54643,11 @@ mrfiRxFûãrAddr
 mrfiBrﬂdˇ°Addr
 [0]);
 
-2203 
+2191 
 mrfiRxFûãrE«bÀd
  = 1;
 
-2206 
+2194 
 	`MRFI_RADIO_REG_WRITE
 –
 PKTCTRL1
@@ -54781,19 +54655,19 @@ PKTCTRL1
 PKTCTRL1_ADDR_FILTER_ON
  );
 
-2207 
+2195 
 	}
 }
 
-2220 
+2208 
 	$MRFI_DißbÀRxAddrFûãr
 ()
 
-2223 
+2211 
 mrfiRxFûãrE«bÀd
  = 0;
 
-2226 
+2214 
 	`MRFI_RADIO_REG_WRITE
 –
 PKTCTRL1
@@ -54801,11 +54675,11 @@ PKTCTRL1
 PKTCTRL1_ADDR_FILTER_OFF
  );
 
-2227 
+2215 
 	}
 }
 
-2241 
+2229 
 uöt8_t
  
 	$Mrfi_RxAddrIsFûãªd
@@ -54815,49 +54689,49 @@ uöt8_t
 pAddr
 )
 
-2243 
+2231 
 uöt8_t
  
 i
 ;
 
-2244 
+2232 
 uöt8_t
  
 addrByã
 ;
 
-2245 
+2233 
 uöt8_t
  
 fûãrAddrM©ches
 ;
 
-2246 
+2234 
 uöt8_t
  
 brﬂdˇ°AddrM©ches
 ;
 
-2249 i‡(!
+2237 i‡(!
 mrfiRxFûãrE«bÀd
 )
 
-2259 
+2247 
 fûãrAddrM©ches
  = 0;
 
-2260 
+2248 
 brﬂdˇ°AddrM©ches
  = 0;
 
-2263 
+2251 
 i
 =0; i<
 MRFI_ADDR_SIZE
 ; i++)
 
-2266 
+2254 
 addrByã
  = 
 pAddr
@@ -54865,7 +54739,7 @@ pAddr
 i
 ];
 
-2269 i‡(
+2257 i‡(
 addrByã
  =
 mrfiRxFûãrAddr
@@ -54873,11 +54747,11 @@ mrfiRxFûãrAddr
 i
 ])
 
-2271 
+2259 
 fûãrAddrM©ches
 ++;
 
-2273 i‡(
+2261 i‡(
 addrByã
  =
 mrfiBrﬂdˇ°Addr
@@ -54885,11 +54759,11 @@ mrfiBrﬂdˇ°Addr
 i
 ])
 
-2275 
+2263 
 brﬂdˇ°AddrM©ches
 ++;
 
-2284 i‡((
+2272 i‡((
 brﬂdˇ°AddrM©ches
  =
 MRFI_ADDR_SIZE
@@ -54897,63 +54771,63 @@ MRFI_ADDR_SIZE
 fûãrAddrM©ches
  == MRFI_ADDR_SIZE))
 
-2294 
+2282 
 	}
 }
 
-2300 c⁄° 
+2288 c⁄° 
 ødio_drivî
  
 	gcc430Radio_drivî
  =
 
-2302 
+2290 
 MRFI_Inô
 ,
 
-2303 
+2291 
 MRFI_Pª∑ª
 ,
 
-2304 
+2292 
 MRFI_√wTønsmô
 ,
 
-2305 
+2293 
 MRFI_£nd
 ,
 
-2306 
+2294 
 MRFI_ªad
 ,
 
-2307 
+2295 
 MRFI_cˇ
 ,
 
-2308 
+2296 
 MRFI_isRecvPkt
 ,
 
-2309 
+2297 
 MRFI_isPktPíd
 ,
 
-2310 
+2298 
 MRFI_WakeUp
 ,
 
-2311 
+2299 
 MRFI_SÀï
 
 
-2321 
+2309 
 	#MRFI_RADIO_TX_FIFO_SIZE
  64
 
 	)
 
-2322 
+2310 
 	#MRFI_RADIO_MAX_PKTLEN
  (
 MRFI_RADIO_TX_FIFO_SIZE
@@ -54965,17 +54839,17 @@ MRFI_RX_METRICS_SIZE
 
 	)
 
-2323 #i‡(
+2311 #i‡(
 MRFI_RADIO_MAX_PKTLEN
  != 61)
 
-2328 #i‡(
+2316 #i‡(
 MRFI_SETTING_PKTLEN
  > 
 MRFI_RADIO_MAX_PKTLEN
 )
 
-2333 #i‡((
+2321 #i‡((
 MRFI_MAX_FRAME_SIZE
  + 
 MRFI_RX_METRICS_SIZE
@@ -54983,25 +54857,25 @@ MRFI_RX_METRICS_SIZE
 MRFI_RADIO_TX_FIFO_SIZE
 )
 
-2338 #i‡((!
+2326 #i‡((!
 deföed
  
 SMARTRF_RADIO_CC430
 ))
 
-2347 
+2335 
 BSP_STATIC_ASSERT
 ((
 mrfiRadioCfg
 ) == (((mrfiRadioCfg)/(mrfiRadioCfg[0])) * (mrfiRadioCfg[0])));
 
-2355 
+2343 
 BSP_STATIC_ASSERT
 ((
 mrfiLogiˇlCh™TabÀ
 ) == (((mrfiLogicalChanTable)/(mrfiLogicalChanTable[0])) * (mrfiLogicalChanTable[0])));
 
-2356 
+2344 
 BSP_STATIC_ASSERT
 ((
 mrfiBrﬂdˇ°Addr

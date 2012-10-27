@@ -315,13 +315,12 @@ uint8_t mrfiRadioInterfaceNewWriteTxFifo(uint8_t * pData, uint8_t len, uint8_t* 
     /* Write one byte to FIFO */
     RF1ADINB   = *(pData+ (*pos));
 
-    pData++;
     (*pos)++;
     txBytes ++;
 
-  }while((txBytes <= MRFI_MAX_TXFIFO_SIZE) && ((*pos)<len));
+  }while((txBytes < MRFI_MAX_TXFIFO_SIZE) && ((*pos)<(len-1)));
 
-  if((*pos) == len)
+  if((*pos) < (len-1))
   {
      retFlag = 1;
   }

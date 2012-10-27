@@ -69,10 +69,10 @@ struct radio_driver {
   int (* transmit)(unsigned short transmit_len);
 
   /** Prepare & transmit a packet. */
-  int (* send)(const void *payload, unsigned short payload_len);
+  int (* send)(unsigned char *payload, unsigned short payload_len);
 
   /** Read a received packet into a buffer. */
-  int (* read)(void *buf, unsigned short buf_len);
+  int (* read)(void);
 
   /** Perform a Clear-Channel Assessment (CCA) to find out if there is
       a packet in the air or not. */

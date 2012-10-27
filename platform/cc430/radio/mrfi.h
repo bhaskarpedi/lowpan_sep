@@ -165,8 +165,8 @@ typedef struct
 int MRFI_Init(void);
 int MRFI_Prepare(const void *, unsigned short);
 int MRFI_newTransmit(unsigned short);
-int MRFI_send(const void*, unsigned short);
-int MRFI_read(void*, unsigned short);
+int MRFI_send(uint8_t*, unsigned short);
+int MRFI_read();
 int MRFI_cca(void);
 int MRFI_isRecvPkt(void);
 int MRFI_isPktPend(void);

@@ -48,6 +48,8 @@
 #include "mrfi_defs.h"
 #include "mrfi_radio_interface.h"
 #include "smartrf_CC430.h"
+#include "mrfi_uip_if.h"
+#include "packetbuf.h"
 #include "radio.h"
 
 /* ------------------------------------------------------------------------------------------------
@@ -623,12 +625,11 @@ int MRFI_newTransmit(unsigned short len)
  **************************************************************************************************
  */
 
-int MRFI_send(const void *payload, unsigned short payload_len)
+int MRFI_send(uint8_t *payload, unsigned short payload_len)
 {
    uint8_t ccaRetries; 
-   uint8_t txBufLen = payload_len;
    uint8_t returnValue = MRFI_TX_RESULT_SUCCESS;
-   mrfiPacket_t * pPacket = (mrfiPacket_t *)payload;
+   //mrfiPacket_t * pPacket = (mrfiPacket_t *)payload;
    uint8_t isTxRemFlag = 0x0;
    uint8_t txBufPos = 0x0;
 
@@ -645,7 +646,7 @@ int MRFI_send(const void *payload, unsigned short payload_len)
     *    Write packet to transmit FIFO
     *   --------------------------------
     */
-   isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(&(pPacket->frame[0]), txBufLen, &txBufPos);
+   MRFI_RADIO_WRITE_TX_FIFO(payload, MRFI_LENGTH_FIELD_SIZE);
 
    /* ------------------------------------------------------------------
     *    CCA transmit
@@ -686,13 +687,6 @@ int MRFI_send(const void *payload, unsigned short payload_len)
       /* send strobe to initiate transmit */
       MRFI_STROBE( STX );
 
-      while(isTxRemFlag)
-      {
-         /* Check if there is room in the TXFIFO and continue 
-          * to fill the TXFIFO buffer until all data is sent out */
-         isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(
-               &(pPacket->frame[0]), txBufLen, &txBufPos);
-      } 
       /* Delay long enough for the PA_PD signal to indicate a
        * successful transmit. This is the 250 XOSC periods
        * (9.6 us for a 26 MHz crystal).
@@ -708,6 +702,14 @@ int MRFI_send(const void *payload, unsigned short payload_len)
        */
       if (MRFI_PAPD_INT_FLAG_IS_SET())
       {
+         while(isTxRemFlag)
+         {
+            /* Check if there is room in the TXFIFO and continue 
+             * to fill the TXFIFO buffer until all data is sent out.
+             * Note that first byte is length byte */
+            isTxRemFlag = MRFI_NEW_RADIO_WRITE_TX_FIFO(
+                  &payload[MRFI_LENGTH_FIELD_SIZE], payload_len, &txBufPos);
+         } 
          /* ------------------------------------------------------------------
           *    Clear Channel Assessment passed.
           *   ----------------------------------
@@ -979,8 +981,11 @@ uint8_t MRFI_Transmit(mrfiPacket_t * pPacket, uint8_t txType)
 
 //BSKR: cc430Radio.read
 
-int MRFI_read(void *pPacket, unsigned short len)
+int MRFI_read()
 {
+   packetbuf_copyfrom((const void *)&mrfiIncomingPacket.\
+      frame[MRFI_LENGTH_FIELD_SIZE], mrfiIncomingPacket.\
+      frame[MRFI_LENGTH_FIELD_OFS]);
    // pPacket is a double pointer typecasted and passed as a single pointer
    //(void*)(*pPacket) = (void *)(((uint8_t*)(&mrfiIncomingPacket))+\
                                                       MRFI_FRAME_BODY_OFS);
@@ -1212,11 +1217,12 @@ static void Mrfi_SyncPinRxIsr(void)
             remPacketSize = frameLen;
 
             /* clean out buffer to help protect against spurious frames */
-            memset(mrfiIncomingPacket.frame, 0x00, sizeof(mrfiIncomingPacket.frame));
+            memset(&mrfiIncomingPacket.frame[0], 0x00, sizeof(mrfiIncomingPacket.frame));
 
             /* set length field */
             mrfiIncomingPacket.frame[MRFI_LENGTH_FIELD_OFS] = frameLen;
-            packetOffset = MRFI_FRAME_BODY_OFS;
+            // Because MRFI in our case does plain Tx-Rx
+            packetOffset = MRFI_LENGTH_FIELD_SIZE; 
             if(rxBytes == (remPacketSize + MRFI_LENGTH_FIELD_SIZE + MRFI_RX_METRICS_SIZE))
             {
                /* get packet from FIFO */
@@ -1309,36 +1315,20 @@ static void Mrfi_SyncPinRxIsr(void)
          /* CRC passed - continue processing */
          crcPass++;
 
-         /* ------------------------------------------------------------------
-          *    Filtering
-          *   -----------
-          */
+         /* Convert the raw RSSI value and do offset compensation for this radio */
+         mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_RSSI_OFS] =
+            Mrfi_CalculateRssi(mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_RSSI_OFS]);
 
-         /* if address is not filtered, receive is successful */
-         if (!Mrfi_RxAddrIsFiltered(MRFI_P_DST_ADDR(&mrfiIncomingPacket)))
-         {
-            {
-               /* ------------------------------------------------------------------
-                *    Receive successful
-                *   --------------------
-                */
-
-               /* Convert the raw RSSI value and do offset compensation for this radio */
-               mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_RSSI_OFS] =
-                  Mrfi_CalculateRssi(mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_RSSI_OFS]);
-
-               /* Remove the CRC valid bit from the LQI byte */
-               mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] =
-                  (mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] & MRFI_RX_METRICS_LQI_MASK);
+         /* Remove the CRC valid bit from the LQI byte */
+         mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] =
+            (mrfiIncomingPacket.rxMetrics[MRFI_RX_METRICS_CRC_LQI_OFS] & MRFI_RX_METRICS_LQI_MASK);
 
 
-               /* call external, higher level "receive complete" processing routine */
-               //MRFI_RxCompleteISR();
-               //Instead of calling higher layers, a sync flag is set to indicate
-               //reception of packet
-               mrfiPktReceiveFlag = 1;
-            }
-         } /*End of if*/
+         /* call external, higher level "receive complete" processing routine */
+         //MRFI_RxCompleteISR();
+         //Instead of calling higher layers, a sync flag is set to indicate
+         //reception of packet
+         mrfiPktReceiveFlag = 1;
       }/*End of if-else*/
    }/*End of if-else*/
    /* ------------------------------------------------------------------

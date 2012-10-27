@@ -425,7 +425,7 @@ static void mac_stop_timer()
 static void mac_start_timer(uint16_t beacon_interval_msec)
 {
    /* Set clock divider as 8 */
-   TA1CTL |= ID_3;
+   TA1CTL |= ID_0;
    
    TA1EX0 |= 0x7;
 
@@ -461,10 +461,11 @@ static void mac_start_timer(uint16_t beacon_interval_msec)
  */
 BSP_ISR_FUNCTION(mac_timer_ISR, TIMER0_A1_VECTOR)
 {
+   mac_beacon_flag = 1;
    /* Do I even need to have a comparision? As I am using only one CCR */
    if(TA1IV == TA1IV_TA1IFG)
    {
-      mac_send_beacon();
+      mac_beacon_flag = 1;
    }
 
    TA1IV &= ~TA1IV_TA1IFG;

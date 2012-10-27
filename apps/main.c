@@ -49,11 +49,18 @@ void main(void)
 {
    BSP_Init();
    netstack_init();
-   void **pPacket = NULL;
    uint16_t pktLen;
    uip_ipaddr_t dest = {0XFE, 0X80, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,\
-      0x12, 0x23, 0x34, 0x00, 0x00, 0x00, 0x00, 0x01}; 
-#if ((1 == MODE_PING_TEST) || (1 == MODE_TX) || (1 == MODE_RX))
+      0x12, 0x23, 0x34, 0x00, 0x00, 0x00, 0x00, 0x01};
+
+   /* Start indication */
+   BSP_TOGGLE_LED1();
+   BSP_DELAY_USECS(4000);
+   BSP_TOGGLE_LED1();
+   BSP_DELAY_USECS(4000);
+   BSP_TOGGLE_LED1();
+
+   //#if ((1 == MODE_PING_TEST) || (1 == MODE_TX) || (1 == MODE_RX))
    while(1)
    {
 #if (1 == MODE_PING_TEST)
@@ -69,13 +76,9 @@ void main(void)
          for(pingCnt=0; pingCnt<MAX_PING_CNT; pingCnt++)
          {
             uip_ping6(&dest);
-            DELAY_IN_MSECS(1000);
+            DELAY_IN_MSECS(400);
          }
       }
-
-      /* Turn off LED1 to indicate that node is operating on Rx chain*/
-      BSP_TURN_OFF_LED1();
-      
 
 #ifdef LOWPAN_COORDINATOR
 #else
@@ -87,13 +90,16 @@ void main(void)
    /*todo: udp send comes here */
 #elif (1 == MODE_RX)
    /* todo: udp receive comes here and packet processing happens from here */
+      /* Turn off LED1 to indicate that node is operating on Rx chain*/
+      BSP_TURN_OFF_LED1();
+
 #endif
 
       /* rx packet processing */
       if(1 == NETSTACK_RADIO.pending_packet())
       {
-         pktLen = NETSTACK_RADIO.read((void*)pPacket, pktLen);
-         mrfi_uip_pkt_convert(*pPacket, pktLen); 
+         packetbuf_clear();
+         pktLen = NETSTACK_RADIO.read();
          NETSTACK_RDC.input();
          mrfi_uip_pkt_proc_done();
       }
@@ -108,16 +114,18 @@ void main(void)
          BSP_EXIT_CRITICAL_SECTION(x);
       }
    
+#ifdef LOWPAN_COORDINATOR
       if(1 == mac_beacon_flag)
       {
          bspIState_t x;
          BSP_ENTER_CRITICAL_SECTION(x);
-
+         mac_send_beacon();
          mac_beacon_flag = 0;
          BSP_EXIT_CRITICAL_SECTION(x);
       }
-   }
-#else
-      #error "no mode enabled"
 #endif
+   }
+//#else
+      //#error "no mode enabled"
+//#endif
 }
